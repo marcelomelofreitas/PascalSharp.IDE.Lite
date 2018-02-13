@@ -1,0 +1,37 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFrameworks>net461;net471</TargetFrameworks>
+    <OutputPath>$(SolutionDir)bin\</OutputPath>
+    <RootNamespace>VisualPascalABCPlugins</RootNamespace>
+    <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
+    <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+    <GenerateAssemblyCopyrightAttribute>false</GenerateAssemblyCopyrightAttribute>
+    <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
+    <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="$(SolutionDir)PascalSharp.IDE.Lite.PluginInterface\PascalSharp.IDE.Lite.PluginInterface.csproj" />
+    <ProjectReference Include="$(SolutionDir)PascalSharp.IDE.Lite\PascalSharp.IDE.Lite.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="DockPanelSuite" Version="3.0.4" />
+    <PackageReference Include="DockPanelSuite.ThemeVS2015" Version="3.0.4" />
+    <PackageReference Include="PascalSharp.Compiler" Version="0.1.1.1-ci.2018.2.13" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System.Windows.Forms" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="Properties\Resources.Designer.cs">
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Update="AspectTreeForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="AspectTreeForm.Designer.cs">
+      <DependentUpon>AspectTreeForm.cs</DependentUpon>
+    </Compile>
+    <None Include="Resources\Icons.16x16.Aspects.png" />
+  </ItemGroup>
+</Project>

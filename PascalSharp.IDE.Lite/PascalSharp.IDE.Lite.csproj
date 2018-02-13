@@ -1,0 +1,96 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFrameworks>net461;net471</TargetFrameworks>
+    <OutputPath>$(SolutionDir)bin\</OutputPath>
+    <RootNamespace>VisualPascalABC</RootNamespace>
+    <OutputType>WinExe</OutputType>
+    <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <UseVSHostingProcess>false</UseVSHostingProcess>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="IB\Refactoring\Bookmarks.cs" />
+    <Compile Remove="Workbench\DebugService.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="$(SolutionDir)PascalSharp.IDE.Lite.PluginInterface\PascalSharp.IDE.Lite.PluginInterface.csproj" />
+    <ProjectReference Include="$(SolutionDir)ICSharpCode.SharpDevelop\ICSharpCode.SharpDevelop.csproj" />
+    <ProjectReference Include="$(SolutionDir)ICSharpCode.Core\ICSharpCode.Core.csproj" />
+    <ProjectReference Include="$(SolutionDir)ICSharpCode.Core.Presentation\ICSharpCode.Core.Presentation.csproj" />
+    <ProjectReference Include="$(SolutionDir)ICSharpCode.Core.WinForms\ICSharpCode.Core.WinForms.csproj" />
+    <ProjectReference Include="$(SolutionDir)ICSharpCode.SharpDevelop.Dom\ICSharpCode.SharpDevelop.Dom.csproj" />
+    <ProjectReference Include="$(SolutionDir)ICSharpCode.SharpDevelop.Widgets\ICSharpCode.SharpDevelop.Widgets.csproj" />
+    <ProjectReference Include="$(SolutionDir)ICSharpCode.TextEditor\ICSharpCode.TextEditor.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="DockPanelSuite" Version="3.0.4" />
+    <PackageReference Include="DockPanelSuite.ThemeVS2015" Version="3.0.4" />
+    <PackageReference Include="Microsoft.Build.Tasks.Core" Version="15.5.180" />
+    <PackageReference Include="Microsoft.Build.Engine" Version="15.5.180" />
+    <PackageReference Include="SharpDisasm" Version="1.1.9" />
+    <PackageReference Include="PascalSharp.Compiler" Version="0.1.1.1-ci.2018.2.13" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Design" />
+    <Reference Include="System.Messaging" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Windows.Forms.DataVisualization" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="UIAutomationProvider" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="WindowsFormsIntegration" />
+  </ItemGroup>
+  <ItemGroup>
+    <!--
+    <Compile Include="$(SolutionDir)GlobalAssemblyInfo.cs">
+      <Link>Config\GlobalAssemblyInfo.cs</Link>
+    </Compile>
+    -->
+    <Compile Update="Properties\Resources.Designer.cs">
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+    </Compile>
+    <Compile Update="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <None Include="app.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Content Include="ABCNET32.ico" />
+    <Content Include="Resources\BringToFrontHS.png" />
+    <Content Include="Resources\FormsDesignerPointerIcon.bmp" />
+    <Content Include="Resources\Pointer.bmp" />
+    <Content Include="Resources\SendToBackHS.png" />
+    <Compile Update="Form1.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="Form1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Form1.cs</DependentUpon>
+    </Compile>
+    <Compile Update="CompilerForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="CompilerForm.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>CompilerForm.cs</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <CustomToolNamespace>$(RootNamespace)</CustomToolNamespace>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+</Project>

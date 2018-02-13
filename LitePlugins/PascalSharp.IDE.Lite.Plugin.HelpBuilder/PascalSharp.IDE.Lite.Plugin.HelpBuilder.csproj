@@ -1,0 +1,67 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFrameworks>net461;net471</TargetFrameworks>
+    <OutputPath>$(SolutionDir)bin\</OutputPath>
+    <RootNamespace>VisualPascalABCPlugins</RootNamespace>
+    <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
+    <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>
+    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+    <GenerateAssemblyCopyrightAttribute>false</GenerateAssemblyCopyrightAttribute>
+    <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="$(SolutionDir)PascalSharp.IDE.Lite.PluginInterface\PascalSharp.IDE.Lite.PluginInterface.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="PascalSharp.Compiler" Version="0.1.1.1-ci.2018.2.13" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System.Windows.Forms" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\intevent.gif" />
+    <EmbeddedResource Include="Resources\intfield.gif" />
+    <EmbeddedResource Include="Resources\intmethod.gif" />
+    <EmbeddedResource Include="Resources\intoperator.gif" />
+    <EmbeddedResource Include="Resources\intproperty.gif" />
+    <EmbeddedResource Include="Resources\MSDN.css" />
+    <EmbeddedResource Include="Resources\privclass.gif" />
+    <EmbeddedResource Include="Resources\privdelegate.gif" />
+    <EmbeddedResource Include="Resources\privenum.gif" />
+    <EmbeddedResource Include="Resources\privevent.gif" />
+    <EmbeddedResource Include="Resources\privfield.gif" />
+    <EmbeddedResource Include="Resources\privinterface.gif" />
+    <EmbeddedResource Include="Resources\privmethod.gif" />
+    <EmbeddedResource Include="Resources\privoperator.gif" />
+    <EmbeddedResource Include="Resources\privproperty.gif" />
+    <EmbeddedResource Include="Resources\privstructure.gif" />
+    <EmbeddedResource Include="Resources\protclass.gif" />
+    <EmbeddedResource Include="Resources\protdelegate.gif" />
+    <EmbeddedResource Include="Resources\protenum.gif" />
+    <EmbeddedResource Include="Resources\protevent.gif" />
+    <EmbeddedResource Include="Resources\protfield.gif" />
+    <EmbeddedResource Include="Resources\protinterface.gif" />
+    <EmbeddedResource Include="Resources\protmethod.gif" />
+    <EmbeddedResource Include="Resources\protoperator.gif" />
+    <EmbeddedResource Include="Resources\protproperty.gif" />
+    <EmbeddedResource Include="Resources\protstructure.gif" />
+    <EmbeddedResource Include="Resources\pubclass.gif" />
+    <EmbeddedResource Include="Resources\pubdelegate.gif" />
+    <EmbeddedResource Include="Resources\pubenum.gif" />
+    <EmbeddedResource Include="Resources\pubevent.gif" />
+    <EmbeddedResource Include="Resources\pubfield.gif" />
+    <EmbeddedResource Include="Resources\pubinterface.gif" />
+    <EmbeddedResource Include="Resources\pubmethod.gif" />
+    <EmbeddedResource Include="Resources\puboperator.gif" />
+    <EmbeddedResource Include="Resources\pubproperty.gif" />
+    <EmbeddedResource Include="Resources\pubstructure.gif" />
+    <EmbeddedResource Include="Resources\static.gif" />
+    <EmbeddedResource Include="Resources\treenodedot.gif" />
+    <EmbeddedResource Include="Resources\treenodeminus.gif" />
+    <EmbeddedResource Include="Resources\treenodeplus.gif" />
+    <EmbeddedResource Include="Resources\Constant.gif" />
+    <EmbeddedResource Include="Resources\Variable.gif" />
+    <EmbeddedResource Include="Resources\protconstant.gif" />
+    <EmbeddedResource Include="Resources\intconstant.gif" />
+  </ItemGroup>
+</Project>

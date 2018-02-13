@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "VisualPascalABCNET": {
+      "commandName": "Project",
+      "workingDirectory": "G:\\dev\\pascalabcnet\\bin\\net471"
+    }
+  }
+}

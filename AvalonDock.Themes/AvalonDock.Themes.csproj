@@ -1,0 +1,49 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFrameworks>net461;net471</TargetFrameworks>
+    <OutputPath>$(SolutionDir)bin\</OutputPath>
+    <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
+    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+    <GenerateAssemblyCopyrightAttribute>false</GenerateAssemblyCopyrightAttribute>
+    <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
+    <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="$(SolutionDir)AvalonDock\AvalonDock.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="Properties\Resources.Designer.cs">
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <None Update="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Resource Include="Images\ExpDark\HTabGroup.png" />
+    <Resource Include="Images\dev2010\HTabGroup.png" />
+    <Resource Include="Images\dev2010\Locked.png" />
+    <Resource Include="Images\dev2010\PinAutoHide.png" />
+    <Resource Include="Images\dev2010\PinClose.png" />
+    <Resource Include="Images\dev2010\PinDocMenu.png" />
+    <Resource Include="Images\dev2010\PinMenu.png" />
+    <Resource Include="Images\dev2010\VTabGroup.png" />
+    <Resource Include="Images\ExpDark\VTabGroup.png" />
+    <Resource Include="Images\ExpDark\Locked.png" />
+    <Resource Include="Images\ExpDark\PinAutoHide.png" />
+    <Resource Include="Images\ExpDark\PinClose.png" />
+    <Resource Include="Images\ExpDark\PinDocMenu.png" />
+    <Resource Include="Images\ExpDark\PinMenu.png" />
+  </ItemGroup>
+</Project>

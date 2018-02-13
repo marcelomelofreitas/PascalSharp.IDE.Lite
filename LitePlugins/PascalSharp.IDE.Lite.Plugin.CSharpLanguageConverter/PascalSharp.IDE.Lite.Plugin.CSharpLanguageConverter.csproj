@@ -1,0 +1,12 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFrameworks>net461;net471</TargetFrameworks>
+    <OutputPath>$(SolutionDir)bin\</OutputPath>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="$(SolutionDir)LitePlugins\PascalSharp.IDE.Lite.Plugin.LanguageConverter\PascalSharp.IDE.Lite.Plugin.LanguageConverter.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="PascalSharp.Compiler" Version="0.1.1.1-ci.2018.2.13" />
+  </ItemGroup>
+</Project>

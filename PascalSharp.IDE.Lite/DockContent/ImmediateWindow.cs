@@ -1,0 +1,27 @@
+﻿// Copyright (c) Ivan Bondarev, Stanislav Mihalkovich (for details please see \doc\copyright.txt)
+// This code is distributed under the GNU LGPL (for details please see \doc\license.txt)
+
+namespace VisualPascalABC.DockContent
+{
+	/// <summary>
+	/// Description of ImmediateWindow.
+	/// </summary>
+	public partial class ImmediateWindow : BottomDockContentForm
+	{
+		public ImmediateWindow(Form1 MainForm):base(MainForm)
+		{
+			//
+			// The InitializeComponent() call is required for Windows Forms designer support.
+			//
+			InitializeComponent();
+			
+			ImmediateConsole.ShowHRuler = false;
+			ImmediateConsole.ShowLineNumbers = false;
+			ImmediateConsole.MarkForImmediateWindow();
+			ImmediateConsole.ShowLineNumbers = true;
+			//
+			// TODO: Add constructor code after the InitializeComponent() call.
+			//
+		}
+	}
+}

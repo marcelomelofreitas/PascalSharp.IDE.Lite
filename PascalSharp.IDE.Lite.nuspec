@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2013/05/nuspec.xsd">
+    <metadata>
+        <id>PascalSharp.IDE.Lite</id>
+        <version>1.0.0</version>
+        <authors>Pascal# Team</authors>
+        <owners>andrew.boyarshin</owners>
+        <!-- <licenseUrl>http://opensource.org/licenses/MS-PL</licenseUrl> -->
+        <projectUrl>https://github.com/PascalSharp/PascalSharp.IDE.Lite</projectUrl>
+        <!-- <iconUrl>http://github.com/contoso/UsefulStuff/nuget_icon.png</iconUrl> -->
+        <requireLicenseAcceptance>false</requireLicenseAcceptance>
+        <releaseNotes>NuGet feed packaging</releaseNotes>
+        <description>Pascal# Lite IDE</description>
+        <copyright>Copyright ©2018 Pascal# Team</copyright>
+        <tags>pascal c# dotnet compiler ide ui visual</tags>
+        
+        <dependencies></dependencies>
+    </metadata>
+
+    <files>
+        <file src="bin\net461\*.exe" target="lib\net461" />
+        <file src="bin\net461\*.dll" target="lib\net461" />
+        <file src="bin\net461\*.pdb" target="lib\net461" />
+
+        <file src="bin\net471\*.exe" target="lib\net471" />
+        <file src="bin\net471\*.dll" target="lib\net471" />
+        <file src="bin\net471\*.pdb" target="lib\net471" />
+        
+        <file src="**\*.cs" target="src" />
+    </files>
+</package>

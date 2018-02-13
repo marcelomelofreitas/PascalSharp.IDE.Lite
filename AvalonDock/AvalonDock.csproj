@@ -1,0 +1,67 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFrameworks>net461;net471</TargetFrameworks>
+    <OutputPath>$(SolutionDir)bin\</OutputPath>
+    <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
+    <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
+    <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
+    <GenerateAssemblyCopyrightAttribute>false</GenerateAssemblyCopyrightAttribute>
+    <GenerateAssemblyVersionAttribute>false</GenerateAssemblyVersionAttribute>
+    <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
+    <DefineConstants>$(DefineConstants);NET4</DefineConstants>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Xaml" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="WindowsFormsIntegration" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="Properties\Resources.Designer.cs">
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Update="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Resource Include="Resources\Images\DockBottom.PNG" />
+    <Resource Include="Resources\Images\DockLeft.PNG" />
+    <Resource Include="Resources\Images\DockPane.PNG" />
+    <Resource Include="Resources\Images\DockRight.PNG" />
+    <Resource Include="Resources\Images\DockTop.PNG" />
+    <Resource Include="Resources\Images\HTabGroup.png" />
+    <Resource Include="Resources\Images\Locked.png" />
+    <Resource Include="Resources\Images\PinAutoHide.png" />
+    <Resource Include="Resources\Images\PinClose.png" />
+    <Resource Include="Resources\Images\PinDocMenu.png" />
+    <Resource Include="Resources\Images\PinMenu.png" />
+    <Resource Include="Resources\Images\VTabGroup.png" />
+    <Resource Include="Resources\Images\Aero\AeroDockBottom.png" />
+    <Resource Include="Resources\Images\Aero\AeroDockBottomHover.png" />
+    <Resource Include="Resources\Images\Aero\AeroDockLeft.png" />
+    <Resource Include="Resources\Images\Aero\AeroDockLeftHover.png" />
+    <Resource Include="Resources\Images\Aero\AeroDockPane.png" />
+    <Resource Include="Resources\Images\Aero\AeroDockPaneBottom.png" />
+    <Resource Include="Resources\Images\Aero\AeroDockPaneInto.png" />
+    <Resource Include="Resources\Images\Aero\AeroDockPaneLeft.png" />
+    <Resource Include="Resources\Images\Aero\AeroDockPaneRight.png" />
+    <Resource Include="Resources\Images\Aero\AeroDockPaneTop.png" />
+    <Resource Include="Resources\Images\Aero\AeroDockRight.png" />
+    <Resource Include="Resources\Images\Aero\AeroDockRightHover.png" />
+    <Resource Include="Resources\Images\Aero\AeroDockTop.png" />
+    <Resource Include="Resources\Images\Aero\AeroDockTopHover.png" />
+    <Resource Include="Resources\Images\Classic\PinAutoHide.png" />
+    <Resource Include="Resources\Images\Classic\PinAutoHideSelected.png" />
+    <Resource Include="Resources\Images\Classic\PinClose.png" />
+    <Resource Include="Resources\Images\Classic\PinCloseSelected.png" />
+    <Resource Include="Resources\Images\Classic\PinMenu.png" />
+    <Resource Include="Resources\Images\Classic\PinMenuSelected.png" />
+  </ItemGroup>
+</Project>
