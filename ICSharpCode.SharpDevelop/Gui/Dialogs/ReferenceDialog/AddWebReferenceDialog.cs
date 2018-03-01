@@ -3,20 +3,17 @@
 
 using System;
 using System.Collections;
-using System.Drawing;
-using System.IO;
 using System.Net;
 using System.Runtime.Remoting.Messaging;
 using System.Web.Services.Description;
 using System.Web.Services.Discovery;
 using System.Windows.Forms;
-
 using ICSharpCode.Core;
 using ICSharpCode.Core.WinForms;
 using ICSharpCode.SharpDevelop.Project;
 using Microsoft.Win32;
 
-namespace ICSharpCode.SharpDevelop.Gui
+namespace ICSharpCode.SharpDevelop.Gui.Dialogs.ReferenceDialog
 {
 	public class AddWebReferenceDialog : System.Windows.Forms.Form
 	{
@@ -89,7 +86,7 @@ namespace ICSharpCode.SharpDevelop.Gui
 			this.cancelButton = new System.Windows.Forms.Button();
 			this.namespaceTextBox = new System.Windows.Forms.TextBox();
 			this.namespaceLabel = new System.Windows.Forms.Label();
-			this.webServicesView = new ICSharpCode.SharpDevelop.Gui.WebServicesView();
+			this.webServicesView = new WebServicesView();
 			this.toolStrip.SuspendLayout();
 			this.tabControl.SuspendLayout();
 			this.webBrowserTabPage.SuspendLayout();
@@ -341,7 +338,7 @@ namespace ICSharpCode.SharpDevelop.Gui
 		private System.Windows.Forms.ToolStripButton refreshButton;
 		private System.Windows.Forms.ToolStripButton forwardButton;
 		private System.Windows.Forms.ToolStripButton backButton;
-		private ICSharpCode.SharpDevelop.Gui.WebServicesView webServicesView;
+		private WebServicesView webServicesView;
 		#endregion
 		
 		void AddMruList()

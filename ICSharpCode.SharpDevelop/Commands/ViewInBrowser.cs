@@ -3,13 +3,7 @@
 
 using System;
 using System.Diagnostics;
-using System.IO;
-using System.Linq;
-
 using ICSharpCode.Core;
-using ICSharpCode.SharpDevelop.Gui.OptionPanels;
-using ICSharpCode.SharpDevelop.Project;
-using ICSharpCode.SharpDevelop.Project.Commands;
 
 namespace ICSharpCode.SharpDevelop.Project.Commands
 {

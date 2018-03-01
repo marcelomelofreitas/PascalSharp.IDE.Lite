@@ -7,6 +7,8 @@ using System.Drawing;
 using System.IO;
 using System.Text;
 using System.Windows.Forms;
+using PascalSharp.Internal.Errors;
+
 
 namespace VisualPascalABC.DockContent
 {
@@ -51,13 +53,13 @@ namespace VisualPascalABC.DockContent
             Resized();
         }
 
-        delegate void ShowErrorsDelegate(List<PascalABCCompiler.Errors.Error> errors, bool ChangeViewTab);
-        public void ShowErrorsSync(List<PascalABCCompiler.Errors.Error> errors, bool ChangeViewTab)
+        delegate void ShowErrorsDelegate(List<Error> errors, bool ChangeViewTab);
+        public void ShowErrorsSync(List<Error> errors, bool ChangeViewTab)
         {
             BeginInvoke(new ShowErrorsDelegate(ShowErrors), errors, ChangeViewTab);
         }
 
-        public void ShowErrors(List<PascalABCCompiler.Errors.Error> errors, bool ChangeViewTab)
+        public void ShowErrors(List<Error> errors, bool ChangeViewTab)
         {
             if (ChangeViewTab)
             {
@@ -65,17 +67,17 @@ namespace VisualPascalABC.DockContent
 
                 MainForm.SelectContent(this, true);
             }
-            PascalABCCompiler.Errors.LocatedError er;
+            LocatedError er;
             int i = lvErrorsList.Items.Count;
             //ivan
             //dataGridView1.Rows.Clear();
             //dataGridView1.Rows.Add(8);
             //\ivan
-            List<PascalABCCompiler.Errors.Error> ErrorsList = errors;
-            foreach (PascalABCCompiler.Errors.Error Err in ErrorsList)
+            List<Error> ErrorsList = errors;
+            foreach (Error Err in ErrorsList)
             {
                 lvErrorsList.Items.Add("");
-                if (Err is PascalABCCompiler.Errors.CompilerWarning)
+                if (Err is CompilerWarning)
                     lvErrorsList.Items[i].ImageIndex = 0;
                 else
                     if (Err is RuntimeException)
@@ -88,29 +90,29 @@ namespace VisualPascalABC.DockContent
                 lvErrorsList.Items[i].SubItems.Add("");//file
                 lvErrorsList.Items[i].SubItems.Add("");//patch
                 lvErrorsList.Items[i].SubItems[ErrorListNumCol].Text = (i + 1).ToString();
-                if (Err is PascalABCCompiler.Errors.LocatedError)
+                if (Err is LocatedError)
                 {
-                    er = Err as PascalABCCompiler.Errors.LocatedError;
+                    er = Err as LocatedError;
                     lvErrorsList.Items[i].SubItems[ErrorListDescrCol].Text = er.Message;
-                    if ((Err as PascalABCCompiler.Errors.LocatedError).SourceLocation != null)
+                    if ((Err as LocatedError).SourceLocation != null)
                     {
-                        lvErrorsList.Items[i].Tag = (Err as PascalABCCompiler.Errors.LocatedError).SourceLocation;
+                        lvErrorsList.Items[i].Tag = (Err as LocatedError).SourceLocation;
                         lvErrorsList.Items[i].SubItems[ErrorListFileCol].Text = Path.GetFileName(er.SourceLocation.FileName);
                         lvErrorsList.Items[i].SubItems[ErrorListPathCol].Text = Path.GetDirectoryName(er.SourceLocation.FileName);
                         lvErrorsList.Items[i].SubItems[ErrorListLineCol].Text = er.SourceLocation.BeginPosition.Line.ToString();
                     }
                 }
-                if (Err is PascalABCCompiler.Errors.CompilerInternalError)
+                if (Err is CompilerInternalError)
                 {
-                    lvErrorsList.Items[i].SubItems[ErrorListDescrCol].Text = (Err as PascalABCCompiler.Errors.CompilerInternalError).ToString();
+                    lvErrorsList.Items[i].SubItems[ErrorListDescrCol].Text = (Err as CompilerInternalError).ToString();
                 }
                 i++;
             }
-            if (ErrorsList.Count > 0 && !(ErrorsList[0] is PascalABCCompiler.Errors.CompilerWarning))
+            if (ErrorsList.Count > 0 && !(ErrorsList[0] is CompilerWarning))
             {
                 MainForm.BottomTabsVisible = true;
 
-                if ((er = ErrorsList[0] as PascalABCCompiler.Errors.LocatedError) != null)
+                if ((er = ErrorsList[0] as LocatedError) != null)
                     if (er.SourceLocation != null)
                     {
                         if (ErrorsList[0] is VisualPascalABC.RuntimeException)
@@ -132,7 +134,7 @@ namespace VisualPascalABC.DockContent
             if (item != null)
             {
                 if (item.Tag != null)
-                    MainForm.ExecuteErrorPos((PascalABCCompiler.SourceLocation)item.Tag, item.ImageIndex);
+                    MainForm.ExecuteErrorPos((SourceLocation)item.Tag, item.ImageIndex);
             }
         }
 
@@ -144,7 +146,7 @@ namespace VisualPascalABC.DockContent
                 if (item != null)
                 {
                     if (item.Tag != null)
-                        MainForm.ExecuteErrorPos((PascalABCCompiler.SourceLocation)item.Tag, item.ImageIndex);
+                        MainForm.ExecuteErrorPos((SourceLocation)item.Tag, item.ImageIndex);
                 }
             }
         }

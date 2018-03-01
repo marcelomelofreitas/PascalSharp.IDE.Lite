@@ -3,14 +3,11 @@
 
 using System;
 using System.ComponentModel;
-using System.Drawing;
 using System.Threading;
 using System.Windows.Forms;
-
 using ICSharpCode.Core;
-using ICSharpCode.SharpDevelop.Gui;
 
-namespace ICSharpCode.SharpDevelop.Gui
+namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 {
 	internal sealed partial class AsynchronousWaitDialogForm
 	{

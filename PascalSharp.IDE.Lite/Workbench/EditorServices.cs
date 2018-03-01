@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using PascalSharp.Internal.Errors;
 using VisualPascalABC.DockContent;
 using VisualPascalABCPlugins;
 
@@ -155,7 +156,7 @@ namespace VisualPascalABC
             NavigationManager.LocationChanged(c.Line + 1, c.Column + 1, CurrentSourceFileName);
         }
 
-        internal void ExecuteErrorPos(PascalABCCompiler.SourceLocation sl, int imageindex)
+        internal void ExecuteErrorPos(SourceLocation sl, int imageindex)
         {
             if (CurrentCodeFileDocument.DesignerAndCodeTabs != null)
             {
@@ -169,7 +170,7 @@ namespace VisualPascalABC
 
         }
 
-        public void ExecuteSourceLocationAction(PascalABCCompiler.SourceLocation
+        public void ExecuteSourceLocationAction(SourceLocation
             SourceLocation, VisualPascalABCPlugins.SourceLocationAction Action)
         {
             if (Action != SourceLocationAction.NavigationGoto)

@@ -2,12 +2,11 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using PascalABCCompiler.SyntaxTree;
 using System.Xml;
 using System.Text;
 using System.IO;
-using PascalABCCompiler.Errors;
 using PascalABCCompiler.SemanticTree;
+using PascalSharp.Compiler;
 
 namespace VisualPascalABCPlugins
 {
@@ -46,8 +45,8 @@ namespace VisualPascalABCPlugins
 			VisualEnvironmentCompiler.StandartCompiler.InternalDebug.CodeGeneration = false;
             VisualEnvironmentCompiler.StandartCompiler.InternalDebug.PCUGenerate = false;
             VisualEnvironmentCompiler.StandartCompiler.InternalDebug.AlwaysGenerateXMLDoc = true;
-            PascalABCCompiler.CompilerType ct = VisualEnvironmentCompiler.DefaultCompilerType;
-            VisualEnvironmentCompiler.DefaultCompilerType = PascalABCCompiler.CompilerType.Standart;
+            CompilerType ct = VisualEnvironmentCompiler.DefaultCompilerType;
+            VisualEnvironmentCompiler.DefaultCompilerType = CompilerType.Standart;
             VisualEnvironmentCompiler.StandartCompiler.InternalDebug.DocumentedUnits.Add(FileName.ToLower());
             try
             {

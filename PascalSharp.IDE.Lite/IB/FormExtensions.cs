@@ -11,9 +11,10 @@ using System.Windows.Forms;
 using System.IO;
 using VisualPascalABCPlugins;
 using VisualPascalABC.Utils;
-using Debugger;
+using PascalSharp.Internal.Debugger;
 using ICSharpCode.TextEditor;
 using ICSharpCode.TextEditor.Document;
+using PascalSharp.Internal.Debugger.Variables.Values;
 using VisualPascalABC.DockContent;
 
 //using Aga.Controls.Tree;

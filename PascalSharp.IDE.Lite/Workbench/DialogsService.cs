@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using PascalSharp.Internal.Localization;
 
 namespace VisualPascalABC
 {
@@ -44,7 +45,7 @@ namespace VisualPascalABC
             string fn = Tools.FileNameToLower(saveFileDialog1.FileName);
             if (OpenDocuments.ContainsKey(fn) && OpenDocuments[fn] != CurrentCodeFileDocument)
             {
-                MessageBox.Show(Form1StringResources.Get("ERROR_FILE_EXISTS_IN_CODEPAGES"), PascalABCCompiler.StringResources.Get("!ERROR"), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(Form1StringResources.Get("ERROR_FILE_EXISTS_IN_CODEPAGES"), StringResources.Get("!ERROR"), MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             else
             {

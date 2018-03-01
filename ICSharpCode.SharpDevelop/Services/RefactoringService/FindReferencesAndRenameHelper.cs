@@ -15,7 +15,9 @@ using ICSharpCode.SharpDevelop.Editor;
 using ICSharpCode.SharpDevelop.Editor.AvalonEdit;
 using ICSharpCode.SharpDevelop.Editor.Search;
 using ICSharpCode.SharpDevelop.Gui;
+using ICSharpCode.SharpDevelop.Gui.Dialogs;
 using ICSharpCode.SharpDevelop.Project;
+using ExtractInterfaceDialog = ICSharpCode.SharpDevelop.Gui.Dialogs.ExtractInterfaceDialog;
 
 namespace ICSharpCode.SharpDevelop.Refactoring
 {

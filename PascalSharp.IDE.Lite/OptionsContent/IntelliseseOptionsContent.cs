@@ -7,6 +7,7 @@ using System.Drawing;
 using System.Data;
 using System.Text;
 using System.Windows.Forms;
+using PascalSharp.Internal.Localization;
 
 namespace VisualPascalABC.OptionsContent
 {
@@ -18,7 +19,7 @@ namespace VisualPascalABC.OptionsContent
         {
             this.MainForm = MainForm;
             InitializeComponent();
-            PascalABCCompiler.StringResources.SetTextForAllObjects(this, strprefix);
+            StringResources.SetTextForAllObjects(this, strprefix);
         }
 
         private bool alreadyShown;
@@ -29,14 +30,14 @@ namespace VisualPascalABC.OptionsContent
         {
             get
             {
-                return PascalABCCompiler.StringResources.Get(strprefix+"NAME");
+                return StringResources.Get(strprefix+"NAME");
             }
         }
         public string Description
         {
             get
             {
-                return PascalABCCompiler.StringResources.Get(strprefix+"DESCRIPTION");
+                return StringResources.Get(strprefix+"DESCRIPTION");
             }
         }
 
@@ -52,7 +53,7 @@ namespace VisualPascalABC.OptionsContent
                 case OptionsContentAction.Show:
                     if (!alreadyShown)
                     {
-                        cbAllowCodeCompletion.Checked = MainForm.UserOptions.AllowCodeCompletion;
+                        cbAllowChecked = MainForm.UserOptions.AllowCodeCompletion;
                         cbCodeCompletionDot.Checked = MainForm.UserOptions.CodeCompletionDot;
                         cbCodeCompletionHint.Checked = MainForm.UserOptions.CodeCompletionHint;
                         cbCodeCompletionParams.Checked = MainForm.UserOptions.CodeCompletionParams;
@@ -66,7 +67,7 @@ namespace VisualPascalABC.OptionsContent
                     MainForm.UserOptions.CodeCompletionDot = cbCodeCompletionDot.Checked;
                     MainForm.UserOptions.CodeCompletionHint = cbCodeCompletionHint.Checked;
                     MainForm.UserOptions.CodeCompletionParams = cbCodeCompletionParams.Checked;
-                    MainForm.UserOptions.AllowCodeCompletion = cbAllowCodeCompletion.Checked;
+                    MainForm.UserOptions.AllowCodeCompletion = cbAllowChecked;
                     MainForm.UserOptions.EnableSmartIntellisense = cbCodeCompletionKeyPressed.Checked;
                     MainForm.UserOptions.CodeCompletionNamespaceVisibleRange = Convert.ToInt32(nuNamespaceVisibleRange.Value);
                     MainForm.UserOptions.ShowQuickClassBrowserPanel = cbIntellisencePanel.Checked;
@@ -84,8 +85,8 @@ namespace VisualPascalABC.OptionsContent
 
         private void cbAllowCodeCompletion_CheckedChanged(object sender, EventArgs e)
         {
-            cbIntellisencePanel.Checked = cbCodeCompletionKeyPressed.Checked = cbCodeCompletionDot.Checked = cbCodeCompletionHint.Checked = cbCodeCompletionParams.Checked = cbAllowCodeCompletion.Checked;
-            cbIntellisencePanel.Enabled = cbCodeCompletionKeyPressed.Enabled = nuNamespaceVisibleRange.Enabled = cbCodeCompletionDot.Enabled = cbCodeCompletionHint.Enabled = cbCodeCompletionParams.Enabled = cbAllowCodeCompletion.Checked;
+            cbIntellisencePanel.Checked = cbCodeCompletionKeyPressed.Checked = cbCodeCompletionDot.Checked = cbCodeCompletionHint.Checked = cbCodeCompletionParams.Checked = cbAllowChecked;
+            cbIntellisencePanel.Enabled = cbCodeCompletionKeyPressed.Enabled = nuNamespaceVisibleRange.Enabled = cbCodeCompletionDot.Enabled = cbCodeCompletionHint.Enabled = cbCodeCompletionParams.Enabled = cbAllowChecked;
         }
  
     }

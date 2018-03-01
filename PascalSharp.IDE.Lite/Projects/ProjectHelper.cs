@@ -3,13 +3,15 @@
 
 using System;
 using System.IO;
+using PascalABCCompiler;
+using PascalSharp.Compiler;
 
 namespace VisualPascalABC.Projects
 {
 	
 	public class ProjectFactory
 	{
-		private PascalABCCompiler.ProjectInfo currentProject;
+		private ProjectInfo currentProject;
 		private int uid=1;
 		
 		static ProjectFactory()
@@ -17,7 +19,7 @@ namespace VisualPascalABC.Projects
 			
 		}
 		
-		public PascalABCCompiler.IProjectInfo CurrentProject
+		public IProjectInfo CurrentProject
 		{
 			get
 			{
@@ -46,9 +48,9 @@ namespace VisualPascalABC.Projects
 			}
 		}
 
-        public PascalABCCompiler.IProjectInfo CreateProject(string projectName, string projectFileName, PascalABCCompiler.ProjectType projectType)
+        public IProjectInfo CreateProject(string projectName, string projectFileName, ProjectType projectType)
         {
-            currentProject = new PascalABCCompiler.ProjectInfo();
+            currentProject = new ProjectInfo();
             currentProject.name = projectName;
             currentProject.path = projectFileName;
             string dir = Path.GetDirectoryName(projectFileName);
@@ -59,18 +61,18 @@ namespace VisualPascalABC.Projects
             currentProject.include_debug_info = true;
 
             currentProject.project_type = projectType;
-            currentProject.source_files.Add(new PascalABCCompiler.SourceCodeFileInfo(projectName + ".pas", Path.Combine(dir, projectName + ".pas")));
-            currentProject.references.Add(new PascalABCCompiler.ReferenceInfo("System", "System.dll"));
-            if (projectType == PascalABCCompiler.ProjectType.WindowsApp)
+            currentProject.source_files.Add(new SourceCodeFileInfo(projectName + ".pas", Path.Combine(dir, projectName + ".pas")));
+            currentProject.references.Add(new ReferenceInfo("System", "System.dll"));
+            if (projectType == ProjectType.WindowsApp)
             {
-                currentProject.references.Add(new PascalABCCompiler.ReferenceInfo("System.Windows.Forms", "System.Windows.Forms.dll"));
-                currentProject.references.Add(new PascalABCCompiler.ReferenceInfo("System.Drawing", "System.Drawing.dll"));
+                currentProject.references.Add(new ReferenceInfo("System.Windows.Forms", "System.Windows.Forms.dll"));
+                currentProject.references.Add(new ReferenceInfo("System.Drawing", "System.Drawing.dll"));
                 //roman//
-                currentProject.references.Add(new PascalABCCompiler.ReferenceInfo("System.Core", "System.Core.dll"));
-                currentProject.references.Add(new PascalABCCompiler.ReferenceInfo("System.Data", "System.Data.dll"));
-                currentProject.references.Add(new PascalABCCompiler.ReferenceInfo("System.Data.DataSetExtensions", "System.Data.DataSetExtensions.dll"));
-                currentProject.references.Add(new PascalABCCompiler.ReferenceInfo("System.Xml", "System.Xml.dll"));
-                currentProject.references.Add(new PascalABCCompiler.ReferenceInfo("System.Xml.Linq", "System.Xml.Linq.dll"));
+                currentProject.references.Add(new ReferenceInfo("System.Core", "System.Core.dll"));
+                currentProject.references.Add(new ReferenceInfo("System.Data", "System.Data.dll"));
+                currentProject.references.Add(new ReferenceInfo("System.Data.DataSetExtensions", "System.Data.DataSetExtensions.dll"));
+                currentProject.references.Add(new ReferenceInfo("System.Xml", "System.Xml.dll"));
+                currentProject.references.Add(new ReferenceInfo("System.Xml.Linq", "System.Xml.Linq.dll"));
                 //roman//
             }
             currentProject.main_file = Path.Combine(dir, projectName + ".pas");
@@ -84,7 +86,7 @@ namespace VisualPascalABC.Projects
             currentProject.output_directory = dir;
             StreamWriter sw = File.CreateText(Path.Combine(dir, projectName + ".pas"));
             currentProject.output_file_name = projectName + ".exe";
-            if (projectType == PascalABCCompiler.ProjectType.ConsoleApp)
+            if (projectType == ProjectType.ConsoleApp)
             {
                 //sw.WriteLine("program "+projectName+";");
                 //sw.WriteLine();
@@ -94,7 +96,7 @@ namespace VisualPascalABC.Projects
                 sw.WriteLine();
                 sw.Write("end.");
             }
-            else if (projectType == PascalABCCompiler.ProjectType.Library)
+            else if (projectType == ProjectType.Library)
             {
                 sw.WriteLine("library " + projectName + ";");
                 sw.WriteLine();
@@ -109,9 +111,9 @@ namespace VisualPascalABC.Projects
             return currentProject;
         }
 
-        public PascalABCCompiler.IProjectInfo OpenProject(string projectFileName)
+        public IProjectInfo OpenProject(string projectFileName)
         {
-            PascalABCCompiler.ProjectInfo _currentProject = new PascalABCCompiler.ProjectInfo();
+            ProjectInfo _currentProject = new ProjectInfo();
             _currentProject.Load(projectFileName);
             currentProject = _currentProject;
             return currentProject;
@@ -147,9 +149,9 @@ namespace VisualPascalABC.Projects
 			}
 		}
 
-        public PascalABCCompiler.IFileInfo AddSourceFile(string fileName)
+        public IFileInfo AddSourceFile(string fileName)
         {
-            PascalABCCompiler.SourceCodeFileInfo fi = new PascalABCCompiler.SourceCodeFileInfo(fileName, Path.Combine(Path.GetDirectoryName(currentProject.Path), fileName));
+            SourceCodeFileInfo fi = new SourceCodeFileInfo(fileName, Path.Combine(Path.GetDirectoryName(currentProject.Path), fileName));
             currentProject.source_files.Add(fi);
             Dirty = true;
             return fi;
@@ -157,7 +159,7 @@ namespace VisualPascalABC.Projects
         
         public void AddNamespaceFileReference(string fileName)
         {
-            var text = WorkbenchServiceFactory.Workbench.VisualEnvironmentCompiler.SourceFilesProvider(currentProject.main_file, PascalABCCompiler.SourceFileOperation.GetText) as string;
+            var text = WorkbenchServiceFactory.Workbench.VisualEnvironmentCompiler.SourceFilesProvider(currentProject.main_file, SourceFileOperation.GetText) as string;
             text = "{$includenamespace " + Path.GetFileName(fileName) + "}"+Environment.NewLine + text;
             var doc = WorkbenchServiceFactory.DocumentService.GetDocument(currentProject.main_file);
             if (doc != null)
@@ -172,7 +174,7 @@ namespace VisualPascalABC.Projects
         
         public void RemoveNamespaceFileReference(string fileName)
         {
-        	var text = WorkbenchServiceFactory.Workbench.VisualEnvironmentCompiler.SourceFilesProvider(currentProject.main_file, PascalABCCompiler.SourceFileOperation.GetText) as string;
+        	var text = WorkbenchServiceFactory.Workbench.VisualEnvironmentCompiler.SourceFilesProvider(currentProject.main_file, SourceFileOperation.GetText) as string;
         	text = text.Replace("{$includenamespace " + Path.GetFileName(fileName) + "}"+Environment.NewLine,"");
         	var doc = WorkbenchServiceFactory.DocumentService.GetDocument(currentProject.main_file);
             if (doc != null)
@@ -185,27 +187,27 @@ namespace VisualPascalABC.Projects
             }
         }
 
-        public PascalABCCompiler.IReferenceInfo AddReference(string s)
+        public IReferenceInfo AddReference(string s)
         {
-            PascalABCCompiler.ReferenceInfo ri = new PascalABCCompiler.ReferenceInfo(s, s + ".dll");
+            ReferenceInfo ri = new ReferenceInfo(s, s + ".dll");
             currentProject.references.Add(ri);
             Dirty = true;
             return ri;
         }
 		
-		public void RemoveReference(PascalABCCompiler.IReferenceInfo ri)
+		public void RemoveReference(IReferenceInfo ri)
 		{
 			currentProject.RemoveReference(ri);
 			Dirty = true;
 		}
 		
-		public void ExcludeFile(PascalABCCompiler.IFileInfo fi)
+		public void ExcludeFile(IFileInfo fi)
 		{
 			currentProject.ExcludeFile(fi);
 			Dirty = true;
 		}
 		
-		public void RenameFile(PascalABCCompiler.IFileInfo fi, string new_name)
+		public void RenameFile(IFileInfo fi, string new_name)
 		{
 			fi.Name = new_name;
 			Dirty = true;

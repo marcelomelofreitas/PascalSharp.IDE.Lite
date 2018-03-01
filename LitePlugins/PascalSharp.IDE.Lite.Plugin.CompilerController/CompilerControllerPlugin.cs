@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using PascalSharp.Compiler;
 
 namespace VisualPascalABCPlugins
 {
@@ -145,9 +146,9 @@ namespace VisualPascalABCPlugins
             }
             return null;
         }        
-        void Compiler_OnChangeCompilerState(PascalABCCompiler.ICompiler sender, PascalABCCompiler.CompilerState State, string FileName)
+        void Compiler_OnChangeCompilerState(ICompiler sender, CompilerState State, string FileName)
         {
-            if (State == PascalABCCompiler.CompilerState.CodeGeneration)
+            if (State == CompilerState.CodeGeneration)
                 LastGeneratedFile = FileName;
             
         }

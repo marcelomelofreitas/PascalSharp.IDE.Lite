@@ -11,6 +11,7 @@ using System.Windows.Forms;
 
 using ICSharpCode.Core;
 using ICSharpCode.SharpDevelop.Gui;
+using ICSharpCode.SharpDevelop.Gui.Dialogs;
 using ICSharpCode.SharpDevelop.Project;
 
 namespace ICSharpCode.SharpDevelop.Commands

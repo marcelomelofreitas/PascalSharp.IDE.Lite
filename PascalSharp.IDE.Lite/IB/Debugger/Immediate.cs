@@ -2,9 +2,9 @@
 // This code is distributed under the GNU LGPL (for details please see \doc\license.txt)
 using System;
 using System.Collections.Generic;
-using PascalABCCompiler.SyntaxTree;
+using PascalSharp.Internal.SyntaxTree;
 using System.Text;
-using Debugger;
+using PascalSharp.Internal.Debugger;
 
 namespace VisualPascalABC
 {

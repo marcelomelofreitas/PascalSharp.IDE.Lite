@@ -6,6 +6,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
+using PascalSharp.Compiler;
+using PascalSharp.Internal.Localization;
 
 namespace VisualPascalABC.Projects
 {
@@ -76,7 +78,7 @@ namespace VisualPascalABC.Projects
 		private const int SourceFileImageIndex = 4;
 		private const int FormImageIndex = 5;
 		
-		public void LoadProject(string projectName, PascalABCCompiler.IProjectInfo project)
+		public void LoadProject(string projectName, IProjectInfo project)
 		{
 			TreeNode proj_tn = this.tvProjectExplorer.Nodes.Add(Form1StringResources.Get("MR_PROJECT")+" "+projectName);
 			ProjectNode = proj_tn;
@@ -87,7 +89,7 @@ namespace VisualPascalABC.Projects
 			ReferencesNode = ref_tn;
 			reference_nodes.Add(ref_tn);
 			ref_tn.ImageIndex = ClosedReferencesImageIndex;
-			foreach (PascalABCCompiler.IFileInfo fi in project.SourceFiles)
+			foreach (IFileInfo fi in project.SourceFiles)
 			{
 				TreeNode tn = proj_tn.Nodes.Add(fi.Name);
 				tn.ImageIndex = SourceFileImageIndex;
@@ -103,7 +105,7 @@ namespace VisualPascalABC.Projects
 				}
 				source_item_nodes.Add(tn);
 			}
-			foreach (PascalABCCompiler.IReferenceInfo ri in project.References)
+			foreach (IReferenceInfo ri in project.References)
 			{
 				TreeNode tn = ref_tn.Nodes.Add(ri.AssemblyName);
 				tn.ImageIndex = ReferenceImageIndex;
@@ -114,7 +116,7 @@ namespace VisualPascalABC.Projects
 			proj_tn.Expand();
 		}
 		
-		public void AddSourceFile(PascalABCCompiler.IFileInfo fi, bool is_form)
+		public void AddSourceFile(IFileInfo fi, bool is_form)
 		{
 			TreeNode tn = ProjectNode.Nodes.Add(fi.Name);
 			tn.ImageIndex = SourceFileImageIndex;
@@ -180,9 +182,9 @@ namespace VisualPascalABC.Projects
 			object o = items[this.tvProjectExplorer.SelectedNode];
 			if (o != null)
 			{
-				if (o is PascalABCCompiler.IFileInfo)
+				if (o is IFileInfo)
 				{
-					PascalABCCompiler.IFileInfo fi = o as PascalABCCompiler.IFileInfo;
+					IFileInfo fi = o as IFileInfo;
 					WorkbenchServiceFactory.FileService.OpenFile(fi.Path,null);
 				}
 			}
@@ -193,9 +195,9 @@ namespace VisualPascalABC.Projects
 			object o = items[this.tvProjectExplorer.SelectedNode];
 			if (o != null)
 			{
-				if (o is PascalABCCompiler.IFileInfo)
+				if (o is IFileInfo)
 				{
-					PascalABCCompiler.IFileInfo fi = o as PascalABCCompiler.IFileInfo;
+					IFileInfo fi = o as IFileInfo;
                     WorkbenchServiceFactory.FileService.OpenFile(fi.Path, null);
 					if (VisualPABCSingleton.MainForm.CurrentCodeFileDocument.DesignerAndCodeTabs != null)
 					{
@@ -211,9 +213,9 @@ namespace VisualPascalABC.Projects
 			object o = items[this.tvProjectExplorer.SelectedNode];
 			if (o != null)
 			{
-				if (o is PascalABCCompiler.IFileInfo)
+				if (o is IFileInfo)
 				{
-					PascalABCCompiler.IFileInfo fi = o as PascalABCCompiler.IFileInfo;
+					IFileInfo fi = o as IFileInfo;
                     WorkbenchServiceFactory.FileService.OpenFile(fi.Path, null);
 					if (VisualPABCSingleton.MainForm.CurrentCodeFileDocument.DesignerAndCodeTabs != null)
 					{
@@ -229,7 +231,7 @@ namespace VisualPascalABC.Projects
 			OpenFile();
 		}
 		
-		public void AddReferenceNode(PascalABCCompiler.IReferenceInfo ri)
+		public void AddReferenceNode(IReferenceInfo ri)
 		{
 			TreeNode tn = ReferencesNode.Nodes.Add(ri.AssemblyName);
 			tn.ImageIndex = ReferenceImageIndex;
@@ -298,9 +300,9 @@ namespace VisualPascalABC.Projects
 			object o = items[this.tvProjectExplorer.SelectedNode];
 			if (o != null)
 			{
-				if (o is PascalABCCompiler.IReferenceInfo)
+				if (o is IReferenceInfo)
 				{
-					ProjectTask.RemoveReference(o as PascalABCCompiler.IReferenceInfo);
+					ProjectTask.RemoveReference(o as IReferenceInfo);
 					this.tvProjectExplorer.Nodes.Remove(this.tvProjectExplorer.SelectedNode);
                     ProjectFactory.Instance.SaveProject();
 				}
@@ -331,9 +333,9 @@ namespace VisualPascalABC.Projects
 			object o = items[this.tvProjectExplorer.SelectedNode];
 			if (o != null)
 			{
-				if (o is PascalABCCompiler.IFileInfo)
+				if (o is IFileInfo)
 				{
-                    PascalABCCompiler.IFileInfo fi = o as PascalABCCompiler.IFileInfo;
+                    IFileInfo fi = o as IFileInfo;
                     if (ProjectFactory.Instance.CurrentProject.MainFile != fi.Path)
                     {
                         ProjectTask.ExcludeFile(fi);
@@ -341,7 +343,7 @@ namespace VisualPascalABC.Projects
                         ProjectFactory.Instance.SaveProject();
                     }
                     else
-                        MessageBox.Show(Form1StringResources.Get("CANNOT_EXCLUDE_MAIN_FILE"), PascalABCCompiler.StringResources.Get("!ERROR"), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show(Form1StringResources.Get("CANNOT_EXCLUDE_MAIN_FILE"), StringResources.Get("!ERROR"), MessageBoxButtons.OK, MessageBoxIcon.Error);
 				}
 			}
         }
@@ -352,7 +354,7 @@ namespace VisualPascalABC.Projects
             object o = items[this.tvProjectExplorer.SelectedNode];
             if (o != null)
             {
-                if (o is PascalABCCompiler.IFileInfo)
+                if (o is IFileInfo)
                 {
                     this.tvProjectExplorer.LabelEdit = true;
                     this.tvProjectExplorer.SelectedNode.BeginEdit();
@@ -363,25 +365,25 @@ namespace VisualPascalABC.Projects
         private void LabelEditFinished(object sender, NodeLabelEditEventArgs e)
         {
             this.tvProjectExplorer.LabelEdit = false;
-            PascalABCCompiler.IFileInfo fi = items[e.Node] as PascalABCCompiler.IFileInfo;
+            IFileInfo fi = items[e.Node] as IFileInfo;
             if (e.Label == null)
                 return;
-            if (!PascalABCCompiler.Tools.CheckFileNameValid(e.Label))
+            if (!PascalSharp.Internal.CompilerTools.Tools.CheckFileNameValid(e.Label))
             {
                 e.CancelEdit = true;
-                MessageBox.Show(Form1StringResources.Get("INVALID_SOURCE_FILE_NAME"), PascalABCCompiler.StringResources.Get("!ERROR"), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(Form1StringResources.Get("INVALID_SOURCE_FILE_NAME"), StringResources.Get("!ERROR"), MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
             if (string.Compare(Path.GetExtension(e.Label), ".pas", true) != 0)
             {
                 e.CancelEdit = true;
-                MessageBox.Show(Form1StringResources.Get("INVALID_SOURCE_FILE_EXTENSION"), PascalABCCompiler.StringResources.Get("!ERROR"), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(Form1StringResources.Get("INVALID_SOURCE_FILE_EXTENSION"), StringResources.Get("!ERROR"), MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
             if (File.Exists(Path.Combine(Path.GetDirectoryName(fi.Name),e.Label)))
             {
                 e.CancelEdit = true;
-                MessageBox.Show(string.Format(Form1StringResources.Get("FILE_ALREADY_EXISTS{0}"), e.Label), PascalABCCompiler.StringResources.Get("!ERROR"), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(string.Format(Form1StringResources.Get("FILE_ALREADY_EXISTS{0}"), e.Label), StringResources.Get("!ERROR"), MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
             string oldFileName = fi.Path;

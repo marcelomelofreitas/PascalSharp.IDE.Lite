@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 using ICSharpCode.TextEditor;
+using PascalSharp.Internal.Localization;
 
 namespace ICSharpCode.TextEditor.Gui.CompletionWindow
 {
@@ -171,7 +172,7 @@ namespace ICSharpCode.TextEditor.Gui.CompletionWindow
                          data.ImageIndex == VisualPascalABC.CodeCompletionProvider.ImagesProvider.IconNumberPrivateMethod ||
                          data.ImageIndex == VisualPascalABC.CodeCompletionProvider.ImagesProvider.IconNumberProtectedMethod)
                 {
-                    if (!data.Description.Contains("(" + PascalABCCompiler.StringResources.Get("CODE_COMPLETION_EXTENSION") + ")"))
+                    if (!data.Description.Contains("(" + StringResources.Get("CODE_COMPLETION_EXTENSION") + ")"))
                         meths.Add(data);
                     else
                         extension_meths.Add(data);

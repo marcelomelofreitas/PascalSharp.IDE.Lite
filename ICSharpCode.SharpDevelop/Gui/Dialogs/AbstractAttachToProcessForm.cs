@@ -2,14 +2,10 @@
 // This code is distributed under the GNU LGPL (for details please see \doc\license.txt)
 
 using System;
-using System.Diagnostics;
-using System.Drawing;
 using System.Windows.Forms;
-
 using ICSharpCode.Core;
-using ICSharpCode.SharpDevelop.Debugging;
 
-namespace ICSharpCode.SharpDevelop.Gui
+namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 {
 	public partial class AbstractAttachToProcessForm : Form
 	{		

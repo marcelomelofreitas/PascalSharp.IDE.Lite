@@ -7,7 +7,7 @@ using System.Text;
 using System.Windows.Forms;
 using ICSharpCode.TextEditor;
 using ICSharpCode.TextEditor.Document;
-using CodeCompletion;
+using PascalSharp.Internal.CodeCompletion;
 using PascalABCCompiler.Parsers;
 
 namespace VisualPascalABC

@@ -16,6 +16,7 @@ using ICSharpCode.SharpDevelop.Gui;
 using ICSharpCode.SharpDevelop.Project;
 using ICSharpCode.SharpDevelop.Widgets.SideBar;
 using PascalABCCompiler;
+using PascalSharp.Internal.Localization;
 
 namespace ICSharpCode.FormsDesigner
 {
@@ -88,8 +89,8 @@ namespace ICSharpCode.FormsDesigner
                 string componentsLibraryPath = Path.Combine(Path.GetDirectoryName(System.Windows.Forms.Application.ExecutablePath), "ControlLibrary.sdcl");
                 if (!componentLibraryLoader.LoadToolComponentLibrary(componentsLibraryPath))
                 {
-                    System.Windows.Forms.MessageBox.Show(PascalABCCompiler.StringResources.Get("VP_MF_TOOLBOX_LOADING_UNSUCCEFULL"),
-                    PascalABCCompiler.StringResources.Get("VP_MF_FORM_DESIGNER"),
+                    System.Windows.Forms.MessageBox.Show(StringResources.Get("VP_MF_TOOLBOX_LOADING_UNSUCCEFULL"),
+                    StringResources.Get("VP_MF_FORM_DESIGNER"),
                     System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
                 }
 			}
@@ -125,7 +126,7 @@ namespace ICSharpCode.FormsDesigner
             /*if (VisualPascalABC.ProjectFactory.Instance.CurrentProject != null)
             foreach (IReferenceInfo ri in VisualPascalABC.ProjectFactory.Instance.CurrentProject.References)
             {
-                AddComponentsFromAssembly(PascalABCCompiler.NetHelper.NetHelper.LoadAssembly(PascalABCCompiler.Compiler.get_assembly_path(ri.FullAssemblyName, false)));
+                AddComponentsFromAssembly(NetHelper.LoadAssembly(Compiler.get_assembly_path(ri.FullAssemblyName, false)));
             }*/
 			// Clear selected toolbox item after reloading the tabs.
             try

@@ -8,6 +8,7 @@ using ICSharpCode.Core;
 using ICSharpCode.SharpDevelop.Dom;
 using ICSharpCode.SharpDevelop.Dom.Refactoring;
 using ICSharpCode.SharpDevelop.Gui;
+using ICSharpCode.SharpDevelop.Gui.Dialogs;
 
 namespace ICSharpCode.SharpDevelop.Refactoring
 {
@@ -96,7 +97,7 @@ namespace ICSharpCode.SharpDevelop.Refactoring
 	{
 		protected override void Run(ITextEditor textEditor, RefactoringProvider provider)
 		{
-			using (var pm = Gui.AsynchronousWaitDialog.ShowWaitDialog("${res:SharpDevelop.Refactoring.RemoveUnusedImports}")) {
+			using (var pm = AsynchronousWaitDialog.ShowWaitDialog("${res:SharpDevelop.Refactoring.RemoveUnusedImports}")) {
 				NamespaceRefactoringService.ManageUsings(pm, textEditor.FileName, textEditor.Document, true, true);
 			}
 		}

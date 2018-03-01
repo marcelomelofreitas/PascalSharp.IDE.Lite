@@ -10,6 +10,12 @@ using System.Windows.Forms;
 using System.IO;
 using VisualPascalABCPlugins;
 using System.Threading;
+using PascalABCCompiler;
+using PascalSharp.Compiler;
+using PascalSharp.Internal.CodeCompletion;
+using PascalSharp.Internal.CompilerTools.Errors;
+using PascalSharp.Internal.Errors;
+using PascalSharp.Internal.Localization;
 using VisualPascalABC.DockContent;
 
 namespace VisualPascalABC
@@ -18,20 +24,20 @@ namespace VisualPascalABC
     {
         public static string Get(string key)
         {
-            return PascalABCCompiler.StringResources.Get("VP_VEC_"+key);
+            return StringResources.Get("VP_VEC_"+key);
         }
 
     }
     
     public class VisualEnvironmentCompiler: IVisualEnvironmentCompiler
     {
-        PascalABCCompiler.CompilerType defaultCompilerType = PascalABCCompiler.CompilerType.Remote;
+        CompilerType defaultCompilerType = CompilerType.Remote;
 
         public static Encoding DefaultFileEncoding = Encoding.UTF8;
 
         private IWorkbench workbench;
-        private PascalABCCompiler.RemoteCompiler remoteCompiler;
-        private PascalABCCompiler.Compiler standartCompiler;
+        private RemoteCompiler remoteCompiler;
+        private Compiler standartCompiler;
         private System.Threading.Thread MainProgramThread = System.Threading.Thread.CurrentThread;
         private System.Threading.Thread StartingThread;
         public delegate void SetFlagDelegate(bool flag);
@@ -53,12 +59,12 @@ namespace VisualPascalABC
                 return beginInvoke;                
             }
         }
-        public delegate void ExecuteSourceLocationActionDelegate(PascalABCCompiler.SourceLocation SourceLocation, SourceLocationAction Action);
+        public delegate void ExecuteSourceLocationActionDelegate(SourceLocation SourceLocation, SourceLocationAction Action);
         private ExecuteSourceLocationActionDelegate ExecuteSLAction;
         public delegate object ExecuteVisualEnvironmentCompilerActionDelegate(VisualEnvironmentCompilerAction Action, object obj);
         private ExecuteVisualEnvironmentCompilerActionDelegate ExecuteVECAction;
         private bool StartingCompleted = false;
-        public PascalABCCompiler.Errors.ErrorsStrategyManager ErrorsManager;
+        public ErrorsStrategyManager ErrorsManager;
         private RunManager RunnerManager;
         private DebugHelper DebugHelper;
 		private CodeCompletionParserController CodeCompletionParserController;
@@ -71,7 +77,7 @@ namespace VisualPascalABC
             SetTextDelegate addTextToCompilerMessages, ToolStripMenuItem pluginsMenuItem, 
             ToolStrip pluginsToolStrip, ExecuteSourceLocationActionDelegate ExecuteSLAction, 
             ExecuteVisualEnvironmentCompilerActionDelegate ExecuteVECAction,
-            PascalABCCompiler.Errors.ErrorsStrategyManager ErrorsManager, RunManager RunnerManager, DebugHelper DebugHelper,UserOptions UserOptions,System.Collections.Hashtable StandartDirectories,
+            ErrorsStrategyManager ErrorsManager, RunManager RunnerManager, DebugHelper DebugHelper,UserOptions UserOptions,System.Collections.Hashtable StandartDirectories,
             Dictionary<string, CodeFileDocumentControl> OpenDocuments, IWorkbench workbench)
         {
             this.StandartDirectories = StandartDirectories;
@@ -138,21 +144,21 @@ namespace VisualPascalABC
         
         private void CreateCompiler()
         {
-            standartCompiler = new PascalABCCompiler.Compiler(SourceFilesProvider, OnChangeCompilerState);
-            CodeCompletion.CodeCompletionController.comp = new PascalABCCompiler.Compiler((PascalABCCompiler.Compiler)standartCompiler, SourceFilesProvider, OnChangeCompilerState);
-            CodeCompletion.CodeCompletionController.ParsersController = standartCompiler.ParsersController;
-            CodeCompletion.CodeCompletionController.StandartDirectories = StandartDirectories;
+            standartCompiler = new Compiler(SourceFilesProvider, OnChangeCompilerState);
+            CodeCompletionController.comp = new Compiler((Compiler)standartCompiler, SourceFilesProvider, OnChangeCompilerState);
+            CodeCompletionController.ParsersController = standartCompiler.ParsersController;
+            CodeCompletionController.StandartDirectories = StandartDirectories;
 
             this.CodeCompletionParserController.Init();
-            if (defaultCompilerType == PascalABCCompiler.CompilerType.Remote && !Tools.IsUnix())
+            if (defaultCompilerType == CompilerType.Remote && !Tools.IsUnix())
                 LoadRemoteCompiler();
             else
-                defaultCompilerType = PascalABCCompiler.CompilerType.Standart;
+                defaultCompilerType = CompilerType.Standart;
         }
         
         public void LoadRemoteCompiler()
         {
-            remoteCompiler = new PascalABCCompiler.RemoteCompiler(PascalABCCompiler.ConsoleCompilerConstants.MaxProcessMemoryMB, OnChangeCompilerState, SourceFilesProvider);
+            remoteCompiler = new RemoteCompiler(ConsoleCompilerConstants.MaxProcessMemoryMB, OnChangeCompilerState, SourceFilesProvider);
         }
 
         public void RunStartingThread()
@@ -168,7 +174,7 @@ namespace VisualPascalABC
             if (standartCompiler == null) 
                 return null;
             string Filter = "", AllFilter = "";
-            foreach (PascalABCCompiler.SupportedSourceFile ssf in standartCompiler.SupportedSourceFiles)
+            foreach (SupportedSourceFile ssf in standartCompiler.SupportedSourceFiles)
             {
                 Filter = Tools.MakeFilter(Filter, ssf.LanguageName, ssf.Extensions);
                 AllFilter = Tools.MakeAllFilter(AllFilter, ssf.LanguageName, ssf.Extensions);
@@ -183,7 +189,7 @@ namespace VisualPascalABC
         	if (standartCompiler == null) 
                 return null;
             string Filter = "", AllFilter = "";
-            foreach (PascalABCCompiler.SupportedSourceFile ssf in standartCompiler.SupportedProjectFiles)
+            foreach (SupportedSourceFile ssf in standartCompiler.SupportedProjectFiles)
             {
                 Filter = Tools.MakeProjectFilter(Filter, ssf.LanguageName, ssf.Extensions);
                 AllFilter = Tools.MakeAllFilter(AllFilter, ssf.LanguageName, ssf.Extensions);
@@ -208,7 +214,7 @@ namespace VisualPascalABC
         }
 
         DateTime compilationStartTime;
-        public string Compile(PascalABCCompiler.CompilerOptions CompilerOptions)
+        public string Compile(CompilerOptions CompilerOptions)
         {
             compilationStartTime = DateTime.Now;
             Compiler.CompilerOptions = CompilerOptions;
@@ -216,7 +222,7 @@ namespace VisualPascalABC
             return fn;
         }
         
-        public void StartCompile(PascalABCCompiler.CompilerOptions CompilerOptions)
+        public void StartCompile(CompilerOptions CompilerOptions)
         {
             compilationStartTime = DateTime.Now;
             Compiler.CompilerOptions = CompilerOptions;
@@ -229,7 +235,7 @@ namespace VisualPascalABC
         }
 
         
-        public object SourceFilesProvider(string FileName, PascalABCCompiler.SourceFileOperation FileOperation)
+        public object SourceFilesProvider(string FileName, SourceFileOperation FileOperation)
         {
 
 
@@ -241,7 +247,7 @@ namespace VisualPascalABC
             
             switch (FileOperation)
             {
-                case PascalABCCompiler.SourceFileOperation.GetText:
+                case SourceFileOperation.GetText:
                     if (tp != null)
                         return ed.Document.TextContent;
                     if (!File.Exists(FileName))
@@ -249,24 +255,24 @@ namespace VisualPascalABC
                     /*TextReader tr = new StreamReader(FileName, System.Text.Encoding.GetEncoding(1251));
                     string Text = tr.ReadToEnd();
                     tr.Close();*/
-                    string Text = PascalABCCompiler.FileReader.ReadFileContent(FileName, null);
+                    string Text = FileReader.ReadFileContent(FileName, null);
                     return Text;
-                case PascalABCCompiler.SourceFileOperation.Exists:
+                case SourceFileOperation.Exists:
                     if (tp != null)
                         return true;
                     return File.Exists(FileName);
-                case PascalABCCompiler.SourceFileOperation.GetLastWriteTime:
+                case SourceFileOperation.GetLastWriteTime:
                     if (tp != null)
                         return tp.ModifyDateTime;
                     return File.GetLastWriteTime(FileName);
-                case PascalABCCompiler.SourceFileOperation.FileEncoding:
+                case SourceFileOperation.FileEncoding:
                     return DefaultFileEncoding;
             }
             return null;
         }
 
-        private delegate void ChangeCompilerStateDelegate(PascalABCCompiler.ICompiler sender, PascalABCCompiler.CompilerState State, string FileName);
-        private void OnChangeCompilerState(PascalABCCompiler.ICompiler sender, PascalABCCompiler.CompilerState State, string FileName)
+        private delegate void ChangeCompilerStateDelegate(ICompiler sender, CompilerState State, string FileName);
+        private void OnChangeCompilerState(ICompiler sender, CompilerState State, string FileName)
         {
             if (CurrentThreadIsMainThread())
                 OnChangeCompilerStateEx(sender, State, FileName);
@@ -279,7 +285,7 @@ namespace VisualPascalABC
             string fileName = @"C:\PABCWork.NET\Samples\test.pas";
             if (File.Exists(fileName))
             {
-                PascalABCCompiler.CompilerOptions co = new PascalABCCompiler.CompilerOptions();
+                CompilerOptions co = new CompilerOptions();
                 co.SourceFileName = fileName;
                 Compile(co);
             }
@@ -304,15 +310,15 @@ namespace VisualPascalABC
            	//VisualPABCSingleton.MainForm.codeCompletionParserController.ParseAllFiles();
         }
 
-        void AddCompilerTextToCompilerMessages(PascalABCCompiler.ICompiler sender, string text)
+        void AddCompilerTextToCompilerMessages(ICompiler sender, string text)
         {
-            if (sender.CompilerType == PascalABCCompiler.CompilerType.Standart)
+            if (sender.CompilerType == CompilerType.Standart)
                 AddTextToCompilerMessages(VECStringResources.Get("LOCAL_COMPILER_PREFIX") + text);
             else
                 AddTextToCompilerMessages(VECStringResources.Get("REMOTE_COMPILER_PREFIX") + text);
         }
         List<string> ParsedFiles = new List<string>();
-        private void OnChangeCompilerStateEx(PascalABCCompiler.ICompiler sender, PascalABCCompiler.CompilerState State, string FullFileName)
+        private void OnChangeCompilerStateEx(ICompiler sender, CompilerState State, string FullFileName)
         {
 
             string RusName = null;
@@ -321,50 +327,50 @@ namespace VisualPascalABC
                 FileName = Path.GetFileName(FullFileName);
             switch (State)
             {
-                case PascalABCCompiler.CompilerState.CompilationStarting:
+                case CompilerState.CompilationStarting:
                     RusName = VECStringResources.Get("STATE_START_COMPILING_ASSEMBLY{0}");
                     SetCompilingButtonsEnabled(false);
                     ParsedFiles.Clear();
                     break;
-                case PascalABCCompiler.CompilerState.BeginCompileFile: RusName = VECStringResources.Get("STATE_BEGINCOMPILEFILE{0}"); break;
-                case PascalABCCompiler.CompilerState.CompileInterface: RusName = VECStringResources.Get("STATE_COMPILEINTERFACE{0}"); break;
-                case PascalABCCompiler.CompilerState.CompileImplementation: RusName = VECStringResources.Get("STATE_COMPILEIMPLEMENTATION{0}"); break;
-                case PascalABCCompiler.CompilerState.EndCompileFile: RusName = VECStringResources.Get("STATE_ENDCOMPILEFILE{0}"); break;
-                case PascalABCCompiler.CompilerState.CodeGeneration: RusName = VECStringResources.Get("STATE_CODEGENERATION{0}"); break;
-                case PascalABCCompiler.CompilerState.ReadDLL: RusName = VECStringResources.Get("STATE_READDLL{0}"); break;
-                case PascalABCCompiler.CompilerState.SavePCUFile: RusName = VECStringResources.Get("STATE_SAVEPCUFILE{0}"); break;
-                case PascalABCCompiler.CompilerState.ReadPCUFile: RusName = VECStringResources.Get("STATE_READPCUFILE{0}"); break;
-                case PascalABCCompiler.CompilerState.PCUReadingError: RusName = VECStringResources.Get("STATE_PCUREADINGERROR{0}"); break;
-                case PascalABCCompiler.CompilerState.PCUWritingError: RusName = VECStringResources.Get("STATE_PCUWRITINGERROR{0}"); break;
-                case PascalABCCompiler.CompilerState.SemanticTreeConversion: RusName = VECStringResources.Get("STATE_SEMANTICTREECONVERSION{0}"); break;
-                case PascalABCCompiler.CompilerState.SemanticTreeConverterConnected: RusName = VECStringResources.Get("STATE_SEMANTICTREECONVERTERCONNECTED{0}"); break;
-                case PascalABCCompiler.CompilerState.SyntaxTreeConversion: RusName = VECStringResources.Get("STATE_SYNTAXTREECONVERSION{0}"); break;
-                case PascalABCCompiler.CompilerState.SyntaxTreeConverterConnected: RusName = VECStringResources.Get("STATE_SYNTAXTREECONVERTERCONNECTED{0}"); break;
-                case PascalABCCompiler.CompilerState.ParserConnected:
+                case CompilerState.BeginCompileFile: RusName = VECStringResources.Get("STATE_BEGINCOMPILEFILE{0}"); break;
+                case CompilerState.CompileInterface: RusName = VECStringResources.Get("STATE_COMPILEINTERFACE{0}"); break;
+                case CompilerState.CompileImplementation: RusName = VECStringResources.Get("STATE_COMPILEIMPLEMENTATION{0}"); break;
+                case CompilerState.EndCompileFile: RusName = VECStringResources.Get("STATE_ENDCOMPILEFILE{0}"); break;
+                case CompilerState.CodeGeneration: RusName = VECStringResources.Get("STATE_CODEGENERATION{0}"); break;
+                case CompilerState.ReadDLL: RusName = VECStringResources.Get("STATE_READDLL{0}"); break;
+                case CompilerState.SavePCUFile: RusName = VECStringResources.Get("STATE_SAVEPCUFILE{0}"); break;
+                case CompilerState.ReadPCUFile: RusName = VECStringResources.Get("STATE_READPCUFILE{0}"); break;
+                case CompilerState.PCUReadingError: RusName = VECStringResources.Get("STATE_PCUREADINGERROR{0}"); break;
+                case CompilerState.PCUWritingError: RusName = VECStringResources.Get("STATE_PCUWRITINGERROR{0}"); break;
+                case CompilerState.SemanticTreeConversion: RusName = VECStringResources.Get("STATE_SEMANTICTREECONVERSION{0}"); break;
+                case CompilerState.SemanticTreeConverterConnected: RusName = VECStringResources.Get("STATE_SEMANTICTREECONVERTERCONNECTED{0}"); break;
+                case CompilerState.SyntaxTreeConversion: RusName = VECStringResources.Get("STATE_SYNTAXTREECONVERSION{0}"); break;
+                case CompilerState.SyntaxTreeConverterConnected: RusName = VECStringResources.Get("STATE_SYNTAXTREECONVERTERCONNECTED{0}"); break;
+                case CompilerState.ParserConnected:
                     FileName = Path.GetFileName(FileName);
-                    if(sender.CompilerType== PascalABCCompiler.CompilerType.Standart)
+                    if(sender.CompilerType== CompilerType.Standart)
                         RusName = string.Format(VECStringResources.Get("PARSER_CONNECTED{0}{1}"), sender.ParsersController.LastParser, FileName);
                     else
                         RusName = string.Format(VECStringResources.Get("PARSER_CONNECTED{0}"), FileName);
                     FileName = null;
                     break;
-                case PascalABCCompiler.CompilerState.Ready:
+                case CompilerState.Ready:
                     RusName = VECStringResources.Get("STATE_READY");
                     if (!StartingCompleted)
                     {
                         switch (sender.CompilerType)
                         {
-                            case PascalABCCompiler.CompilerType.Standart:
-                                standartCompiler = (PascalABCCompiler.Compiler)sender;
+                            case CompilerType.Standart:
+                                standartCompiler = (Compiler)sender;
                                 break;
-                            case PascalABCCompiler.CompilerType.Remote:
-                                remoteCompiler = (PascalABCCompiler.RemoteCompiler)sender;
+                            case CompilerType.Remote:
+                                remoteCompiler = (RemoteCompiler)sender;
                                 break;
                         }
-                        if (!(defaultCompilerType == PascalABCCompiler.CompilerType.Remote) || (standartCompiler.State == PascalABCCompiler.CompilerState.Ready && (remoteCompiler != null && remoteCompiler.State == PascalABCCompiler.CompilerState.Ready)))
+                        if (!(defaultCompilerType == CompilerType.Remote) || (standartCompiler.State == CompilerState.Ready && (remoteCompiler != null && remoteCompiler.State == CompilerState.Ready)))
                             StartingCompleted = true;
                         AddCompilerTextToCompilerMessages(sender, VECStringResources.Get("SUPPORTED_LANGUAGES") + Environment.NewLine);
-                        foreach (PascalABCCompiler.SupportedSourceFile ssf in standartCompiler.SupportedSourceFiles)
+                        foreach (SupportedSourceFile ssf in standartCompiler.SupportedSourceFiles)
                             AddCompilerTextToCompilerMessages(sender, string.Format(VECStringResources.Get("CM_LANGUAGE_{0}"), ssf) + Environment.NewLine);
                         if (StartingCompleted)
                         {
@@ -388,12 +394,12 @@ namespace VisualPascalABC
                         }
                     }
                     break;
-                case PascalABCCompiler.CompilerState.Reloading:
+                case CompilerState.Reloading:
                     if (Compiler == sender)
                         SetCompilingButtonsEnabled(false);
                     RusName = VECStringResources.Get("STATE_RELOADING");
                     break;
-                case PascalABCCompiler.CompilerState.CompilationFinished:
+                case CompilerState.CompilationFinished:
                     RusName = VECStringResources.Get("STATE_COMPILATIONFINISHED{0}");
                     if (Compiler.ErrorsList.Count == 0)
                     {
@@ -402,9 +408,9 @@ namespace VisualPascalABC
                     }
                     else
                     {
-                        List<PascalABCCompiler.Errors.Error> ErrorsList = ErrorsManager.CreateErrorsList(Compiler.ErrorsList);
+                        List<Error> ErrorsList = ErrorsManager.CreateErrorsList(Compiler.ErrorsList);
                         AddTextToCompilerMessages(string.Format(VECStringResources.Get("CM_{0}_ERROS") + Environment.NewLine, ErrorsList.Count));
-                        foreach (PascalABCCompiler.Errors.Error Err in ErrorsList)
+                        foreach (Error Err in ErrorsList)
                             AddTextToCompilerMessages(Err.ToString() + Environment.NewLine);
                     }
 
@@ -425,18 +431,18 @@ namespace VisualPascalABC
             RusName = null;
             switch (State)
             {
-                case PascalABCCompiler.CompilerState.BeginParsingFile:
+                case CompilerState.BeginParsingFile:
                     ParsedFiles.Add(FullFileName);
                     break;
-                case PascalABCCompiler.CompilerState.BeginCompileFile: RusName = VECStringResources.Get("STATETEXT_BEGINCOMPILEFILE{0}"); break;
-                //case PascalABCCompiler.CompilerState.ReadPCUFile: RusName = "Чтение {0}..."; break;
-                case PascalABCCompiler.CompilerState.CodeGeneration: RusName = VECStringResources.Get("STATETEXT_CODEGENERATION{0}"); break;
-                //case PascalABCCompiler.CompilerState.ReadDLL: 
-                //case PascalABCCompiler.CompilerState.ReadPCUFile: RusName = "Чтение {0}..."; break;
-                case PascalABCCompiler.CompilerState.Ready:
+                case CompilerState.BeginCompileFile: RusName = VECStringResources.Get("STATETEXT_BEGINCOMPILEFILE{0}"); break;
+                //case CompilerState.ReadPCUFile: RusName = "Чтение {0}..."; break;
+                case CompilerState.CodeGeneration: RusName = VECStringResources.Get("STATETEXT_CODEGENERATION{0}"); break;
+                //case CompilerState.ReadDLL: 
+                //case CompilerState.ReadPCUFile: RusName = "Чтение {0}..."; break;
+                case CompilerState.Ready:
                     if (Compiler != null)
                     {
-                        List<PascalABCCompiler.Errors.Error> ErrorsList = ErrorsManager.CreateErrorsList(Compiler.ErrorsList);
+                        List<Error> ErrorsList = ErrorsManager.CreateErrorsList(Compiler.ErrorsList);
                         if (ErrorsList.Count > 0)
                         {
                             RusName = string.Format(VECStringResources.Get("STATETEXT_{0}_ERROS"), ErrorsList.Count);
@@ -455,7 +461,7 @@ namespace VisualPascalABC
                     else
                         RusName = VECStringResources.Get("STATETEXT_READY");
                     break;
-                case PascalABCCompiler.CompilerState.Reloading: RusName = VECStringResources.Get("STATETEXT_RELOADING"); break;
+                case CompilerState.Reloading: RusName = VECStringResources.Get("STATETEXT_RELOADING"); break;
             }
             if (RusName != null)
             {
@@ -465,9 +471,9 @@ namespace VisualPascalABC
 
 
             }
-            if (!Compilation && State == PascalABCCompiler.CompilerState.CompilationStarting)
+            if (!Compilation && State == CompilerState.CompilationStarting)
                 Compilation = true;
-            if (Compilation && State == PascalABCCompiler.CompilerState.Ready)
+            if (Compilation && State == CompilerState.Ready)
                 Compilation = false;
         }
 
@@ -484,23 +490,23 @@ namespace VisualPascalABC
 
         public event ChangeVisualEnvironmentStateDelegate ChangeVisualEnvironmentState;
 
-        public PascalABCCompiler.ICompiler Compiler
+        public ICompiler Compiler
         {
             get 
             {
-                if (defaultCompilerType == PascalABCCompiler.CompilerType.Remote)
+                if (defaultCompilerType == CompilerType.Remote)
                     return remoteCompiler;
                 return standartCompiler;
         }
         }
-        public PascalABCCompiler.Compiler StandartCompiler
+        public Compiler StandartCompiler
         {
             get
             {
                 return standartCompiler;
             }
         }
-        public PascalABCCompiler.RemoteCompiler RemoteCompiler
+        public RemoteCompiler RemoteCompiler
         {
             get
             {
@@ -508,7 +514,7 @@ namespace VisualPascalABC
             }
         }
 
-        public void ExecuteSourceLocationAction(PascalABCCompiler.SourceLocation SourceLocation,SourceLocationAction Action)
+        public void ExecuteSourceLocationAction(SourceLocation SourceLocation,SourceLocationAction Action)
         {
             ExecuteSLAction(SourceLocation,Action);
         }
@@ -518,7 +524,7 @@ namespace VisualPascalABC
             return ExecuteVECAction(Action, obj);
         }
 
-        public PascalABCCompiler.CompilerType DefaultCompilerType
+        public CompilerType DefaultCompilerType
         {
             get
             {
@@ -529,7 +535,7 @@ namespace VisualPascalABC
                 if (defaultCompilerType == value)
                     return;
                 defaultCompilerType=value;
-                if (defaultCompilerType == PascalABCCompiler.CompilerType.Remote && remoteCompiler == null)
+                if (defaultCompilerType == CompilerType.Remote && remoteCompiler == null)
                 {
                     LoadRemoteCompiler();
                 }

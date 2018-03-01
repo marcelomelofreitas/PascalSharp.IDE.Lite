@@ -27,7 +27,7 @@ namespace VisualPascalABC.OptionsContent
                 tvContentList.Nodes.Add(tn);
                 nodes.Add(tn, content);
             }
-            PascalABCCompiler.StringResources.SetTextForAllObjects(this, strprefix);
+            StringResources.SetTextForAllObjects(this, strprefix);
         }
 
         private void btOk_Click(object sender, EventArgs e)

@@ -13,6 +13,9 @@ using ICSharpCode.TextEditor.Gui;
 using ICSharpCode.TextEditor.Document;
 using ICSharpCode.TextEditor.Gui.CompletionWindow;
 using ICSharpCode.TextEditor.Gui.InsightWindow;
+using PascalABCCompiler.SyntaxTree;
+using PascalSharp.Internal.CodeCompletion;
+using PascalSharp.Internal.Errors;
 
 namespace VisualPascalABC
 {
@@ -21,7 +24,7 @@ namespace VisualPascalABC
         private string fileName = null;
         private ICSharpCode.TextEditor.Document.IDocument document = null;
         private TextArea textArea = null;
-        private string[] methods; //= new List<CodeCompletion.ProcScope>();
+        private string[] methods; //= new List<ProcScope>();
         private int lookupOffset;
         private bool setupOnlyOnce;
         private int initialOffset;
@@ -40,8 +43,8 @@ namespace VisualPascalABC
 
         private string FindExpression(int off, string Text, int line, int col)
         {
-            if (CodeCompletion.CodeCompletionController.CurrentParser != null)
-                return CodeCompletion.CodeCompletionController.CurrentParser.LanguageInformation.FindExpressionForMethod(off, Text, line, col, pressed_key, ref num_param);
+            if (CodeCompletionController.CurrentParser != null)
+                return CodeCompletionController.CurrentParser.LanguageInformation.FindExpressionForMethod(off, Text, line, col, pressed_key, ref num_param);
             return null;
         }
 
@@ -51,7 +54,7 @@ namespace VisualPascalABC
             {
                 if (setupOnlyOnce && this.textArea != null)
                 {
-                    if (CodeCompletion.CodeCompletionController.CurrentParser.LanguageInformation.IsMethodCallParameterSeparator(pressed_key))
+                    if (CodeCompletionController.CurrentParser.LanguageInformation.IsMethodCallParameterSeparator(pressed_key))
                     {
                         FindExpression(textArea.Caret.Offset, textArea.Document.TextContent.Substring(0, textArea.Caret.Offset),
                                               textArea.Caret.Line, textArea.Caret.Column);
@@ -72,17 +75,17 @@ namespace VisualPascalABC
                 int col = textArea.Caret.Column;
 
                 string expr = FindExpression(off, Text, line, col);
-                List<PascalABCCompiler.Errors.Error> Errors = new List<PascalABCCompiler.Errors.Error>();
-                PascalABCCompiler.SyntaxTree.expression e = VisualPABCSingleton.MainForm.VisualEnvironmentCompiler.StandartCompiler.ParsersController.GetExpression("test.pas", expr, Errors, new List<PascalABCCompiler.Errors.CompilerWarning>());
+                List<Error> Errors = new List<Error>();
+                expression e = VisualPABCSingleton.MainForm.VisualEnvironmentCompiler.StandartCompiler.ParsersController.GetExpression("test.pas", expr, Errors, new List<CompilerWarning>());
                 if (e == null || Errors.Count > 0) return;
-                CodeCompletion.DomConverter dconv = (CodeCompletion.DomConverter)CodeCompletion.CodeCompletionController.comp_modules[fileName];
+                DomConverter dconv = (DomConverter)CodeCompletionController.comp_modules[fileName];
                 string fname = fileName;
                 if (dconv != null)
                 {
                     //if (pressed_key == '(' || pressed_key == ',')
-                    if (CodeCompletion.CodeCompletionController.CurrentParser.LanguageInformation.IsOpenBracketForMethodCall(pressed_key) || CodeCompletion.CodeCompletionController.CurrentParser.LanguageInformation.IsMethodCallParameterSeparator(pressed_key))
+                    if (CodeCompletionController.CurrentParser.LanguageInformation.IsOpenBracketForMethodCall(pressed_key) || CodeCompletionController.CurrentParser.LanguageInformation.IsMethodCallParameterSeparator(pressed_key))
                         methods = dconv.GetNameOfMethod(e, expr, line, col, num_param, ref defaultIndex, cur_param_num, out param_count);
-                    else if (CodeCompletion.CodeCompletionController.CurrentParser.LanguageInformation.IsOpenBracketForIndex(pressed_key))
+                    else if (CodeCompletionController.CurrentParser.LanguageInformation.IsOpenBracketForIndex(pressed_key))
                         methods = dconv.GetIndex(e, line, col);
                 }
             }

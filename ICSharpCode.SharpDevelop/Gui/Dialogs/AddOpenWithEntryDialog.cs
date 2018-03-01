@@ -2,12 +2,12 @@
 // This code is distributed under the GNU LGPL (for details please see \doc\license.txt)
 
 using System;
-using System.Drawing;
-using System.Windows.Forms;
 using System.IO;
+using System.Windows.Forms;
 using ICSharpCode.Core;
+using ICSharpCode.SharpDevelop.Gui.Dialogs.OptionPanels;
 
-namespace ICSharpCode.SharpDevelop.Gui
+namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 {
 	/// <summary>
 	/// This dialog is used to add a new program to the open with dialog.
@@ -42,7 +42,7 @@ namespace ICSharpCode.SharpDevelop.Gui
 		void BrowseForProgramButtonClick(object sender, EventArgs e)
 		{
 			using (OpenFileDialog dlg = new OpenFileDialog()) {
-				dlg.Filter = StringParser.Parse(OptionPanels.ExternalToolPane.ExecutableFilesFilter);
+				dlg.Filter = StringParser.Parse(ExternalToolPane.ExecutableFilesFilter);
 				if (dlg.ShowDialog(this) == DialogResult.OK) {
 					programNameTextBox.Text = "\"" + dlg.FileName + "\"";
 					if (!userEditedDisplayName) {

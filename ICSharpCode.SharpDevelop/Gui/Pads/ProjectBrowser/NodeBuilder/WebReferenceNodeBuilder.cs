@@ -4,6 +4,7 @@
 using System;
 using System.Windows.Forms;
 using ICSharpCode.SharpDevelop.Gui;
+using ICSharpCode.SharpDevelop.Gui.Dialogs.ReferenceDialog;
 
 namespace ICSharpCode.SharpDevelop.Project
 {

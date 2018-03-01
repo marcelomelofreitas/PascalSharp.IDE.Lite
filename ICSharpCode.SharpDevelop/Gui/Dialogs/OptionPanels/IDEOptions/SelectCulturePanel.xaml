@@ -1,10 +1,10 @@
 ﻿<gui:OptionPanel xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                  xmlns:sd="http://icsharpcode.net/sharpdevelop/core"
-                 xmlns:gui="clr-namespace:ICSharpCode.SharpDevelop.Gui"
+                 xmlns:gui="clr-namespace:ICSharpCode.SharpDevelop.Gui.Dialogs"
                  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                 xmlns:local="clr-namespace:ICSharpCode.SharpDevelop.Gui.OptionPanels"
+                 xmlns:local="clr-namespace:ICSharpCode.SharpDevelop.Gui.Dialogs.OptionPanels.IDEOptions"
                  x:Name="window"
-                 x:Class="ICSharpCode.SharpDevelop.Gui.OptionPanels.SelectCulturePanel">
+                 x:Class="ICSharpCode.SharpDevelop.Gui.Dialogs.OptionPanels.IDEOptions.SelectCulturePanel">
 	<gui:OptionPanel.Resources>
 		<Style TargetType="{x:Type ListView}" BasedOn="{StaticResource {x:Type ListBox}}">
 			<Setter Property="BorderBrush" Value="Black" />

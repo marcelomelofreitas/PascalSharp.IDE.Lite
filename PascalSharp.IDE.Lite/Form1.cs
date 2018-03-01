@@ -13,6 +13,11 @@ using System.Runtime.InteropServices;
 using VisualPascalABC.OptionsContent;
 using System.Security.Permissions;
 using System.ComponentModel.Design;
+using PascalSharp.Compiler;
+using PascalSharp.Internal.CompilerTools;
+using PascalSharp.Internal.CompilerTools.Errors;
+using PascalSharp.Internal.Errors;
+using PascalSharp.Internal.Localization;
 using VisualPascalABC.DockContent;
 using VisualPascalABC.Projects;
 
@@ -21,7 +26,7 @@ namespace VisualPascalABC
     [SecurityPermission(SecurityAction.LinkDemand, Flags = SecurityPermissionFlag.UnmanagedCode)]
     public partial class Form1 : Form, VisualPascalABCPlugins.IWorkbench, VisualPascalABCPlugins.IWorkbenchDocumentService
     {
-        private const string MainFormTitle = "PascalABC.NET";
+        private const string MainFormTitle = "Pascal#";
         private static bool DesignerUseable = true;
 		private static bool ProjectsUseable = true;
 #if (DEBUG)
@@ -43,7 +48,7 @@ namespace VisualPascalABC
        
         private ICSharpCode.TextEditor.Document.FileSyntaxModeProvider FileSyntaxProvider;
         
-        public PascalABCCompiler.Errors.ErrorsStrategyManager ErrorsManager = new PascalABCCompiler.Errors.ErrorsStrategyManager(PascalABCCompiler.Errors.ErrorsStrategy.FirstSemanticAndSyntax);
+        public ErrorsStrategyManager ErrorsManager = new ErrorsStrategyManager(ErrorsStrategy.FirstSemanticAndSyntax);
 
         internal bool DebuggerVisible = true;
 
@@ -69,7 +74,7 @@ namespace VisualPascalABC
 
         private CodeFileDocumentControl activeTabPage = null;
 
-        PascalABCCompiler.Errors.ErrorsStrategyManager VisualPascalABCPlugins.IWorkbench.ErrorsManager
+        ErrorsStrategyManager VisualPascalABCPlugins.IWorkbench.ErrorsManager
         {
             get
             {
@@ -209,9 +214,9 @@ namespace VisualPascalABC
                 DesignerUseable = false;
                 //DebuggerVisible = false;
             }
-        	PascalABCCompiler.StringResourcesLanguage.LoadDefaultConfig();
-            //if (PascalABCCompiler.StringResourcesLanguage.AccessibleLanguages.Count > 0)
-            //    PascalABCCompiler.StringResourcesLanguage.CurrentLanguageName = PascalABCCompiler.StringResourcesLanguage.AccessibleLanguages[0];
+        	StringResourcesLanguage.LoadDefaultConfig();
+            //if (StringResourcesLanguage.AccessibleLanguages.Count > 0)
+            //    StringResourcesLanguage.CurrentLanguageName = StringResourcesLanguage.AccessibleLanguages[0];
            
             InitializeComponent();
            
@@ -250,13 +255,13 @@ namespace VisualPascalABC
             LastOpenProjects = new List<string>();
 
             WorkbenchServiceFactory.BuildService.CompilerOptions.Debug = true;
-            WorkbenchServiceFactory.BuildService.CompilerOptions.OutputFileType = PascalABCCompiler.CompilerOptions.OutputType.ConsoleApplicaton;
+            WorkbenchServiceFactory.BuildService.CompilerOptions.OutputFileType = CompilerOptions.OutputType.ConsoleApplicaton;
 
             LocalizeControls();
 
-            tsatConsoleApplication.Tag = PascalABCCompiler.CompilerOptions.OutputType.ConsoleApplicaton;
-            tsatWindowsApplication.Tag = PascalABCCompiler.CompilerOptions.OutputType.WindowsApplication;
-            tsatDll.Tag = PascalABCCompiler.CompilerOptions.OutputType.ClassLibrary;
+            tsatConsoleApplication.Tag = CompilerOptions.OutputType.ConsoleApplicaton;
+            tsatWindowsApplication.Tag = CompilerOptions.OutputType.WindowsApplication;
+            tsatDll.Tag = CompilerOptions.OutputType.ClassLibrary;
 
             SelectAppType(WorkbenchServiceFactory.BuildService.CompilerOptions.OutputFileType);
 
@@ -281,8 +286,8 @@ namespace VisualPascalABC
 
             LoadOptions();
 
-            HelpExamplesDirectory = PascalABCCompiler.Tools.ReplaceAllKeys(Constants.HelpExamplesDirectory, WorkbenchStorage.StandartDirectories);
-            HelpTutorialExamplesDirectory = PascalABCCompiler.Tools.ReplaceAllKeys(Constants.HelpTutorialExamplesDirectory, WorkbenchStorage.StandartDirectories);
+            HelpExamplesDirectory = PascalSharp.Internal.CompilerTools.Tools.ReplaceAllKeys(Constants.HelpExamplesDirectory, WorkbenchStorage.StandartDirectories);
+            HelpTutorialExamplesDirectory = PascalSharp.Internal.CompilerTools.Tools.ReplaceAllKeys(Constants.HelpTutorialExamplesDirectory, WorkbenchStorage.StandartDirectories);
 
             UpdateUserOptions();
             ErrorsListWindow.Resized();
@@ -293,7 +298,7 @@ namespace VisualPascalABC
             if (WorkbenchStorage.WorkingDirectory == null || true)
             {
                 WorkbenchStorage.WorkingDirectoryInOptionsFile = Constants.DefaultWorkingDirectory;
-                WorkbenchStorage.WorkingDirectory = PascalABCCompiler.Tools.ReplaceAllKeys(Constants.DefaultWorkingDirectory, WorkbenchStorage.StandartDirectories);
+                WorkbenchStorage.WorkingDirectory = PascalSharp.Internal.CompilerTools.Tools.ReplaceAllKeys(Constants.DefaultWorkingDirectory, WorkbenchStorage.StandartDirectories);
             }
             if (Path.GetDirectoryName(Application.ExecutablePath).ToLower() != Environment.CurrentDirectory.ToLower())
                 WorkbenchStorage.WorkingDirectory = Environment.CurrentDirectory;
@@ -301,7 +306,7 @@ namespace VisualPascalABC
             openFileDialog1.InitialDirectory = WorkbenchStorage.WorkingDirectory;
 
             if (WorkbenchStorage.LibSourceDirectory == null)
-                WorkbenchStorage.LibSourceDirectory = PascalABCCompiler.Tools.ReplaceAllKeys(Constants.DefaultLibSourceDirectory, WorkbenchStorage.StandartDirectories);
+                WorkbenchStorage.LibSourceDirectory = PascalSharp.Internal.CompilerTools.Tools.ReplaceAllKeys(Constants.DefaultLibSourceDirectory, WorkbenchStorage.StandartDirectories);
             WorkbenchStorage.StandartDirectories.Add(Constants.LibSourceDirectoryIdent, WorkbenchStorage.LibSourceDirectory);
             AddSearchDebugPath(WorkbenchStorage.LibSourceDirectory);
 
@@ -375,13 +380,13 @@ namespace VisualPascalABC
             SetDedugButtonsEnabled(false);
             SetCompilingButtonsEnabled(false);
 
-            HelpFileName = PascalABCCompiler.Tools.ReplaceAllKeys(Constants.HelpFileName, WorkbenchStorage.StandartDirectories);
-            DotNetHelpFileName = PascalABCCompiler.Tools.ReplaceAllKeys(Constants.DotNetHelpFileName, WorkbenchStorage.StandartDirectories);
+            HelpFileName = PascalSharp.Internal.CompilerTools.Tools.ReplaceAllKeys(Constants.HelpFileName, WorkbenchStorage.StandartDirectories);
+            DotNetHelpFileName = PascalSharp.Internal.CompilerTools.Tools.ReplaceAllKeys(Constants.DotNetHelpFileName, WorkbenchStorage.StandartDirectories);
             if (!File.Exists(HelpFileName))
                 tsHelp.Visible = false;
 
-            HelpExamplesFileName = PascalABCCompiler.Tools.ReplaceAllKeys(Constants.HelpExamplesFileName, WorkbenchStorage.StandartDirectories);
-            HelpExamplesMapFileName = PascalABCCompiler.Tools.ReplaceAllKeys(Constants.HelpExamplesMapFileName, WorkbenchStorage.StandartDirectories);
+            HelpExamplesFileName = PascalSharp.Internal.CompilerTools.Tools.ReplaceAllKeys(Constants.HelpExamplesFileName, WorkbenchStorage.StandartDirectories);
+            HelpExamplesMapFileName = PascalSharp.Internal.CompilerTools.Tools.ReplaceAllKeys(Constants.HelpExamplesMapFileName, WorkbenchStorage.StandartDirectories);
 
             InitHelpProgramsDictionary(); // SSM
 
@@ -416,10 +421,10 @@ namespace VisualPascalABC
             Form1StringResources.SetTextForAllControls(this.cmEditor);
             Form1StringResources.SetTextForAllControls(this.cmBreakpointCondition);
             Form1StringResources.SetTextForAllControls(this.RunArgumentsForm);
-            PascalABCCompiler.StringResources.SetTextForAllObjects(AboutBox1, "VP_ABOUTBOXFORM_");
-            PascalABCCompiler.StringResources.SetTextForAllObjects(FindForm, "VP_FINDFORM_");
-            PascalABCCompiler.StringResources.SetTextForAllObjects(ReplaceForm, "VP_REPLACEFORM_");
-            PascalABCCompiler.StringResources.SetTextForAllObjects(GotoLineForm, "VP_GOTOLINEFORM_");
+            StringResources.SetTextForAllObjects(AboutBox1, "VP_ABOUTBOXFORM_");
+            StringResources.SetTextForAllObjects(FindForm, "VP_FINDFORM_");
+            StringResources.SetTextForAllObjects(ReplaceForm, "VP_REPLACEFORM_");
+            StringResources.SetTextForAllObjects(GotoLineForm, "VP_GOTOLINEFORM_");
         }
 
         private void SetFiltersAndHighlighting()
@@ -557,7 +562,7 @@ namespace VisualPascalABC
 
             if(_mainFormWindowStateMaximized)
                 this.WindowState = FormWindowState.Maximized;
-            //PascalABCCompiler.StringResourcesLanguage.CurrentLanguageName = "Russi         
+            //StringResourcesLanguage.CurrentLanguageName = "Russi         
 
             ChangedSelectedTab();
             VisualEnvironmentCompiler.ChangeVisualEnvironmentState += new ChangeVisualEnvironmentStateDelegate(VisualEnvironmentCompiler_ChangeVisualEnvironmentState);
@@ -605,7 +610,7 @@ namespace VisualPascalABC
                     AddTextToCompilerMessagesSync((string)obj);
                     return true;
                 case VisualEnvironmentCompilerAction.AddMessageToErrorListWindow:
-                    ErrorsListWindow.ShowErrorsSync((List<PascalABCCompiler.Errors.Error>)obj,true);
+                    ErrorsListWindow.ShowErrorsSync((List<Error>)obj,true);
                     return true;
                 case VisualEnvironmentCompilerAction.SaveFile:
                     string FileName = Tools.FileNameToLower((string)obj);
@@ -629,7 +634,7 @@ namespace VisualPascalABC
                     this.Text = String.Format(FTSFormat,MainFormText,Form1StringResources.Get("FTS_LOADING"));
                     break;
                 case VisualEnvironmentState.FinishCompilerLoading:
-                    //this.Text = String.Format("{0} v{1}",MainFormText,PascalABCCompiler.Compiler.ShortVersion);
+                    //this.Text = String.Format("{0} v{1}",MainFormText,Compiler.ShortVersion);
                     this.Text = MainFormText;
                     openFileDialog1.Filter = saveFileDialog1.Filter = VisualEnvironmentCompiler.GetFilterForDialogs();
                     openProjectDialog.Filter = VisualEnvironmentCompiler.GetProjectFilterForDialogs();
@@ -779,14 +784,14 @@ namespace VisualPascalABC
 
         private void tsat_Click(object sender, EventArgs e)
         {
-            SelectAppType((PascalABCCompiler.CompilerOptions.OutputType)((sender as ToolStripMenuItem).Tag));
+            SelectAppType((CompilerOptions.OutputType)((sender as ToolStripMenuItem).Tag));
         }
 
-        public void SelectAppType(PascalABCCompiler.CompilerOptions.OutputType outputType)
+        public void SelectAppType(CompilerOptions.OutputType outputType)
         {
             Image img = null;
             foreach (ToolStripMenuItem mi in tstaSelect.DropDownItems)
-                if (outputType == (PascalABCCompiler.CompilerOptions.OutputType)mi.Tag)
+                if (outputType == (CompilerOptions.OutputType)mi.Tag)
                     img = mi.Image;
             tstaSelect.Image = img;
             WorkbenchServiceFactory.BuildService.CompilerOptions.OutputFileType = outputType;

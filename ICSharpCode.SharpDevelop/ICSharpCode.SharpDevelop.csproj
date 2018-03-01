@@ -1,6 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>net461;net471</TargetFrameworks>
+    <LanguageTargets>$(MSBuildExtensionsPath)\$(VisualStudioVersion)\Bin\Microsoft.CSharp.targets</LanguageTargets>
+    <TargetFrameworks>net40;net45;net471</TargetFrameworks>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <OutputPath>$(SolutionDir)bin\</OutputPath>
     <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
@@ -11,6 +12,7 @@
     <GenerateAssemblyInformationalVersionAttribute>false</GenerateAssemblyInformationalVersionAttribute>
     <DefineConstants>$(DefineConstants);PUBLICINTERPROCESS</DefineConstants>
   </PropertyGroup>
+  <!-- <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" /> -->
   <ItemGroup>
     <ProjectReference Include="$(SolutionDir)AvalonDock\AvalonDock.csproj" />
     <ProjectReference Include="$(SolutionDir)ICSharpCode.AvalonEdit\ICSharpCode.AvalonEdit.csproj" />
@@ -37,9 +39,14 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Mono.Cecil" Version="0.10.0-beta7" />
-    <PackageReference Include="PascalSharp.Compiler" Version="0.1.1.1-ci.2018.2.13" />
+    <PackageReference Include="PascalSharp.Compiler" Version="0.1.2.1-ci.2018.2.28" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="**\*.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </Page>
+    <Compile Update="**\*.xaml.cs" SubType="Code" DependentUpon="%(Filename)" />
     <Compile Include="$(SolutionDir)ICSharpCode.Build.Tasks\KnownFrameworkAssemblies.cs">
       <Link>Gui\Dialogs\ReferenceDialog\KnownFrameworkAssemblies.cs</Link>
     </Compile>
@@ -69,32 +76,6 @@
       <Link>Services\RefactoringService\ExtractInterfaceDialog.resx</Link>
       <DependentUpon>ExtractInterfaceDialog.cs</DependentUpon>
     </None>
-    <Page Include="Bookmarks\Pad\Controls\ListViewPad.xaml" />
-    <Page Include="Gui\Dialogs\OptionPanels\IDEOptions\TaskListOptionsl.xaml" />
-    <Page Include="Gui\Dialogs\OptionPanels\ProjectOptions\BuildEvents.xaml" />
-    <Page Include="Gui\Dialogs\OptionPanels\ProjectOptions\DebugOptions.xaml" />
-    <Page Include="Gui\Dialogs\OptionPanels\ProjectOptions\ProjectOptionPanel.xaml">
-      <DependentUpon>ProjectOptionPanel.cs</DependentUpon>
-    </Page>
-    <Page Include="Gui\Dialogs\ReferenceDialog\ServiceReference\AddServiceReferenceDialog.xaml" />
-    <Page Include="Gui\Dialogs\ReferenceDialog\ServiceReference\AdvancedServiceDialog.xaml" />
-    <Page Include="Gui\Dialogs\ReferenceDialog\ServiceReference\ServiceReferenceOptionsPanel..xaml" />
-    <Page Include="Services\RefactoringService\ContextActions\ContextActionsBulbControl.xaml" />
-    <Page Include="Services\RefactoringService\ContextActions\ContextActionsControl.xaml" />
-    <Page Include="Services\RefactoringService\ContextActions\ContextActionsHeaderedControl.xaml" />
-    <Page Include="themes\generic.xaml" />
-    <Page Include="Gui\App.xaml" />
-    <Page Include="Gui\Components\ColorPickerButton.xaml" />
-    <Page Include="Gui\Dialogs\GotoDialog.xaml">
-      <DependentUpon>GotoDialog.cs</DependentUpon>
-    </Page>
-    <Page Include="Gui\Dialogs\OptionPanels\IDEOptions\LoadSaveOptions.xaml" />
-    <Page Include="Gui\Dialogs\OptionPanels\IDEOptions\ProjectAndSolutionOptions.xaml" />
-    <Page Include="Gui\Dialogs\OptionPanels\IDEOptions\SelectCulturePanel.xaml" />
-    <Page Include="Gui\Dialogs\TabbedOptionsDialog.xaml" />
-    <Page Include="Gui\Dialogs\TreeViewOptionsDialog.xaml" />
-    <Page Include="Gui\Workbench\WpfWorkbench.xaml" />
-    <Page Include="Project\Converter\UpgradeView.xaml" />
     <Resource Include="Services\RefactoringService\ContextActions\bulb.png" />
     <Resource Include="Services\RefactoringService\ContextActions\pencil.png" />
   </ItemGroup>

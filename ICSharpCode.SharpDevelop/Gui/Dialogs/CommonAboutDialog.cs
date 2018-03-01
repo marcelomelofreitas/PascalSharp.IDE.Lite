@@ -4,12 +4,11 @@
 using System;
 using System.Drawing;
 using System.Reflection;
-using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using ICSharpCode.Core.WinForms;
 using ICSharpCode.SharpDevelop.Gui.XmlForms;
 
-namespace ICSharpCode.SharpDevelop.Gui
+namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 {
 	public class ScrollBox : UserControl
 	{

@@ -13,7 +13,6 @@ using ICSharpCode.Core;
 using ICSharpCode.SharpDevelop.Gui;
 using ICSharpCode.SharpDevelop.Gui.Dialogs.ReferenceDialog;
 using ICSharpCode.SharpDevelop.Gui.Dialogs.ReferenceDialog.ServiceReference;
-using ICSharpCode.SharpDevelop.Gui.OptionPanels;
 
 namespace ICSharpCode.SharpDevelop.Project.Commands
 {

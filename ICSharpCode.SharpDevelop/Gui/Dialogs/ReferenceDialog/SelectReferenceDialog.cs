@@ -3,13 +3,12 @@
 
 using System;
 using System.Collections;
-using System.IO;
 using System.Windows.Forms;
 using ICSharpCode.Core;
 using ICSharpCode.Core.WinForms;
 using ICSharpCode.SharpDevelop.Project;
 
-namespace ICSharpCode.SharpDevelop.Gui
+namespace ICSharpCode.SharpDevelop.Gui.Dialogs.ReferenceDialog
 {
 	/// <summary>
 	/// Summary description for Form2.

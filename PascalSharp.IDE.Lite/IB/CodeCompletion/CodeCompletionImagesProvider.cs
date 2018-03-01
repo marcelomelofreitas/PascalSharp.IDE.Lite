@@ -5,6 +5,9 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
+using PascalABCCompiler.Parsers;
+using PascalABCCompiler.SyntaxTree;
+using PascalSharp.Internal.Localization;
 
 namespace VisualPascalABC
 {
@@ -117,98 +120,98 @@ namespace VisualPascalABC
             IconNumberExtensionMethod = AddImageFromManifestResource("Icons_16x16_ExtensionMethod");
         }
 
-        public int GetPictureNum(PascalABCCompiler.Parsers.SymInfo si)
+        public int GetPictureNum(SymInfo si)
         {
             switch (si.kind)
             {
 
-                case PascalABCCompiler.Parsers.SymbolKind.Field:
+                case SymbolKind.Field:
                     switch (si.acc_mod)
                     {
-                        case PascalABCCompiler.SyntaxTree.access_modifer.private_modifer:
+                        case access_modifer.private_modifer:
                             return IconNumberPrivateField;
-                        case PascalABCCompiler.SyntaxTree.access_modifer.protected_modifer:
+                        case access_modifer.protected_modifer:
                             return IconNumberProtectedField;
-                        case PascalABCCompiler.SyntaxTree.access_modifer.internal_modifer:
+                        case access_modifer.internal_modifer:
                             return IconNumberInternalField;
                         default:
                             return IconNumberField;
                     }
-                case PascalABCCompiler.Parsers.SymbolKind.Method:
+                case SymbolKind.Method:
                     switch (si.acc_mod)
                     {
-                        case PascalABCCompiler.SyntaxTree.access_modifer.private_modifer:
+                        case access_modifer.private_modifer:
                             return IconNumberPrivateMethod;
-                        case PascalABCCompiler.SyntaxTree.access_modifer.protected_modifer:
+                        case access_modifer.protected_modifer:
                             return IconNumberProtectedMethod;
-                        case PascalABCCompiler.SyntaxTree.access_modifer.internal_modifer:
+                        case access_modifer.internal_modifer:
                             return IconNumberInternalMethod;
                         default:
-                            if (si.description != null && si.description.Contains("(" + PascalABCCompiler.StringResources.Get("CODE_COMPLETION_EXTENSION")))
+                            if (si.description != null && si.description.Contains("(" + StringResources.Get("CODE_COMPLETION_EXTENSION")))
                                 return IconNumberExtensionMethod;
                             return IconNumberMethod;
                     }
-                case PascalABCCompiler.Parsers.SymbolKind.Property:
+                case SymbolKind.Property:
                     switch (si.acc_mod)
                     {
-                        case PascalABCCompiler.SyntaxTree.access_modifer.private_modifer:
+                        case access_modifer.private_modifer:
                             return IconNumberPrivateProperty;
-                        case PascalABCCompiler.SyntaxTree.access_modifer.protected_modifer:
+                        case access_modifer.protected_modifer:
                             return IconNumberProtectedProperty;
-                        case PascalABCCompiler.SyntaxTree.access_modifer.internal_modifer:
+                        case access_modifer.internal_modifer:
                             return IconNumberInternalProperty;
                         default:
                             return IconNumberProperty;
                     }
-                case PascalABCCompiler.Parsers.SymbolKind.Event:
+                case SymbolKind.Event:
                     switch (si.acc_mod)
                     {
-                        case PascalABCCompiler.SyntaxTree.access_modifer.private_modifer:
+                        case access_modifer.private_modifer:
                             return IconNumberPrivateEvent;
-                        case PascalABCCompiler.SyntaxTree.access_modifer.protected_modifer:
+                        case access_modifer.protected_modifer:
                             return IconNumberProtectedEvent;
-                        case PascalABCCompiler.SyntaxTree.access_modifer.internal_modifer:
+                        case access_modifer.internal_modifer:
                             return IconNumberInternalEvent;
                         default:
                             return IconNumberEvent;
                     }
-                case PascalABCCompiler.Parsers.SymbolKind.Delegate:
+                case SymbolKind.Delegate:
                     switch (si.acc_mod)
                     {
-                        case PascalABCCompiler.SyntaxTree.access_modifer.private_modifer:
+                        case access_modifer.private_modifer:
                             return IconNumberPrivateDelegate;
-                        case PascalABCCompiler.SyntaxTree.access_modifer.protected_modifer:
+                        case access_modifer.protected_modifer:
                             return IconNumberProtectedDelegate;
-                        case PascalABCCompiler.SyntaxTree.access_modifer.internal_modifer:
+                        case access_modifer.internal_modifer:
                             return IconNumberInternalDelegate;
                         default:
                             return IconNumberDelegate;
                     }
-                case PascalABCCompiler.Parsers.SymbolKind.Variable:
-                case PascalABCCompiler.Parsers.SymbolKind.Parameter:
+                case SymbolKind.Variable:
+                case SymbolKind.Parameter:
                     return IconNumberLocal;
-                case PascalABCCompiler.Parsers.SymbolKind.Type:
-                case PascalABCCompiler.Parsers.SymbolKind.Class:
+                case SymbolKind.Type:
+                case SymbolKind.Class:
                     return IconNumberClass;
-                case PascalABCCompiler.Parsers.SymbolKind.Namespace:
+                case SymbolKind.Namespace:
                     if (si.IsUnitNamespace)
                         return IconNumberUnitNamespace;
                     else
                         return IconNumberNamespace;
-                case PascalABCCompiler.Parsers.SymbolKind.Interface:
+                case SymbolKind.Interface:
                     return IconNumberInterface;
-                case PascalABCCompiler.Parsers.SymbolKind.Struct:
+                case SymbolKind.Struct:
                     return IconNumberStruct;
-                case PascalABCCompiler.Parsers.SymbolKind.Enum:
+                case SymbolKind.Enum:
                     return IconNumberEnum;
-                case PascalABCCompiler.Parsers.SymbolKind.Constant:
+                case SymbolKind.Constant:
                     switch (si.acc_mod)
                     {
-                        case PascalABCCompiler.SyntaxTree.access_modifer.private_modifer:
+                        case access_modifer.private_modifer:
                             return IconNumberPrivateConstant;
-                        case PascalABCCompiler.SyntaxTree.access_modifer.protected_modifer:
+                        case access_modifer.protected_modifer:
                             return IconNumberProtectedConstant;
-                        case PascalABCCompiler.SyntaxTree.access_modifer.internal_modifer:
+                        case access_modifer.internal_modifer:
                             return IconNumberInternalConstant;
                         default:
                             return IconNumberConstant;

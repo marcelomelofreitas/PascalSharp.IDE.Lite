@@ -10,6 +10,7 @@ using System;
 using System.ComponentModel.Design.Serialization;
 using ICSharpCode.Core;
 using ICSharpCode.SharpDevelop.Gui;
+using ICSharpCode.SharpDevelop.Gui.Dialogs;
 
 namespace ICSharpCode.FormsDesigner.Gui.OptionPanels
 {

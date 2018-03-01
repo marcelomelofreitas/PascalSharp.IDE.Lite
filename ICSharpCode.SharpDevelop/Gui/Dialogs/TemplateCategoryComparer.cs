@@ -5,7 +5,7 @@ using System;
 using System.Collections;
 using ICSharpCode.SharpDevelop.Internal.Templates;
 
-namespace ICSharpCode.SharpDevelop.Gui
+namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 {
 	public interface ICategory
 	{

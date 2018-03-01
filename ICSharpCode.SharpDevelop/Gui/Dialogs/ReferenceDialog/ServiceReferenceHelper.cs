@@ -2,11 +2,9 @@
 // This code is distributed under the GNU LGPL (for details please see \doc\license.txt)
 
 using System;
-using System.Collections;
 using System.Web.Services.Description;
-using System.Web.Services.Discovery;
 
-namespace ICSharpCode.SharpDevelop.Gui
+namespace ICSharpCode.SharpDevelop.Gui.Dialogs.ReferenceDialog
 {
 	internal static class ServiceReferenceHelper
 	{		

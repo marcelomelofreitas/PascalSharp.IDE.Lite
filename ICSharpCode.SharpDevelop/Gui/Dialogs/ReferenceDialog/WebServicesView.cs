@@ -4,11 +4,10 @@
 using System;
 using System.Web.Services.Description;
 using System.Windows.Forms;
-
 using ICSharpCode.Core;
 using ICSharpCode.Core.WinForms;
 
-namespace ICSharpCode.SharpDevelop.Gui
+namespace ICSharpCode.SharpDevelop.Gui.Dialogs.ReferenceDialog
 {
 	public class WebServicesView : System.Windows.Forms.UserControl
 	{

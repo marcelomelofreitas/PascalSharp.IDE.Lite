@@ -6,13 +6,12 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
-
 using ICSharpCode.Core;
 using ICSharpCode.SharpDevelop.Dom;
 using ICSharpCode.SharpDevelop.Editor;
 using ICSharpCode.SharpDevelop.Project;
 
-namespace ICSharpCode.SharpDevelop.Gui.OptionPanels
+namespace ICSharpCode.SharpDevelop.Gui.Dialogs.OptionPanels.ProjectOptions
 {
 	public class ApplicationSettings : AbstractXmlFormsProjectOptionPanel
 	{

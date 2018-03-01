@@ -11,10 +11,17 @@ using System.Windows.Forms;
 using System.IO;
 using VisualPascalABCPlugins;
 using VisualPascalABC.Utils;
-using Debugger;
+using PascalSharp.Internal.Debugger;
 using ICSharpCode.TextEditor;
 using ICSharpCode.TextEditor.Document;
 using System.Runtime.ExceptionServices;
+using PascalABCCompiler.Parsers;
+using PascalABCCompiler.TreeConverter;
+using PascalSharp.Internal.Debugger.Threads;
+using PascalSharp.Internal.Debugger.Variables.Types;
+using PascalSharp.Internal.Debugger.Variables.Values;
+using PascalSharp.Internal.Debugger.Variables.Variables;
+using StringResources = PascalSharp.Internal.Localization.StringResources;
 
 namespace VisualPascalABC
 {
@@ -187,7 +194,7 @@ namespace VisualPascalABC
             get
             {
                 //return ns_name;
-                return PascalABCCompiler.StringResources.Get("DEBUG_VIEW_MODULE");;
+                return StringResources.Get("DEBUG_VIEW_MODULE");;
             }
         }
 
@@ -323,9 +330,9 @@ namespace VisualPascalABC
                         List<DebugType> types = new List<DebugType>();
                         try
                         {
-                            if (val.Type.FullName.Contains(PascalABCCompiler.TreeConverter.compiler_string_consts.ImplementationSectionNamespaceName))
+                            if (val.Type.FullName.Contains(compiler_string_consts.ImplementationSectionNamespaceName))
                         	{
-                                string interf_name = val.Type.FullName.Substring(0, val.Type.FullName.IndexOf(PascalABCCompiler.TreeConverter.compiler_string_consts.ImplementationSectionNamespaceName));
+                                string interf_name = val.Type.FullName.Substring(0, val.Type.FullName.IndexOf(compiler_string_consts.ImplementationSectionNamespaceName));
                         		Type t = AssemblyHelper.GetTypeForStatic(interf_name);
                         		DebugType dt = DebugUtils.GetDebugType(t);
                         		types.Add(dt);
@@ -718,7 +725,7 @@ namespace VisualPascalABC
                         else
                             if (val.IsNull)
                                 if (WorkbenchServiceFactory.DebuggerManager.parser != null)
-                                    return WorkbenchServiceFactory.DebuggerManager.parser.LanguageInformation.GetKeyword(PascalABCCompiler.Parsers.SymbolKind.Null);
+                                    return WorkbenchServiceFactory.DebuggerManager.parser.LanguageInformation.GetKeyword(SymbolKind.Null);
                                 else
                                     return "nil";
                             else
@@ -1296,7 +1303,7 @@ namespace VisualPascalABC
 					}
 				}
 				IList<IListItem> raw_items = GetSubItems(true);
-				list.Add(new FixedItem(-1,PascalABCCompiler.StringResources.Get("DEBUG_VIEW_RAW_VIEW"),string.Empty,string.Empty,true,raw_items));
+				list.Add(new FixedItem(-1,StringResources.Get("DEBUG_VIEW_RAW_VIEW"),string.Empty,string.Empty,true,raw_items));
 			}
 			catch (System.Exception e)
 			{
@@ -1315,9 +1322,9 @@ namespace VisualPascalABC
                     IList<IListItem> lst = GetSubItemsForCollection();
                     if (lst != null) return lst;
                 }
-                string privateRes = PascalABCCompiler.StringResources.Get("DEBUG_VIEW_PRIVATE");//StringParser.Parse("${res:MainWindow.Windows.Debug.LocalVariables.PrivateMembers}");
-                string staticRes = PascalABCCompiler.StringResources.Get("DEBUG_VIEW_STATIC");//StringParser.Parse("${res:MainWindow.Windows.Debug.LocalVariables.StaticMembers}");
-                string privateStaticRes = PascalABCCompiler.StringResources.Get("DEBUG_VIEW_PRIVATE_STATIC");// StringParser.Parse("${res:MainWindow.Windows.Debug.LocalVariables.PrivateStaticMembers}");
+                string privateRes = StringResources.Get("DEBUG_VIEW_PRIVATE");//StringParser.Parse("${res:MainWindow.Windows.Debug.LocalVariables.PrivateMembers}");
+                string staticRes = StringResources.Get("DEBUG_VIEW_STATIC");//StringParser.Parse("${res:MainWindow.Windows.Debug.LocalVariables.StaticMembers}");
+                string privateStaticRes = StringResources.Get("DEBUG_VIEW_PRIVATE_STATIC");// StringParser.Parse("${res:MainWindow.Windows.Debug.LocalVariables.PrivateStaticMembers}");
 
                 List<IListItem> publicInstance = null;
                 List<IListItem> privateInstance = null;

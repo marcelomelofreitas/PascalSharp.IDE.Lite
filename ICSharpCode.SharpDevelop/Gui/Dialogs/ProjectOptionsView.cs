@@ -4,12 +4,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.IO;
-
 using ICSharpCode.Core;
-using ICSharpCode.SharpDevelop.Gui;
+using ICSharpCode.SharpDevelop.Project;
 
-namespace ICSharpCode.SharpDevelop.Project.Dialogs
+namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 {
 	/// <summary>
 	/// Option view for project options.

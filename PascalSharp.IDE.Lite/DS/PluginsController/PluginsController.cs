@@ -19,7 +19,7 @@ namespace VisualPascalABCPlugins
         }
         public override string ToString()
         {
-            return string.Format(PascalABCCompiler.StringResources.Get("VPPC_PLUGIN_{0}_LOADING_ERROR_{1}"), Path.GetFileName(FileName),Error);
+            return string.Format(StringResources.Get("VPPC_PLUGIN_{0}_LOADING_ERROR_{1}"), Path.GetFileName(FileName),Error);
         }
     }
     public class PluginsController
@@ -83,7 +83,7 @@ namespace VisualPascalABCPlugins
                         menuItem.ShortcutKeyDisplayString = Item.ShortcutKeyDisplayString;
                     menuItem.Click += new EventHandler(item_Click);
                     ToolStripMenuItem.DropDownItems.Add(menuItem);
-                    PascalABCCompiler.StringResources.SetTextForObject(menuItem, "");
+                    StringResources.SetTextForObject(menuItem, "");
                 }
             }
             if (MenuItems.Count > 1)
@@ -111,7 +111,7 @@ namespace VisualPascalABCPlugins
                     button.Click += new EventHandler(button_Click);
                     button.Tag = Item;
                     ToolStrip.Items.Add(button);
-                    PascalABCCompiler.StringResources.SetTextForObject(button, "");
+                    StringResources.SetTextForObject(button, "");
                 }
             }
             if (ToolBarItems.Count > 1)
@@ -144,14 +144,14 @@ namespace VisualPascalABCPlugins
                 switch (fi.Name.ToLower())
                 {
                     case "avalondock.dll":
-                    case "codecompletion.dll":
+                    case "dll":
                     case "compiler.dll":
                     case "compilertools.dll":
                     case "debuggercore.dll":
                     case "netgenerator.dll":
                     case "treeconverter.dll":
                     case "pascalabcparser.dll":
-                    case "syntaxtree.dll":
+                    case "dll":
                     case "semantictree.dll":
                     case "weifenluo.winformsui.docking.dll":
                     case "pluginssupport.dll":

@@ -5,11 +5,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Windows.Forms;
-
 using ICSharpCode.Core;
 using ICSharpCode.SharpDevelop.Project;
 
-namespace ICSharpCode.SharpDevelop.Gui
+namespace ICSharpCode.SharpDevelop.Gui.Dialogs.SolutionConfiguration
 {
 	public partial class SolutionConfigurationEditor
 	{

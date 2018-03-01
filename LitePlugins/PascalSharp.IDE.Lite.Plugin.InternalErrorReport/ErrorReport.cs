@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
+using PascalSharp.Internal.Localization;
 
 namespace VisualPascalABCPlugins
 {
@@ -13,12 +14,12 @@ namespace VisualPascalABCPlugins
         public ErrorReport()
         {
             InitializeComponent();
-            PascalABCCompiler.StringResources.SetTextForAllObjects(this, InternalErrorReport_VisualPascalABCPlugin.StringsPrefix + "ERRORREPORT_");
+            StringResources.SetTextForAllObjects(this, InternalErrorReport_VisualPascalABCPlugin.StringsPrefix + "ERRORREPORT_");
         }
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            System.Diagnostics.Process.Start(PascalABCCompiler.StringResources.Get("!PASCALABCNET_FORUM_LINK"));
+            System.Diagnostics.Process.Start(StringResources.Get("!PASCALABCNET_FORUM_LINK"));
         }
 
         private void linkLabel2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)

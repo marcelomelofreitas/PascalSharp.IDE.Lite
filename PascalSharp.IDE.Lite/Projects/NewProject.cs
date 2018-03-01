@@ -5,6 +5,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
+using PascalSharp.Compiler;
+using PascalSharp.Internal.Localization;
 
 namespace VisualPascalABC.Projects
 {
@@ -39,19 +41,19 @@ namespace VisualPascalABC.Projects
 			}
 		}
 		
-		public PascalABCCompiler.ProjectType ProjectType
+		public ProjectType ProjectType
 		{
 			get
 			{
 				if (this.lvTemplates.SelectedIndices.Count == 0)
-					return PascalABCCompiler.ProjectType.WindowsApp;
+					return ProjectType.WindowsApp;
 				switch (this.lvTemplates.SelectedIndices[0])
 				{
-					case 0 : return PascalABCCompiler.ProjectType.WindowsApp;
-					case 1 : return PascalABCCompiler.ProjectType.ConsoleApp;
-					case 2 : return PascalABCCompiler.ProjectType.Library;
+					case 0 : return ProjectType.WindowsApp;
+					case 1 : return ProjectType.ConsoleApp;
+					case 2 : return ProjectType.Library;
 				}
-				return PascalABCCompiler.ProjectType.WindowsApp;
+				return ProjectType.WindowsApp;
 			}
 		}
 		
@@ -108,25 +110,25 @@ namespace VisualPascalABC.Projects
 				if (this.lvTemplates.SelectedItems.Count == 0)
 				{
 					e.Cancel = true;
-					MessageBox.Show(Form1StringResources.Get("PROJECT_TEMPLATE_NOT_SELECTED"), PascalABCCompiler.StringResources.Get("!ERROR"), MessageBoxButtons.OK, MessageBoxIcon.Error);
+					MessageBox.Show(Form1StringResources.Get("PROJECT_TEMPLATE_NOT_SELECTED"), StringResources.Get("!ERROR"), MessageBoxButtons.OK, MessageBoxIcon.Error);
 					return;
 				}
 				if (string.IsNullOrEmpty(tbProjectDir.Text))
 				{
 					e.Cancel = true;
-					MessageBox.Show(Form1StringResources.Get("PROJECT_DIRECTORY_EMPTY"), PascalABCCompiler.StringResources.Get("!ERROR"), MessageBoxButtons.OK, MessageBoxIcon.Error);
+					MessageBox.Show(Form1StringResources.Get("PROJECT_DIRECTORY_EMPTY"), StringResources.Get("!ERROR"), MessageBoxButtons.OK, MessageBoxIcon.Error);
 					return;
 				}
 				if (string.IsNullOrEmpty(tbProjectName.Text))
 				{
 					e.Cancel = true;
-					MessageBox.Show(Form1StringResources.Get("PROJECT_NAME_EMPTY"), PascalABCCompiler.StringResources.Get("!ERROR"), MessageBoxButtons.OK, MessageBoxIcon.Error);
+					MessageBox.Show(Form1StringResources.Get("PROJECT_NAME_EMPTY"), StringResources.Get("!ERROR"), MessageBoxButtons.OK, MessageBoxIcon.Error);
 					return;
 				}
 				if (Directory.Exists(tbProjectDir.Text))
 				{
 					e.Cancel = true;
-					MessageBox.Show(string.Format(Form1StringResources.Get("DIRECTORY_ALREADY_EXISTS{0}"), tbProjectDir.Text), PascalABCCompiler.StringResources.Get("!ERROR"), MessageBoxButtons.OK, MessageBoxIcon.Error);
+					MessageBox.Show(string.Format(Form1StringResources.Get("DIRECTORY_ALREADY_EXISTS{0}"), tbProjectDir.Text), StringResources.Get("!ERROR"), MessageBoxButtons.OK, MessageBoxIcon.Error);
 					return;
 				}
 				
@@ -135,19 +137,19 @@ namespace VisualPascalABC.Projects
 			catch(PathTooLongException ex)
 			{
 				e.Cancel = true;
-				MessageBox.Show(string.Format(Form1StringResources.Get("TOO_LONG_FILE_NAME{0}"), Path.Combine(tbProjectDir.Text,tbProjectName.Text)), PascalABCCompiler.StringResources.Get("!ERROR"), MessageBoxButtons.OK, MessageBoxIcon.Error);
+				MessageBox.Show(string.Format(Form1StringResources.Get("TOO_LONG_FILE_NAME{0}"), Path.Combine(tbProjectDir.Text,tbProjectName.Text)), StringResources.Get("!ERROR"), MessageBoxButtons.OK, MessageBoxIcon.Error);
 				return;	
 			}
 			catch(ArgumentException ex)
 			{
 				e.Cancel = true;
-				MessageBox.Show(Form1StringResources.Get("ERROR_IN_PATH"), PascalABCCompiler.StringResources.Get("!ERROR"), MessageBoxButtons.OK, MessageBoxIcon.Error);
+				MessageBox.Show(Form1StringResources.Get("ERROR_IN_PATH"), StringResources.Get("!ERROR"), MessageBoxButtons.OK, MessageBoxIcon.Error);
 				return;	
 			}
 			catch(Exception ex)
 			{
 				e.Cancel = true;
-				MessageBox.Show(Form1StringResources.Get("ERROR_IN_PROJECT_CREATION"), PascalABCCompiler.StringResources.Get("!ERROR"), MessageBoxButtons.OK, MessageBoxIcon.Error);
+				MessageBox.Show(Form1StringResources.Get("ERROR_IN_PROJECT_CREATION"), StringResources.Get("!ERROR"), MessageBoxButtons.OK, MessageBoxIcon.Error);
 				return;
 			}
 		}

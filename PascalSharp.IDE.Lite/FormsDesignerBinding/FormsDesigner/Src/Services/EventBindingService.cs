@@ -9,6 +9,8 @@
 /// </copyright>
 //------------------------------------------------------------------------------
 
+using PascalSharp.Internal.Errors;
+using PascalSharp.Internal.Localization;
 using VisualPascalABC.DockContent;
 
 namespace ICSharpCode.FormsDesigner.Services
@@ -152,7 +154,7 @@ namespace ICSharpCode.FormsDesigner.Services
             {
                 cfdc.DesignerAndCodeTabs.SelectedTab = cfdc.TextPage;
                 VisualPascalABC.VisualPABCSingleton.MainForm.VisualEnvironmentCompiler.ExecuteSourceLocationAction(
-                    new PascalABCCompiler.SourceLocation(cfdc.FileName, ev.line_num, ev.column_num, ev.line_num, ev.column_num),
+                    new SourceLocation(cfdc.FileName, ev.line_num, ev.column_num, ev.line_num, ev.column_num),
                     VisualPascalABCPlugins.SourceLocationAction.GotoBeg);
             }
             return false;
@@ -162,8 +164,8 @@ namespace ICSharpCode.FormsDesigner.Services
         {
             VisualPascalABC.VisualPABCSingleton.MainForm._currentCodeFileDocument.DesignerAndCodeTabs.SelectedTab =
                 VisualPascalABC.VisualPABCSingleton.MainForm._currentCodeFileDocument.TextPage;
-            MessageBox.Show(PascalABCCompiler.StringResources.Get("VP_MF_CAN_NOT_NAVIGATE_TO_EVENT_HANDLER"),
-                PascalABCCompiler.StringResources.Get("VP_MF_FORM_DESIGNER"),
+            MessageBox.Show(StringResources.Get("VP_MF_CAN_NOT_NAVIGATE_TO_EVENT_HANDLER"),
+                StringResources.Get("VP_MF_FORM_DESIGNER"),
                 MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 

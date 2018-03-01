@@ -11,11 +11,10 @@ using System.Web.Services.Description;
 using System.Web.Services.Discovery;
 using System.Xml.Schema;
 using System.Xml.Serialization;
-
 using ICSharpCode.Core;
 using ICSharpCode.SharpDevelop.Project;
 
-namespace ICSharpCode.SharpDevelop.Gui
+namespace ICSharpCode.SharpDevelop.Gui.Dialogs.ReferenceDialog
 {
 	public class WebReference
 	{

@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows.Forms;
+using PascalSharp.Internal.Localization;
 
 namespace VisualPascalABC
 {
@@ -13,11 +14,11 @@ namespace VisualPascalABC
         public static readonly string Prefix = "VP_MF_";
         public static string Get(string key)
         {
-            return PascalABCCompiler.StringResources.Get(Prefix + key);
+            return StringResources.Get(Prefix + key);
         }
         public static void SetTextForAllControls(Control c)
         {
-            PascalABCCompiler.StringResources.SetTextForAllObjects(c, Prefix);
+            StringResources.SetTextForAllObjects(c, Prefix);
         }
     }
     public class RuntimeExceptionsStringResources
@@ -25,7 +26,7 @@ namespace VisualPascalABC
         public static readonly string Prefix = "RUNTIME_EXCEPTION";
         public static string Get(string key)
         {
-            string res=PascalABCCompiler.StringResources.Get(Prefix + key);
+            string res=StringResources.Get(Prefix + key);
             if (res != Prefix + key)
                 return res;
             return key;

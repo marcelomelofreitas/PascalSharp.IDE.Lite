@@ -5,18 +5,32 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using System.IO;
 using VisualPascalABCPlugins;
 using VisualPascalABC.Utils;
-using Debugger;
+using PascalSharp.Internal.Debugger;
 using ICSharpCode.TextEditor;
 using ICSharpCode.TextEditor.Document;
 using System.Runtime.ExceptionServices;
+using PascalABCCompiler.NetHelper;
+using PascalABCCompiler.Parsers;
+using PascalSharp.Compiler;
+using PascalSharp.Internal.CodeCompletion;
+using PascalSharp.Internal.Debugger.Breakpoints;
+using PascalSharp.Internal.Debugger.Debugger;
+using PascalSharp.Internal.Debugger.Debugger.DebuggerEvents;
+using PascalSharp.Internal.Debugger.Threads;
+using PascalSharp.Internal.Debugger.Variables.Types;
+using PascalSharp.Internal.Debugger.Variables.Values;
+using PascalSharp.Internal.Localization;
 using VisualPascalABC.DockContent;
 using VisualPascalABC.Projects;
+using KeywordKind = PascalABCCompiler.Parsers.KeywordKind;
+using Process = PascalSharp.Internal.Debugger.Threads.Process;
 
 namespace VisualPascalABC
 {
@@ -137,10 +151,10 @@ namespace VisualPascalABC
         {
             if (pabc_system_type == null)
             {
-                string file_name = PascalABCCompiler.Compiler.GetReferenceFileName("PABCRtl.dll");
-                System.Reflection.Assembly assm = PascalABCCompiler.NetHelper.NetHelper.LoadAssembly(file_name);
-                PascalABCCompiler.NetHelper.NetHelper.init_namespaces(assm);
-                pabc_system_type = DebugUtils.GetDebugType(PascalABCCompiler.NetHelper.NetHelper.PABCSystemType);
+                string file_name = Compiler.GetReferenceFileName("PABCRtl.dll");
+                System.Reflection.Assembly assm = NetHelper.LoadAssembly(file_name);
+                NetHelper.init_namespaces(assm);
+                pabc_system_type = DebugUtils.GetDebugType(NetHelper.PABCSystemType);
             }
             return pabc_system_type;
         }
@@ -156,12 +170,12 @@ namespace VisualPascalABC
                     if (t != null)
                         return t;
                 }
-            t = PascalABCCompiler.NetHelper.NetHelper.FindType(name);
-            if (t == null) t = PascalABCCompiler.NetHelper.NetHelper.FindType("System." + name);
+            t = NetHelper.FindType(name);
+            if (t == null) t = NetHelper.FindType("System." + name);
             if (t == null)
                 foreach (string s in ns_ht.Keys)
                 {
-                    t = PascalABCCompiler.NetHelper.NetHelper.FindType(s + "." + name);
+                    t = NetHelper.FindType(s + "." + name);
                     if (t != null)
                         break;
                 }
@@ -180,12 +194,12 @@ namespace VisualPascalABC
             		return t;
             	}
             }
-        	t = PascalABCCompiler.NetHelper.NetHelper.FindType(name+"`"+gen_types.Count);
-            if (t == null) t = PascalABCCompiler.NetHelper.NetHelper.FindType("System."+name+"`"+gen_types.Count);
+        	t = NetHelper.FindType(name+"`"+gen_types.Count);
+            if (t == null) t = NetHelper.FindType("System."+name+"`"+gen_types.Count);
             if (t == null)
             foreach (string s in ns_ht.Keys)
             {
-            	t = PascalABCCompiler.NetHelper.NetHelper.FindType(s+"."+name+"`"+gen_types.Count);
+            	t = NetHelper.FindType(s+"."+name+"`"+gen_types.Count);
             	if (t != null)
             		break;
             }
@@ -206,12 +220,12 @@ namespace VisualPascalABC
             	t = a.GetType(s+"."+name,false,true);
             	if (t != null) break;
             }
-            if (t == null) t = PascalABCCompiler.NetHelper.NetHelper.FindType(name);
-            if (t == null) t = PascalABCCompiler.NetHelper.NetHelper.FindType("System."+name);
+            if (t == null) t = NetHelper.FindType(name);
+            if (t == null) t = NetHelper.FindType("System."+name);
             if (t == null)
             foreach (string s in ns_ht.Keys)
             {
-            	t = PascalABCCompiler.NetHelper.NetHelper.FindType(s+"."+name);
+            	t = NetHelper.FindType(s+"."+name);
             	if (t != null)
             		break;
             }
@@ -305,7 +319,7 @@ namespace VisualPascalABC
         public bool IsRunning = false;
         public string ExeFileName;
 		public bool ShowDebugTabs=true;
-		public PascalABCCompiler.Parsers.IParser parser = null;
+		public IParser parser = null;
 		EventHandler<EventArgs> debuggerStateEvent;
 		
         public DebugHelper()
@@ -465,7 +479,7 @@ namespace VisualPascalABC
             this.FullFileName = Path.Combine(Path.GetDirectoryName(fileName), this.FileName);
             this.ExeFileName = fileName;
             CurrentLine = 0;
-            this.parser = CodeCompletion.CodeCompletionController.ParsersController.selectParser(Path.GetExtension(FullFileName).ToLower());
+            this.parser = CodeCompletionController.ParsersController.selectParser(Path.GetExtension(FullFileName).ToLower());
             this.PrevFullFileName = FullFileName;
             AssemblyHelper.LoadAssembly(fileName);
         	dbg.ProcessStarted += debugProcessStarted;
@@ -523,7 +537,7 @@ namespace VisualPascalABC
         	brPoint = dbg.AddBreakpoint(fileName, line);
         }
         
-        private void SelectProcess(Debugger.Process process)
+        private void SelectProcess(Process process)
         {
             if (debuggedProcess != null)
             {
@@ -1044,7 +1058,7 @@ namespace VisualPascalABC
 
         public void DoInPausedState(MethodInvoker action)
         {
-            Debugger.Process process = debuggedProcess;
+            var process = debuggedProcess;
             if (process.IsPaused)
             {
             	//System.Threading.Thread th = new System.Threading.Thread(new System.Threading.ThreadStart(delegate{action();}));
@@ -1189,8 +1203,8 @@ namespace VisualPascalABC
             		if (text[j])
             	}*/
             	sb.Insert(0,'.');
-            	PascalABCCompiler.Parsers.KeywordKind keyw=PascalABCCompiler.Parsers.KeywordKind.None;
-            	string s = CodeCompletion.CodeCompletionController.CurrentParser.LanguageInformation.
+            	KeywordKind keyw=KeywordKind.None;
+            	string s = CodeCompletionController.CurrentParser.LanguageInformation.
             		FindExpression(i,text,0,0,out keyw);
             	if (s != null)
             	{
@@ -1365,7 +1379,7 @@ namespace VisualPascalABC
                 else
                 {
                     if (evaluator == null) return null;
-                    Debugger.Wrappers.CorSym.ISymUnmanagedMethod sym_meth = debuggedProcess.SelectedFunction.symMethod;
+                    var sym_meth = debuggedProcess.SelectedFunction.symMethod;
                     //            	if (sym_meth == null) return null;
                     //               		if (sym_meth.SequencePoints.Length > 0)
                     //                 	if (num_line < sym_meth.SequencePoints[0].Line || num_line > sym_meth.SequencePoints[sym_meth.SequencePoints.Length - 1].EndLine)
@@ -1728,9 +1742,9 @@ namespace VisualPascalABC
             if (rv.err_mes != null)
                 return rv.err_mes;
             if (rv.syn_err)
-                return PascalABCCompiler.StringResources.Get("EXPR_VALUE_SYNTAX_ERROR_IN_EXPR");
+                return StringResources.Get("EXPR_VALUE_SYNTAX_ERROR_IN_EXPR");
             else
-                return PascalABCCompiler.StringResources.Get("EXPR_VALUE_ERROR_IN_EXPR");
+                return StringResources.Get("EXPR_VALUE_ERROR_IN_EXPR");
         }
         
         public void AddGoToBreakPoint(string fileName, int line)

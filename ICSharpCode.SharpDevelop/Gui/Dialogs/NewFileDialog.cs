@@ -10,13 +10,12 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using ICSharpCode.Core;
-using ICSharpCode.Core.Services;
 using ICSharpCode.SharpDevelop.Editor;
 using ICSharpCode.SharpDevelop.Gui.XmlForms;
 using ICSharpCode.SharpDevelop.Internal.Templates;
 using ICSharpCode.SharpDevelop.Project;
 
-namespace ICSharpCode.SharpDevelop.Gui
+namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 {
 	/// <summary>
 	///  This class is for creating a new "empty" file

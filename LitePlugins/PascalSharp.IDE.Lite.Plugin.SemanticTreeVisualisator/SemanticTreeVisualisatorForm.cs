@@ -5,11 +5,12 @@ using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
-using PascalABCCompiler.Errors;
-using PascalABCCompiler.SemanticTree;
 
 
 using System.Collections;
+using PascalABCCompiler.SemanticTree;
+using PascalSharp.Compiler;
+using PascalSharp.Internal.Localization;
 
 namespace VisualPascalABCPlugins
 {
@@ -22,7 +23,7 @@ namespace VisualPascalABCPlugins
         public SemanticTreeVisualisatorForm()
         {
             InitializeComponent();
-            PascalABCCompiler.StringResources.SetTextForAllObjects(this, SyntaxTreeVisualisator_VisualPascalABCPlugin.StringsPrefix);
+            StringResources.SetTextForAllObjects(this, SyntaxTreeVisualisator_VisualPascalABCPlugin.StringsPrefix);
         }
 
         private void SyntaxTreeVisualisatorForm_Load(object sender, EventArgs e)
@@ -38,7 +39,7 @@ namespace VisualPascalABCPlugins
 
         private void SyntaxTreeVisualisatorForm_Shown(object sender, EventArgs e)
         {            
-            VisualEnvironmentCompiler.StandartCompiler.OnChangeCompilerState += new PascalABCCompiler.ChangeCompilerStateEventDelegate(Compiler_OnChangeCompilerState);
+            VisualEnvironmentCompiler.StandartCompiler.OnChangeCompilerState += new ChangeCompilerStateEventDelegate(Compiler_OnChangeCompilerState);
             treeView.Nodes.Clear();
         }
         
@@ -53,15 +54,15 @@ namespace VisualPascalABCPlugins
                 return tbRebuild.Enabled;
             }
         }
-        void Compiler_OnChangeCompilerState(PascalABCCompiler.ICompiler sender, PascalABCCompiler.CompilerState State, string FileName)
+        void Compiler_OnChangeCompilerState(ICompiler sender, CompilerState State, string FileName)
         {
             switch (State)
             {
-                case PascalABCCompiler.CompilerState.CompilationStarting:
+                case CompilerState.CompilationStarting:
                     BuildButtonsEnabled = false;                
                     this.Refresh();
                     break;
-                case PascalABCCompiler.CompilerState.CompilationFinished:
+                case CompilerState.CompilationFinished:
                     ShowTree();
                     BuildButtonsEnabled = true;
                     break;
@@ -73,7 +74,7 @@ namespace VisualPascalABCPlugins
             //Пока можно посто в лоб.
             try
             {
-                PascalABCCompiler.SemanticTree.IProgramNode Root = VisualEnvironmentCompiler.StandartCompiler.SemanticTree;
+                IProgramNode Root = VisualEnvironmentCompiler.StandartCompiler.SemanticTree;
                 treeView.Nodes.Clear();                
                 // связываем Visitor и treeView.Nodes
                 Visitor = new SematicTreeVisitor(treeView.Nodes);
@@ -104,8 +105,8 @@ namespace VisualPascalABCPlugins
         private void toolStripButton1_Click(object sender, EventArgs e)
         {
             VisualEnvironmentCompiler.StandartCompiler.InternalDebug.CodeGeneration = false;
-            PascalABCCompiler.CompilerType ct = VisualEnvironmentCompiler.DefaultCompilerType;
-            VisualEnvironmentCompiler.DefaultCompilerType = PascalABCCompiler.CompilerType.Standart;
+            CompilerType ct = VisualEnvironmentCompiler.DefaultCompilerType;
+            VisualEnvironmentCompiler.DefaultCompilerType = CompilerType.Standart;
             VisualEnvironmentCompiler.ExecuteAction(VisualEnvironmentCompilerAction.Build, null);
             VisualEnvironmentCompiler.DefaultCompilerType = ct;
             VisualEnvironmentCompiler.StandartCompiler.InternalDebug.CodeGeneration = true;
@@ -114,8 +115,8 @@ namespace VisualPascalABCPlugins
         private void toolStripButton2_Click(object sender, EventArgs e)
         {
             VisualEnvironmentCompiler.StandartCompiler.InternalDebug.CodeGeneration = false;
-            PascalABCCompiler.CompilerType ct = VisualEnvironmentCompiler.DefaultCompilerType;
-            VisualEnvironmentCompiler.DefaultCompilerType = PascalABCCompiler.CompilerType.Standart;
+            CompilerType ct = VisualEnvironmentCompiler.DefaultCompilerType;
+            VisualEnvironmentCompiler.DefaultCompilerType = CompilerType.Standart;
             VisualEnvironmentCompiler.ExecuteAction(VisualEnvironmentCompilerAction.Rebuild, null);
             VisualEnvironmentCompiler.DefaultCompilerType = ct;
             VisualEnvironmentCompiler.StandartCompiler.InternalDebug.CodeGeneration = true;
@@ -133,11 +134,11 @@ namespace VisualPascalABCPlugins
 
             TreeNode tn = treeView.SelectedNode;
             mylabel.Text = "";
-            PascalABCCompiler.SemanticTree.ISemanticNode semantic_tree_node = tn.Tag as PascalABCCompiler.SemanticTree.ISemanticNode;
-            //PascalABCCompiler.SyntaxTree.syntax_tree_node syntax_tree_node = tn.Tag as PascalABCCompiler.SyntaxTree.syntax_tree_node;
+            ISemanticNode semantic_tree_node = tn.Tag as ISemanticNode;
+            //SyntaxTree.syntax_tree_node syntax_tree_node = tn.Tag as SyntaxTree.syntax_tree_node;
             //if (syntax_tree_node.source_context == null) return;
             if (semantic_tree_node == null) return;
-            PascalABCCompiler.SemanticTree.ILocated lt = semantic_tree_node as PascalABCCompiler.SemanticTree.ILocated;
+            ILocated lt = semantic_tree_node as ILocated;
             if (lt == null) return;
             if (lt.Location == null) return;
             //StatusLabel.Text = semantic_tree_node.ToString() + String.Format("({0},+{1})--({2},+{3})", lt.Location.begin_column_num, lt.Location.begin_line_num, lt.Location.end_column_num, lt.Location.end_line_num);
@@ -152,7 +153,7 @@ namespace VisualPascalABCPlugins
             //    if (Errors[syntax_tree_node] != null)
             //        StatusLabel.Text += string.Format(" [BAD{0}]", Errors[syntax_tree_node]);
             //this.VisualEnvironmentCompiler.ExecuteSourceLocationAction(
-            //    PascalABCCompiler.Tools.ConvertSourceContextToSourceLocation((syntaxTreeSelectComboBox.SelectedItem as SyntaxTreeSelectComboBoxItem).FileName, syntax_tree_node.source_context),
+            //    Tools.ConvertSourceContextToSourceLocation((syntaxTreeSelectComboBox.SelectedItem as SyntaxTreeSelectComboBoxItem).FileName, syntax_tree_node.source_context),
             //    SourceLocationAction.SelectAndGotoBeg);  
 
 
@@ -173,11 +174,11 @@ namespace VisualPascalABCPlugins
 
             TreeNode tn = treeView.SelectedNode;
             mylabel.Text = "";
-            PascalABCCompiler.SemanticTree.ISemanticNode semantic_tree_node = tn.Tag as PascalABCCompiler.SemanticTree.ISemanticNode;
-            //PascalABCCompiler.SyntaxTree.syntax_tree_node syntax_tree_node = tn.Tag as PascalABCCompiler.SyntaxTree.syntax_tree_node;
+            SemanticTree.ISemanticNode semantic_tree_node = tn.Tag as SemanticTree.ISemanticNode;
+            //SyntaxTree.syntax_tree_node syntax_tree_node = tn.Tag as SyntaxTree.syntax_tree_node;
             //if (syntax_tree_node.source_context == null) return;
             if (semantic_tree_node == null) return;
-            PascalABCCompiler.SemanticTree.ILocated lt = semantic_tree_node as PascalABCCompiler.SemanticTree.ILocated;
+            SemanticTree.ILocated lt = semantic_tree_node as SemanticTree.ILocated;
             if (lt == null) return;
             if (lt.Location == null) return;
             //StatusLabel.Text = semantic_tree_node.ToString() + String.Format("({0},+{1})--({2},+{3})", lt.Location.begin_column_num, lt.Location.begin_line_num, lt.Location.end_column_num, lt.Location.end_line_num);
@@ -192,7 +193,7 @@ namespace VisualPascalABCPlugins
             //    if (Errors[syntax_tree_node] != null)
             //        StatusLabel.Text += string.Format(" [BAD{0}]", Errors[syntax_tree_node]);
             //this.VisualEnvironmentCompiler.ExecuteSourceLocationAction(
-            //    PascalABCCompiler.Tools.ConvertSourceContextToSourceLocation((syntaxTreeSelectComboBox.SelectedItem as SyntaxTreeSelectComboBoxItem).FileName, syntax_tree_node.source_context),
+            //    Tools.ConvertSourceContextToSourceLocation((syntaxTreeSelectComboBox.SelectedItem as SyntaxTreeSelectComboBoxItem).FileName, syntax_tree_node.source_context),
             //    SourceLocationAction.SelectAndGotoBeg);  
 
 

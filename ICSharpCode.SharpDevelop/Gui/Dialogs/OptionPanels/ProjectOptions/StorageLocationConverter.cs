@@ -7,7 +7,7 @@ using System.Linq;
 using System.Windows.Data;
 using ICSharpCode.SharpDevelop.Project;
 
-namespace ICSharpCode.SharpDevelop.Gui.OptionPanels
+namespace ICSharpCode.SharpDevelop.Gui.Dialogs.OptionPanels.ProjectOptions
 {
 	public class StorageLocationConverter : IMultiValueConverter
 	{

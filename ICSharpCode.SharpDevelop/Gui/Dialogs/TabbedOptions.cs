@@ -2,17 +2,14 @@
 // This code is distributed under the GNU LGPL (for details please see \doc\license.txt)
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-
-using ICSharpCode.Core;
 using System.Windows.Threading;
+using ICSharpCode.Core;
 
-namespace ICSharpCode.SharpDevelop.Gui
+namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 {
 	/// <summary>
 	/// TabControl for option panels.

@@ -7,8 +7,10 @@ using System.Drawing;
 using System.Data;
 using System.Text;
 using System.Windows.Forms;
+using PascalSharp.Internal.CompilerTools.Errors;
+using PascalSharp.Internal.Localization;
 using VisualPascalABCPlugins;
-using PascalABCCompiler.Errors;
+
 
 namespace VisualPascalABC.OptionsContent
 {
@@ -20,12 +22,12 @@ namespace VisualPascalABC.OptionsContent
         {
             this.MainForm = MainForm;
             InitializeComponent();
-            PascalABCCompiler.StringResources.SetTextForAllObjects(this, strprefix);
-            foreach (string lng in PascalABCCompiler.StringResourcesLanguage.AccessibleLanguages)
+            StringResources.SetTextForAllObjects(this, strprefix);
+            foreach (string lng in StringResourcesLanguage.AccessibleLanguages)
             {
                 languageSelect.Items.Add(lng);
             }
-            if (PascalABCCompiler.StringResourcesLanguage.AccessibleLanguages.Count == 0)
+            if (StringResourcesLanguage.AccessibleLanguages.Count == 0)
                 languageSelect.Enabled = false;
         }
 
@@ -36,14 +38,14 @@ namespace VisualPascalABC.OptionsContent
         {
             get
             {
-                return PascalABCCompiler.StringResources.Get(strprefix + "NAME");
+                return StringResources.Get(strprefix + "NAME");
             }
         }
         public string Description
         {
             get
             {
-                return PascalABCCompiler.StringResources.Get(strprefix + "DESCRIPTION");
+                return StringResources.Get(strprefix + "DESCRIPTION");
             }
         }
 
@@ -59,15 +61,15 @@ namespace VisualPascalABC.OptionsContent
                 case OptionsContentAction.Show:
                     if (!alreadyShown)
                     {
-                        languageSelect.SelectedItem = PascalABCCompiler.StringResourcesLanguage.CurrentLanguageName;
+                        languageSelect.SelectedItem = StringResourcesLanguage.CurrentLanguageName;
                         cbSaveFilesIfComilationOk.Checked = MainForm.UserOptions.SaveSourceFilesIfComilationOk;
                         cbPauseInRunModeIfConsole.Checked = MainForm.UserOptions.PauseInRunModeIfConsole;
 
 
                         cbErrorsStrategy.Items.Clear();
-                        //cbErrorsStrategy.Items.Add(PascalABCCompiler.StringResources.Get(strprefix + "ES_ALL"));
-                        cbErrorsStrategy.Items.Add(PascalABCCompiler.StringResources.Get(strprefix + "ES_FIRSTONLY"));
-                        cbErrorsStrategy.Items.Add(PascalABCCompiler.StringResources.Get(strprefix + "ES_FIRSTSEMANTICANDSYNTAX"));
+                        //cbErrorsStrategy.Items.Add(StringResources.Get(strprefix + "ES_ALL"));
+                        cbErrorsStrategy.Items.Add(StringResources.Get(strprefix + "ES_FIRSTONLY"));
+                        cbErrorsStrategy.Items.Add(StringResources.Get(strprefix + "ES_FIRSTSEMANTICANDSYNTAX"));
                         switch (MainForm.ErrorsManager.Strategy)
                         {
                             /*case ErrorsStrategy.All:
@@ -131,8 +133,8 @@ namespace VisualPascalABC.OptionsContent
 
         private void languageSelect_SelectedIndexChanged(object sender, EventArgs e)
         {
-            PascalABCCompiler.StringResourcesLanguage.CurrentLanguageName = (string)languageSelect.SelectedItem;
-            CodeCompletionParserController.CurrentTwoLetterISO = PascalABCCompiler.StringResourcesLanguage.CurrentTwoLetterISO;
+            StringResourcesLanguage.CurrentLanguageName = (string)languageSelect.SelectedItem;
+            CodeCompletionParserController.CurrentTwoLetterISO = StringResourcesLanguage.CurrentTwoLetterISO;
         }
 
         private void cbShowDebugPlayPauseButtons_CheckedChanged(object sender, EventArgs e)

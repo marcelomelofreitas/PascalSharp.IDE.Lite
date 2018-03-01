@@ -3,17 +3,18 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using PascalSharp.Internal.Errors;
 
 namespace VisualPascalABC
 {
-    class RuntimeException: PascalABCCompiler.Errors.LocatedError
+    class RuntimeException: LocatedError
     {
         string message;
         public RuntimeException(string Message, string FileName, int ColNumber, int LineNumber)
         {
             this.fileName = FileName;
             this.message = Message;
-            sourceLocation = new PascalABCCompiler.SourceLocation(fileName, LineNumber, ColNumber, LineNumber, ColNumber);
+            sourceLocation = new SourceLocation(fileName, LineNumber, ColNumber, LineNumber, ColNumber);
         }
         public override string Message
         {
@@ -28,7 +29,7 @@ namespace VisualPascalABC
         }
 
     }
-    class ExceptionInStartEXE : PascalABCCompiler.Errors.LocatedError
+    class ExceptionInStartEXE : LocatedError
     {
         public ExceptionInStartEXE(string FileName)
         {

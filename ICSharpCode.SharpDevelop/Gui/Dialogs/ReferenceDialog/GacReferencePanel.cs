@@ -8,14 +8,13 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
-using Mono.Cecil;
 using ICSharpCode.Build.Tasks;
 using ICSharpCode.Core;
-using ICSharpCode.NRefactory.Ast;
 using ICSharpCode.SharpDevelop.Dom;
 using ICSharpCode.SharpDevelop.Project;
+using Mono.Cecil;
 
-namespace ICSharpCode.SharpDevelop.Gui
+namespace ICSharpCode.SharpDevelop.Gui.Dialogs.ReferenceDialog
 {
 	public class GacReferencePanel : UserControl, IReferencePanel
 	{

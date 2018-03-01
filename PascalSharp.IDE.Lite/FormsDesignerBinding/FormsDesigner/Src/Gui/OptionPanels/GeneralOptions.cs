@@ -1,11 +1,12 @@
 ﻿// Copyright (c) AlphaSierraPapa for the SharpDevelop Team (for details please see \doc\copyright.txt)
 // This code is distributed under the GNU LGPL (for details please see \doc\license.txt)
 
-using ICSharpCode.SharpDevelop.Gui.OptionPanels;
+
 using System;
 using System.Windows.Forms;
 using ICSharpCode.Core;
 using ICSharpCode.SharpDevelop.Gui;
+using ICSharpCode.SharpDevelop.Gui.Dialogs.OptionPanels;
 
 namespace ICSharpCode.FormsDesigner.Gui.OptionPanels
 {

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Text;
 using Converter;
 using System.IO;
+using PascalABCCompiler.SemanticTree;
+using PascalSharp.Compiler;
 
 namespace VisualPascalABCPlugins
 {
@@ -47,8 +49,8 @@ namespace VisualPascalABCPlugins
         {
             MyCompilation = true;
             VisualEnvironmentCompiler.StandartCompiler.InternalDebug.CodeGeneration = false;
-            PascalABCCompiler.CompilerType ct = VisualEnvironmentCompiler.DefaultCompilerType;
-            VisualEnvironmentCompiler.DefaultCompilerType = PascalABCCompiler.CompilerType.Standart;
+            CompilerType ct = VisualEnvironmentCompiler.DefaultCompilerType;
+            VisualEnvironmentCompiler.DefaultCompilerType = CompilerType.Standart;
             VisualEnvironmentCompiler.ExecuteAction(VisualEnvironmentCompilerAction.Build, null);
             VisualEnvironmentCompiler.DefaultCompilerType = ct;
             VisualEnvironmentCompiler.StandartCompiler.InternalDebug.CodeGeneration = true;
@@ -69,14 +71,14 @@ namespace VisualPascalABCPlugins
             TextFormatterForm = new TextFormatterForm();
             TextFormatterForm.Plugin = this;
             TextFormatterForm.Init();
-            VisualEnvironmentCompiler.StandartCompiler.OnChangeCompilerState += new PascalABCCompiler.ChangeCompilerStateEventDelegate(Compiler_OnChangeCompilerState);
+            VisualEnvironmentCompiler.StandartCompiler.OnChangeCompilerState += new ChangeCompilerStateEventDelegate(Compiler_OnChangeCompilerState);
         }
 
         public void ConvertSourceText()
         {
             try
             {
-                PascalABCCompiler.SemanticTree.IProgramNode Root = VisualEnvironmentCompiler.StandartCompiler.SemanticTree;
+                IProgramNode Root = VisualEnvironmentCompiler.StandartCompiler.SemanticTree;
                 //SemanticNodeConverter semanticNodeConverter = new SemanticNodeConverter(new ListSyntRules(
                 //    System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().ManifestModule.FullyQualifiedName) + "\\Rules_CS.txt"), TextFormatter/*new TextFormatter()*/);
 
@@ -101,15 +103,15 @@ namespace VisualPascalABCPlugins
         }        
 
         bool MyCompilation = false;
-        void Compiler_OnChangeCompilerState(PascalABCCompiler.ICompiler sender, PascalABCCompiler.CompilerState State, string FileName)
+        void Compiler_OnChangeCompilerState(ICompiler sender, CompilerState State, string FileName)
         {
             if (!MyCompilation) return;
             switch (State)
             {
-                case PascalABCCompiler.CompilerState.CompilationStarting:
+                case CompilerState.CompilationStarting:
                     //this.Refresh();
                     break;
-                case PascalABCCompiler.CompilerState.CompilationFinished:
+                case CompilerState.CompilationFinished:
                     ConvertSourceText();
                     MyCompilation = false;
                     break;

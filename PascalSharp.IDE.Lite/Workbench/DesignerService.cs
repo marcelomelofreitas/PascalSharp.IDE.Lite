@@ -9,6 +9,7 @@ using System.Text;
 using System.Windows.Forms;
 using ICSharpCode.FormsDesigner;
 using ICSharpCode.SharpDevelop.Gui;
+using PascalSharp.Internal.Localization;
 using VisualPascalABC.DockContent;
 using VisualPascalABCPlugins;
 using WeifenLuo.WinFormsUI.Docking;
@@ -296,8 +297,8 @@ namespace VisualPascalABC
         {
             if (_currentCodeFileDocument.DesignerAndCodeTabs == null)
             {
-                string caption = PascalABCCompiler.StringResources.Get("VP_MF_FORM_DESIGNER");
-                string text = PascalABCCompiler.StringResources.Get("VP_MF_SHOULD_CREATE_FORM_FIRST");
+                string caption = StringResources.Get("VP_MF_FORM_DESIGNER");
+                string text = StringResources.Get("VP_MF_SHOULD_CREATE_FORM_FIRST");
                 MessageBox.Show(text, caption, MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }
@@ -313,8 +314,8 @@ namespace VisualPascalABC
         {
             if (_currentCodeFileDocument.DesignerAndCodeTabs == null)
             {
-                //string caption = PascalABCCompiler.StringResources.Get("VP_MF_FORM_DESIGNER");
-                //string text = PascalABCCompiler.StringResources.Get("VP_MF_SHOULD_CREATE_FORM_FIRST");
+                //string caption = StringResources.Get("VP_MF_FORM_DESIGNER");
+                //string text = StringResources.Get("VP_MF_SHOULD_CREATE_FORM_FIRST");
                 //MessageBox.Show(text, caption, MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
             }

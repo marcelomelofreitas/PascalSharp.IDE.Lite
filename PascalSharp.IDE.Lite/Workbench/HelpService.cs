@@ -8,6 +8,8 @@ using VisualPascalABCPlugins;
 using System.Threading;
 using PascalABCCompiler.Parsers;
 using System.Text;
+using PascalSharp.Internal.CodeCompletion;
+using PascalSharp.Internal.Localization;
 
 namespace VisualPascalABC
 {
@@ -58,7 +60,7 @@ namespace VisualPascalABC
 
         public void OpenMSDN()
         {
-            AddTabWithUrl(MainDockPanel, PascalABCCompiler.StringResources.Get("VP_MF_M_DOTNET_HELP"), "http://msdn.microsoft.com/ru-ru/library/w0x726c2%28v=vs.100%29.aspx");
+            AddTabWithUrl(MainDockPanel, StringResources.Get("VP_MF_M_DOTNET_HELP"), "http://msdn.microsoft.com/ru-ru/library/w0x726c2%28v=vs.100%29.aspx");
         }
 
         private string getMSDNUrlByName(string s, Position pos)
@@ -95,7 +97,7 @@ namespace VisualPascalABC
                 case "string":
                     return false;
             }
-            if (CodeCompletion.CodeCompletionController.CurrentParser == null) return false;
+            if (CodeCompletionController.CurrentParser == null) return false;
             List<Position> poses = CodeCompletionActionsManager.GetDefinitionPosition(CurrentSyntaxEditor.TextEditor.ActiveTextAreaControl.TextArea, true);
             if (poses == null || poses.Count == 0) return false;
             foreach (Position pos in poses)
@@ -113,7 +115,7 @@ namespace VisualPascalABC
             {
                 if (HelpPrograms == null)
                     return false;
-                string name = PascalABCCompiler.Tools.ReplaceAllKeys(Constants.WorkingDirectoryIdent, WorkbenchStorage.StandartDirectories);
+                string name = PascalSharp.Internal.CompilerTools.Tools.ReplaceAllKeys(Constants.WorkingDirectoryIdent, WorkbenchStorage.StandartDirectories);
                 name += "\\Samples\\";
                 if (HelpPrograms.ContainsKey((int)m.WParam))
                 {

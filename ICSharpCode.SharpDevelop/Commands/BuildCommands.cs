@@ -11,6 +11,7 @@ using ICSharpCode.Core.Presentation;
 using ICSharpCode.SharpDevelop.Debugging;
 using ICSharpCode.SharpDevelop.Gui;
 using System.Windows.Input;
+using ICSharpCode.SharpDevelop.Gui.Dialogs.SolutionConfiguration;
 
 namespace ICSharpCode.SharpDevelop.Project.Commands
 {

@@ -1,15 +1,12 @@
 ﻿// Copyright (c) AlphaSierraPapa for the SharpDevelop Team (for details please see \doc\copyright.txt)
 // This code is distributed under the GNU LGPL (for details please see \doc\license.txt)
 
-using System;
 using System.ComponentModel;
 using System.Windows.Input;
-
-using ICSharpCode.SharpDevelop.Gui.Dialogs.ReferenceDialog.ServiceReference;
 using ICSharpCode.SharpDevelop.Widgets;
 using Microsoft.Win32;
 
-namespace ICSharpCode.SharpDevelop.Gui.OptionPanels.ServiceReference
+namespace ICSharpCode.SharpDevelop.Gui.Dialogs.ReferenceDialog.ServiceReference
 {
 	public partial class ServiceReferenceOptionsPanel : OptionPanel, INotifyPropertyChanged
 	{

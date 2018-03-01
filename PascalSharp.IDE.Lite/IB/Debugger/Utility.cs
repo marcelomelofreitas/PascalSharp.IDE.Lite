@@ -4,13 +4,18 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics;
 using System.Text;
 using System.IO;
 using System.Threading;
 using VisualPascalABCPlugins;
 using VisualPascalABC.Utils;
-using Debugger;
+using PascalSharp.Internal.Debugger;
 using System.Runtime.ExceptionServices;
+using PascalSharp.Internal.Debugger.Variables.Evals;
+using PascalSharp.Internal.Debugger.Variables.Types;
+using PascalSharp.Internal.Debugger.Variables.Values;
+using Process = PascalSharp.Internal.Debugger.Threads.Process;
 
 namespace VisualPascalABC
 {
@@ -54,17 +59,17 @@ namespace VisualPascalABC
 
         public static MethodInfo GetMethod(DebugType t, string name)
         {
-            return t.GetMember(name, Debugger.BindingFlags.All)[0] as MethodInfo;
+            return t.GetMember(name, BindingFlags.All)[0] as MethodInfo;
         }
 
         public static PropertyInfo GetProperty(DebugType t, string name)
         {
-            return t.GetMember(name, Debugger.BindingFlags.All)[0] as PropertyInfo;
+            return t.GetMember(name, BindingFlags.All)[0] as PropertyInfo;
         }
 
         public static DebugType GetDebugType(Type t)
         {
-            Process p = WorkbenchServiceFactory.DebuggerManager.DebuggedProcess;
+            var p = WorkbenchServiceFactory.DebuggerManager.DebuggedProcess;
             string name;
             if (t.Assembly == typeof(int).Assembly)
                 name = "mscorlib.dll";

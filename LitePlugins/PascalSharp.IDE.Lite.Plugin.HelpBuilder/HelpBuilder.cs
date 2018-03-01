@@ -2,14 +2,14 @@
 using System.Windows.Forms;
 using System.Collections;
 using System.Collections.Generic;
-using PascalABCCompiler.SyntaxTree;
 using System.Threading;
 using System.Diagnostics;
 using System.Xml;
 using System.Text;
 using System.IO;
-using PascalABCCompiler.SemanticTree;
 using System.Text.RegularExpressions;
+using PascalABCCompiler.SemanticTree;
+using PascalSharp.Internal.Localization;
 
 namespace VisualPascalABCPlugins
 {
@@ -271,7 +271,7 @@ namespace VisualPascalABCPlugins
                 output_dir = Path.Combine(options.WorkingDirectory, "help_" + Path.GetFileNameWithoutExtension(options.OutputCHMFileName));
                 foreach (string s in file_names)
                 {
-                    CompilationProgress(string.Format(PascalABCCompiler.StringResources.Get(HelpBuilder_VisualPascalABCPlugin.StringsPrefix + "PARSING_{0}"), Path.GetFileName(s)));
+                    CompilationProgress(string.Format(StringResources.Get(HelpBuilder_VisualPascalABCPlugin.StringsPrefix + "PARSING_{0}"), Path.GetFileName(s)));
                     if (!parser.Parse(s))
                     {
                         vec.StandartCompiler.InternalDebug.DocumentedUnits.Clear();
@@ -288,11 +288,11 @@ namespace VisualPascalABCPlugins
                 {
                     if (parser.namespaces.Count <= i)
                     {
-                        MessageBox.Show(PascalABCCompiler.StringResources.Get(HelpBuilder_VisualPascalABCPlugin.StringsPrefix + "PROGRAMM_MUST_HAVE_NAME"), PascalABCCompiler.StringResources.Get(HelpBuilder_VisualPascalABCPlugin.StringsPrefix + "ERROR"), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show(StringResources.Get(HelpBuilder_VisualPascalABCPlugin.StringsPrefix + "PROGRAMM_MUST_HAVE_NAME"), StringResources.Get(HelpBuilder_VisualPascalABCPlugin.StringsPrefix + "ERROR"), MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return null;
                     }
                     parser.set_ns(i++);
-                    CompilationProgress(string.Format(PascalABCCompiler.StringResources.Get(HelpBuilder_VisualPascalABCPlugin.StringsPrefix + "GENERATING_HTML_{0}"), Path.GetFileName(s)));
+                    CompilationProgress(string.Format(StringResources.Get(HelpBuilder_VisualPascalABCPlugin.StringsPrefix + "GENERATING_HTML_{0}"), Path.GetFileName(s)));
                     if (BuildHelp(s) == null)
                         return null;
                     classes.Clear();
@@ -304,9 +304,9 @@ namespace VisualPascalABCPlugins
                     consts.Clear();
                 }
                 GenerateChmProjectFiles();
-                CompilationProgress(string.Format(PascalABCCompiler.StringResources.Get(HelpBuilder_VisualPascalABCPlugin.StringsPrefix + "CHM_GENERATION_{0}"), options.OutputCHMFileName));
+                CompilationProgress(string.Format(StringResources.Get(HelpBuilder_VisualPascalABCPlugin.StringsPrefix + "CHM_GENERATION_{0}"), options.OutputCHMFileName));
                 BuildChm();
-                CompilationProgress(PascalABCCompiler.StringResources.Get(HelpBuilder_VisualPascalABCPlugin.StringsPrefix + "READY"));
+                CompilationProgress(StringResources.Get(HelpBuilder_VisualPascalABCPlugin.StringsPrefix + "READY"));
                 if (options.GenerateCHM)
                 {
                     if (File.Exists(Path.Combine(output_dir, options.OutputCHMFileName)))
@@ -345,7 +345,7 @@ namespace VisualPascalABCPlugins
 			XmlReaderSettings settings = new XmlReaderSettings();
 			if (!File.Exists(name))
 			{
-				MessageBox.Show(PascalABCCompiler.StringResources.Get(HelpBuilder_VisualPascalABCPlugin.StringsPrefix+"XML_NOT_FOUND"));
+				MessageBox.Show(StringResources.Get(HelpBuilder_VisualPascalABCPlugin.StringsPrefix+"XML_NOT_FOUND"));
 				return false;
 			}
   			reader = XmlTextReader.Create(name,settings);

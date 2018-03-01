@@ -2,16 +2,14 @@
 // This code is distributed under the GNU LGPL (for details please see \doc\license.txt)
 
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Windows.Forms;
 using ICSharpCode.Core;
 using ICSharpCode.SharpDevelop.Project;
 using ICSharpCode.SharpDevelop.Project.Converter;
 using StringPair = System.Collections.Generic.KeyValuePair<string, string>;
 
-namespace ICSharpCode.SharpDevelop.Gui.OptionPanels
+namespace ICSharpCode.SharpDevelop.Gui.Dialogs.OptionPanels.ProjectOptions
 {
 	public class AbstractBuildOptions : AbstractXmlFormsProjectOptionPanel
 	{

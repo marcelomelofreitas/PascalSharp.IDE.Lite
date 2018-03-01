@@ -7,6 +7,8 @@ using System.Windows.Forms;
 using VisualPascalABC;
 using PascalABCCompiler;
 using System.Text.RegularExpressions;
+using PascalSharp.Internal.Errors;
+
 namespace VisualPascalABC
 {
     public class SymbolsViewerSymbol
@@ -40,10 +42,10 @@ namespace VisualPascalABC
         ImageList imageList;
         public bool showInThread;
         VisualPascalABCPlugins.InvokeDegegate beginInvoke;
-        PascalABCCompiler.SourceFilesProviderDelegate sourceFilesProvider;
+        SourceFilesProviderDelegate sourceFilesProvider;
         VisualEnvironmentCompiler.ExecuteSourceLocationActionDelegate ExecuteSourceLocationAction;
         public SymbolsViwer(ListView listView, ImageList imageList, bool showInThread, VisualPascalABCPlugins.InvokeDegegate beginInvoke,
-            PascalABCCompiler.SourceFilesProviderDelegate sourceFilesProvider, VisualEnvironmentCompiler.ExecuteSourceLocationActionDelegate ExecuteSourceLocationAction)
+            SourceFilesProviderDelegate sourceFilesProvider, VisualEnvironmentCompiler.ExecuteSourceLocationActionDelegate ExecuteSourceLocationAction)
         {
             this.listView = listView;
             this.imageList = imageList;
@@ -96,7 +98,7 @@ namespace VisualPascalABC
             List<ListViewItem> ListViewItems = new List<ListViewItem>();
             foreach (SymbolsViewerSymbol sym in symbolList)
             {
-                string text = (string)sourceFilesProvider(sym.SourceLocation.FileName, PascalABCCompiler.SourceFileOperation.GetText);
+                string text = (string)sourceFilesProvider(sym.SourceLocation.FileName, SourceFileOperation.GetText);
                 if (text == null)
                     continue;
                 string txt = string.Format(OutputFormat, sym.SourceLocation.FileName, sym.SourceLocation.BeginPosition.Line, sym.SourceLocation.BeginPosition.Column, GetTextLineFromNumber(sym.SourceLocation.BeginPosition.Line - 1, text));

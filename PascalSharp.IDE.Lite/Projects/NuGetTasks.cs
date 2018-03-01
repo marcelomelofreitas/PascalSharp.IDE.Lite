@@ -19,7 +19,7 @@ namespace VisualPascalABC.Projects
             dir = Path.Combine(dir, packageId);
             Directory.CreateDirectory(dir);
             Process nugetProcess = new Process();
-            nugetProcess.StartInfo.FileName = Path.Combine(PascalABCCompiler.Tools.GetExecutablePath(), "nuget.exe");
+            nugetProcess.StartInfo.FileName = Path.Combine(Tools.GetExecutablePath(), "nuget.exe");
             nugetProcess.StartInfo.UseShellExecute = false;
             nugetProcess.StartInfo.Arguments = "install "+packageId+ " -NonInteractive";
             nugetProcess.StartInfo.CreateNoWindow = true;

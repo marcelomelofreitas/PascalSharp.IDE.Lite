@@ -1,13 +1,10 @@
 ﻿// Copyright (c) AlphaSierraPapa for the SharpDevelop Team (for details please see \doc\copyright.txt)
 // This code is distributed under the GNU LGPL (for details please see \doc\license.txt)
 
-using System;
 using System.Collections.Generic;
-
-using ICSharpCode.NRefactory.Ast;
 using ICSharpCode.SharpDevelop.Project;
 
-namespace ICSharpCode.SharpDevelop.Gui
+namespace ICSharpCode.SharpDevelop.Gui.Dialogs.ReferenceDialog
 {
 	/// <summary>
 	/// Contains the changes that a WebReference has undergone after being

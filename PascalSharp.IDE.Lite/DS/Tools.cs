@@ -7,6 +7,8 @@ using System.Windows.Forms;
 using System.IO;
 using System.Runtime.InteropServices;
 using Microsoft.Win32;
+using PascalABCCompiler;
+using PascalSharp.Internal.Localization;
 
 namespace VisualPascalABC
 {
@@ -54,7 +56,7 @@ namespace VisualPascalABC
 
         public static string MakeFilter(string Filter, string Name, string[] Extensions)
         {
-            string sf = PascalABCCompiler.FormatTools.ExtensionsToString(Extensions, "*", ";");
+            string sf = FormatTools.ExtensionsToString(Extensions, "*", ";");
             sf = string.Format(VECStringResources.Get("DIALOGS_FILTER_PART_{0}{1}|{1}|"), Name, sf);
             if (sf.IndexOf(".pas") >= 0)
                 return sf + Filter;
@@ -65,7 +67,7 @@ namespace VisualPascalABC
         
         public static string MakeProjectFilter(string Filter, string Name, string[] Extensions)
         {
-            string sf = PascalABCCompiler.FormatTools.ExtensionsToString(Extensions, "*", ";");
+            string sf = FormatTools.ExtensionsToString(Extensions, "*", ";");
             sf = string.Format(VECStringResources.Get("DIALOGS_PROJECT_FILTER_PART_{0}{1}|{1}|"), Name, sf);
             if (sf.IndexOf(".pabcproj") >= 0)
                 return sf + Filter;
@@ -76,7 +78,7 @@ namespace VisualPascalABC
         
         public static string MakeAllFilter(string AllFilter, string Name, string[] Extensions)
         {
-            string sf = PascalABCCompiler.FormatTools.ExtensionsToString(Extensions, "*", ";");
+            string sf = FormatTools.ExtensionsToString(Extensions, "*", ";");
             sf += ";";
             if (sf.IndexOf(".pas;") >= 0)
                 return sf + AllFilter;
@@ -101,7 +103,7 @@ namespace VisualPascalABC
 
         public static string GetRangeDescription(int selectedItem, int itemCount)
         {
-            return string.Format(PascalABCCompiler.StringResources.Get("CODE_COMPLETION_{0}_FROM_{1}"), selectedItem, itemCount);
+            return string.Format(StringResources.Get("CODE_COMPLETION_{0}_FROM_{1}"), selectedItem, itemCount);
         }
 
         public static bool IsUnix()

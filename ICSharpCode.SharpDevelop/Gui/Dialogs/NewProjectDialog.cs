@@ -6,13 +6,12 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
-
 using ICSharpCode.Core;
 using ICSharpCode.Core.WinForms;
-using ICSharpCode.SharpDevelop.Gui;
 using ICSharpCode.SharpDevelop.Internal.Templates;
+using ICSharpCode.SharpDevelop.Project;
 
-namespace ICSharpCode.SharpDevelop.Project.Dialogs
+namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 {
 	/// <summary>
 	/// Description of NewProjectDialog.

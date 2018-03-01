@@ -8,6 +8,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using PascalSharp.Internal.Localization;
 using WeifenLuo.WinFormsUI.Docking;
 
 namespace VisualPascalABC
@@ -17,7 +18,7 @@ namespace VisualPascalABC
         public PropertiesForm()
         {
             InitializeComponent();
-            TabText = PascalABCCompiler.StringResources.Get("VP_MF_M_PROPERTIES");
+            TabText = StringResources.Get("VP_MF_M_PROPERTIES");
         }
 
         private void PropertiesForm_Load(object sender, EventArgs e)

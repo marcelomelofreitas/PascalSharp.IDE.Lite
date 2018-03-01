@@ -12,6 +12,8 @@ using System.IO;
 using PascalABCCompiler.SemanticTree;
 using System.Text.RegularExpressions;
 using System.Reflection;
+using PascalSharp.Internal.CodeCompletion;
+using PascalSharp.Internal.Localization;
 
 namespace VisualPascalABCPlugins
 {
@@ -1519,7 +1521,7 @@ namespace VisualPascalABCPlugins
 
 		public static string get_localization(string name)
 		{
-			return PascalABCCompiler.StringResources.Get(HelpBuilder_VisualPascalABCPlugin.StringsPrefix+name);
+			return StringResources.Get(HelpBuilder_VisualPascalABCPlugin.StringsPrefix+name);
 		}
 		
 		public static string get_return_value_description(string doc)
@@ -1673,32 +1675,32 @@ namespace VisualPascalABCPlugins
 
         public static string GetDocumentation(Type t)
         {
-            return CodeCompletion.AssemblyDocCache.GetFullDocumentation(t);
+            return AssemblyDocCache.GetFullDocumentation(t);
         }
 
         public static string GetDocumentation(MethodInfo t)
         {
-            return CodeCompletion.AssemblyDocCache.GetFullDocumentation(t);
+            return AssemblyDocCache.GetFullDocumentation(t);
         }
 
         public static string GetDocumentation(ConstructorInfo t)
         {
-            return CodeCompletion.AssemblyDocCache.GetFullDocumentation(t);
+            return AssemblyDocCache.GetFullDocumentation(t);
         }
 
         public static string GetDocumentation(PropertyInfo t)
         {
-            return CodeCompletion.AssemblyDocCache.GetFullDocumentation(t);
+            return AssemblyDocCache.GetFullDocumentation(t);
         }
 
         public static string GetDocumentation(FieldInfo t)
         {
-            return CodeCompletion.AssemblyDocCache.GetFullDocumentation(t);
+            return AssemblyDocCache.GetFullDocumentation(t);
         }
 
         public static string GetDocumentation(EventInfo t)
         {
-            return CodeCompletion.AssemblyDocCache.GetFullDocumentation(t);
+            return AssemblyDocCache.GetFullDocumentation(t);
         }
     }
 }

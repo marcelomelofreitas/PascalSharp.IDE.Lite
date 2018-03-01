@@ -3,6 +3,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using PascalSharp.Internal.Localization;
 
 namespace VisualPascalABC
 {
@@ -13,7 +14,7 @@ namespace VisualPascalABC
         public ObjectLocalisator(object val, string str)
         {
             vaule = val;
-            this.str = PascalABCCompiler.StringResources.Get(str);
+            this.str = StringResources.Get(str);
         }
         public object Value
         {

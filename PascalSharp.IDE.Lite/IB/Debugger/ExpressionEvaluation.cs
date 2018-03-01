@@ -2,11 +2,22 @@
 // This code is distributed under the GNU LGPL (for details please see \doc\license.txt)
 using System;
 using System.Collections.Generic;
-using PascalABCCompiler.SyntaxTree;
+using PascalSharp.Internal.SyntaxTree;
 using System.Text;
-using Debugger;
+using PascalSharp.Internal.Debugger;
 using VisualPascalABCPlugins;
 using System.Runtime.ExceptionServices;
+using PascalABCCompiler.SyntaxTree;
+using PascalABCCompiler.TreeConverter;
+using PascalSharp.Internal.Debugger.Threads;
+using PascalSharp.Internal.Debugger.Variables.Evals;
+using PascalSharp.Internal.Debugger.Variables.Types;
+using PascalSharp.Internal.Debugger.Variables.Values;
+using PascalSharp.Internal.Debugger.Variables.Variables;
+using PascalSharp.Internal.Errors;
+using Process = PascalSharp.Internal.Debugger.Threads.Process;
+using StringResources = PascalSharp.Internal.Localization.StringResources;
+
 
 namespace VisualPascalABC
 {
@@ -75,7 +86,7 @@ namespace VisualPascalABC
     {
         public override string ToString()
         {
-            return PascalABCCompiler.StringResources.Get("EXPR_VALUE_INCOMPATIBLE_TYPES_IN_EXPRESSION");
+            return StringResources.Get("EXPR_VALUE_INCOMPATIBLE_TYPES_IN_EXPRESSION");
         }
     }
 
@@ -90,7 +101,7 @@ namespace VisualPascalABC
 
         public override string ToString()
         {
-            return string.Format(PascalABCCompiler.StringResources.Get("EXPR_VALUE_VARIABLE_EXPECTED_TYPE_{0}_FOUND"), name);
+            return string.Format(StringResources.Get("EXPR_VALUE_VARIABLE_EXPECTED_TYPE_{0}_FOUND"), name);
         }
     }
 
@@ -98,7 +109,7 @@ namespace VisualPascalABC
     {
         public override string ToString()
         {
-            return string.Format(PascalABCCompiler.StringResources.Get("EXPR_VALUE_NO_SUITABLE_METHOD"));
+            return string.Format(StringResources.Get("EXPR_VALUE_NO_SUITABLE_METHOD"));
         }
     }
 
@@ -112,7 +123,7 @@ namespace VisualPascalABC
 
         public override string ToString()
         {
-            return string.Format(PascalABCCompiler.StringResources.Get("EXPR_VALUE_OPERATOR_{0}_NOT_IN_TYPE"), op);
+            return string.Format(StringResources.Get("EXPR_VALUE_OPERATOR_{0}_NOT_IN_TYPE"), op);
         }
     }
 
@@ -127,7 +138,7 @@ namespace VisualPascalABC
 
         public override string ToString()
         {
-            return string.Format(PascalABCCompiler.StringResources.Get("EXPR_VALUE_WRONG_NUMBER_ARGUMENTS_IN_{0}"), name);
+            return string.Format(StringResources.Get("EXPR_VALUE_WRONG_NUMBER_ARGUMENTS_IN_{0}"), name);
         }
     }
 
@@ -142,7 +153,7 @@ namespace VisualPascalABC
 
         public override string ToString()
         {
-            return string.Format(PascalABCCompiler.StringResources.Get("EXPR_VALUE_WRONG_TYPE_OF_ARGUMENT_IN_{0}"), name);
+            return string.Format(StringResources.Get("EXPR_VALUE_WRONG_TYPE_OF_ARGUMENT_IN_{0}"), name);
         }
     }
 
@@ -150,7 +161,7 @@ namespace VisualPascalABC
     {
         public override string ToString()
         {
-            return PascalABCCompiler.StringResources.Get("EXPR_VALUE_WRONG_TYPE_IN_INDEXER");
+            return StringResources.Get("EXPR_VALUE_WRONG_TYPE_IN_INDEXER");
         }
     }
 
@@ -158,7 +169,7 @@ namespace VisualPascalABC
     {
         public override string ToString()
         {
-            return PascalABCCompiler.StringResources.Get("EXPR_VALUE_WRONG_INDEXERS_NUMBER");
+            return StringResources.Get("EXPR_VALUE_WRONG_INDEXERS_NUMBER");
         }
     }
 
@@ -166,7 +177,7 @@ namespace VisualPascalABC
     {
         public override string ToString()
         {
-            return PascalABCCompiler.StringResources.Get("EXPR_VALUE_NO_INDEXER_PROPERTY");
+            return StringResources.Get("EXPR_VALUE_NO_INDEXER_PROPERTY");
         }
     }
 
@@ -181,7 +192,7 @@ namespace VisualPascalABC
 
         public override string ToString()
         {
-            return string.Format(PascalABCCompiler.StringResources.Get("EXPR_VALUE_NAME_{0}_IS_NOT_STATIC"), name);
+            return string.Format(StringResources.Get("EXPR_VALUE_NAME_{0}_IS_NOT_STATIC"), name);
         }
     }
 
@@ -189,7 +200,7 @@ namespace VisualPascalABC
     {
         public override string ToString()
         {
-            return PascalABCCompiler.StringResources.Get("EXPR_VALUE_LOWER_BOUND_GREATER_THAN_UPPER_BOUND");
+            return StringResources.Get("EXPR_VALUE_LOWER_BOUND_GREATER_THAN_UPPER_BOUND");
         }
     }
 
@@ -197,7 +208,7 @@ namespace VisualPascalABC
     {
         public override string ToString()
         {
-            return PascalABCCompiler.StringResources.Get("EXPR_VALUE_INVALID_EXPRESSION_TYPE_IN_DIAPASON");
+            return StringResources.Get("EXPR_VALUE_INVALID_EXPRESSION_TYPE_IN_DIAPASON");
         }
     }
 
@@ -212,23 +223,23 @@ namespace VisualPascalABC
 
         public override string ToString()
         {
-            return string.Format(PascalABCCompiler.StringResources.Get("EXPR_VALUE_UNKNOWN_NAME_{0}"), name);
+            return string.Format(StringResources.Get("EXPR_VALUE_UNKNOWN_NAME_{0}"), name);
         }
     }
 
     /// <summary>
     /// Класс для вычисления выражений при отладке (WATCH)
     /// </summary>
-    public class ExpressionEvaluator : PascalABCCompiler.SyntaxTree.AbstractVisitor
+    public class ExpressionEvaluator : AbstractVisitor
     {
         private Stack<RetValue> eval_stack = new Stack<RetValue>();
         private RetValue ret_val;
-        private Debugger.Process debuggedProcess;
+        private Process debuggedProcess;
         private IVisualEnvironmentCompiler vec;
         private string FileName;
         private bool for_immediate = false;
 
-        public ExpressionEvaluator(Debugger.Process debuggedProcess, IVisualEnvironmentCompiler vec, string FileName)
+        public ExpressionEvaluator(Process debuggedProcess, IVisualEnvironmentCompiler vec, string FileName)
         {
             this.debuggedProcess = debuggedProcess;
             this.vec = vec;
@@ -247,8 +258,8 @@ namespace VisualPascalABC
             ret_val = default(RetValue);
             this.for_immediate = for_immediate;
             string fileName = "test" + System.IO.Path.GetExtension(this.FileName);
-            List<PascalABCCompiler.Errors.Error> Errors = new List<PascalABCCompiler.Errors.Error>();
-            List<PascalABCCompiler.Errors.CompilerWarning> Warnings = new List<PascalABCCompiler.Errors.CompilerWarning>();
+            List<Error> Errors = new List<Error>();
+            List<CompilerWarning> Warnings = new List<CompilerWarning>();
             syntax_tree_node e = null;
             if (for_immediate)
             {
@@ -348,8 +359,8 @@ namespace VisualPascalABC
             preformat = expr.Trim(' ', '\n', '\r', '\t');
             names.Clear();
             string fileName = "test" + System.IO.Path.GetExtension(this.FileName);
-            List<PascalABCCompiler.Errors.Error> Errors = new List<PascalABCCompiler.Errors.Error>();
-            expression e = vec.StandartCompiler.ParsersController.GetExpression(fileName, expr, Errors, new List<PascalABCCompiler.Errors.CompilerWarning>());
+            List<Error> Errors = new List<Error>();
+            expression e = vec.StandartCompiler.ParsersController.GetExpression(fileName, expr, Errors, new List<CompilerWarning>());
             RetValue res = new RetValue(); res.syn_err = false;
             try
             {
@@ -716,7 +727,7 @@ namespace VisualPascalABC
                 }
                 else
                 {
-                    res.obj_val = EvalCommonOperation(left.obj_val, right.obj_val, PascalABCCompiler.TreeConverter.compiler_string_consts.GetNETOperName(PascalABCCompiler.TreeConverter.compiler_string_consts.plus_name), "+");
+                    res.obj_val = EvalCommonOperation(left.obj_val, right.obj_val, compiler_string_consts.GetNETOperName(compiler_string_consts.plus_name), "+");
                 }
             }
             eval_stack.Push(res);
@@ -757,7 +768,7 @@ namespace VisualPascalABC
             }
             if (left.Type == right.Type)
             {
-                IList<MemberInfo> mems = left.Type.GetMember(op, Debugger.BindingFlags.All);
+                IList<MemberInfo> mems = left.Type.GetMember(op, BindingFlags.All);
                 if (mems != null && mems.Count == 1 && mems[0] is MethodInfo)
                 {
                     MethodInfo mi = mems[0] as MethodInfo;
@@ -1026,7 +1037,7 @@ namespace VisualPascalABC
                 }
                 else
                 {
-                    res.obj_val = EvalCommonOperation(left.obj_val, right.obj_val, PascalABCCompiler.TreeConverter.compiler_string_consts.GetNETOperName(PascalABCCompiler.TreeConverter.compiler_string_consts.minus_name), "-");
+                    res.obj_val = EvalCommonOperation(left.obj_val, right.obj_val, compiler_string_consts.GetNETOperName(compiler_string_consts.minus_name), "-");
                 }
             }
             eval_stack.Push(res);
@@ -1288,7 +1299,7 @@ namespace VisualPascalABC
                 }
                 else
                 {
-                    res.obj_val = EvalCommonOperation(left.obj_val, right.obj_val, PascalABCCompiler.TreeConverter.compiler_string_consts.GetNETOperName(PascalABCCompiler.TreeConverter.compiler_string_consts.mul_name), "*");
+                    res.obj_val = EvalCommonOperation(left.obj_val, right.obj_val, compiler_string_consts.GetNETOperName(compiler_string_consts.mul_name), "*");
                 }
             }
             eval_stack.Push(res);
@@ -1537,7 +1548,7 @@ namespace VisualPascalABC
                     left.obj_val = DebugUtils.MakeValue(left.prim_val);
                 if (right.obj_val == null && right.prim_val != null)
                     right.obj_val = DebugUtils.MakeValue(right.prim_val);
-                res.obj_val = EvalCommonOperation(left.obj_val, right.obj_val, PascalABCCompiler.TreeConverter.compiler_string_consts.GetNETOperName(PascalABCCompiler.TreeConverter.compiler_string_consts.div_name), "/");
+                res.obj_val = EvalCommonOperation(left.obj_val, right.obj_val, compiler_string_consts.GetNETOperName(compiler_string_consts.div_name), "/");
             }
             eval_stack.Push(res);
         }
@@ -1725,7 +1736,7 @@ namespace VisualPascalABC
                     left.obj_val = DebugUtils.MakeValue(left.prim_val);
                 if (right.obj_val == null && right.prim_val != null)
                     right.obj_val = DebugUtils.MakeValue(right.prim_val);
-                res.obj_val = EvalCommonOperation(left.obj_val, right.obj_val, PascalABCCompiler.TreeConverter.compiler_string_consts.GetNETOperName(PascalABCCompiler.TreeConverter.compiler_string_consts.idiv_name), "div");
+                res.obj_val = EvalCommonOperation(left.obj_val, right.obj_val, compiler_string_consts.GetNETOperName(compiler_string_consts.idiv_name), "div");
             }
             eval_stack.Push(res);
         }
@@ -1923,7 +1934,7 @@ namespace VisualPascalABC
                     left.obj_val = DebugUtils.MakeValue(left.prim_val);
                 if (right.obj_val == null && right.prim_val != null)
                     right.obj_val = DebugUtils.MakeValue(right.prim_val);
-                res.obj_val = EvalCommonOperation(left.obj_val, right.obj_val, PascalABCCompiler.TreeConverter.compiler_string_consts.GetNETOperName(PascalABCCompiler.TreeConverter.compiler_string_consts.and_name), "and");
+                res.obj_val = EvalCommonOperation(left.obj_val, right.obj_val, compiler_string_consts.GetNETOperName(compiler_string_consts.and_name), "and");
             }
         }
 
@@ -2119,7 +2130,7 @@ namespace VisualPascalABC
                     left.obj_val = DebugUtils.MakeValue(left.prim_val);
                 if (right.obj_val == null && right.prim_val != null)
                     right.obj_val = DebugUtils.MakeValue(right.prim_val);
-                res.obj_val = EvalCommonOperation(left.obj_val, right.obj_val, PascalABCCompiler.TreeConverter.compiler_string_consts.GetNETOperName(PascalABCCompiler.TreeConverter.compiler_string_consts.plus_name), "-");
+                res.obj_val = EvalCommonOperation(left.obj_val, right.obj_val, compiler_string_consts.GetNETOperName(compiler_string_consts.plus_name), "-");
             }
         }
 
@@ -2970,7 +2981,7 @@ namespace VisualPascalABC
                     }
                     else
                     {
-                        string op = PascalABCCompiler.TreeConverter.compiler_string_consts.GetNETOperName(PascalABCCompiler.TreeConverter.compiler_string_consts.eq_name);
+                        string op = compiler_string_consts.GetNETOperName(compiler_string_consts.eq_name);
                         if (left.obj_val.Type != right.obj_val.Type)
                         {
                             Type left_type = AssemblyHelper.GetType(left.obj_val.Type.FullName);
@@ -3004,7 +3015,7 @@ namespace VisualPascalABC
                         }
                         if (left.obj_val.Type == right.obj_val.Type)
                         {
-                            IList<MemberInfo> mems = left.obj_val.Type.GetMember(op, Debugger.BindingFlags.All);
+                            IList<MemberInfo> mems = left.obj_val.Type.GetMember(op, BindingFlags.All);
                             if (mems != null && mems.Count == 1 && mems[0] is MethodInfo)
                             {
                                 MethodInfo mi = mems[0] as MethodInfo;
@@ -3322,7 +3333,7 @@ namespace VisualPascalABC
                     }
                     else
                     {
-                        string op = PascalABCCompiler.TreeConverter.compiler_string_consts.GetNETOperName(PascalABCCompiler.TreeConverter.compiler_string_consts.noteq_name);
+                        string op = compiler_string_consts.GetNETOperName(compiler_string_consts.noteq_name);
                         if (left.obj_val.Type != right.obj_val.Type)
                         {
                             Type left_type = AssemblyHelper.GetType(left.obj_val.Type.FullName);
@@ -3356,7 +3367,7 @@ namespace VisualPascalABC
                         }
                         if (left.obj_val.Type == right.obj_val.Type)
                         {
-                            IList<MemberInfo> mems = left.obj_val.Type.GetMember(op, Debugger.BindingFlags.All);
+                            IList<MemberInfo> mems = left.obj_val.Type.GetMember(op, BindingFlags.All);
                             if (mems != null && mems.Count == 1 && mems[0] is MethodInfo)
                             {
                                 MethodInfo mi = mems[0] as MethodInfo;
@@ -3649,7 +3660,7 @@ namespace VisualPascalABC
                 }
                 else
                 {
-                    res.obj_val = EvalCommonOperation(left.obj_val, right.obj_val, PascalABCCompiler.TreeConverter.compiler_string_consts.GetNETOperName(PascalABCCompiler.TreeConverter.compiler_string_consts.sm_name), "<");
+                    res.obj_val = EvalCommonOperation(left.obj_val, right.obj_val, compiler_string_consts.GetNETOperName(compiler_string_consts.sm_name), "<");
                 }
             }
             eval_stack.Push(res);
@@ -3931,7 +3942,7 @@ namespace VisualPascalABC
                 }
                 else
                 {
-                    res.obj_val = EvalCommonOperation(left.obj_val, right.obj_val, PascalABCCompiler.TreeConverter.compiler_string_consts.GetNETOperName(PascalABCCompiler.TreeConverter.compiler_string_consts.smeq_name), "<=");
+                    res.obj_val = EvalCommonOperation(left.obj_val, right.obj_val, compiler_string_consts.GetNETOperName(compiler_string_consts.smeq_name), "<=");
                 }
             }
             eval_stack.Push(res);
@@ -4214,7 +4225,7 @@ namespace VisualPascalABC
                 }
                 else
                 {
-                    res.obj_val = EvalCommonOperation(left.obj_val, right.obj_val, PascalABCCompiler.TreeConverter.compiler_string_consts.GetNETOperName(PascalABCCompiler.TreeConverter.compiler_string_consts.gr_name), ">");
+                    res.obj_val = EvalCommonOperation(left.obj_val, right.obj_val, compiler_string_consts.GetNETOperName(compiler_string_consts.gr_name), ">");
                 }
             }
             eval_stack.Push(res);
@@ -4497,7 +4508,7 @@ namespace VisualPascalABC
                 }
                 else
                 {
-                    res.obj_val = EvalCommonOperation(left.obj_val, right.obj_val, PascalABCCompiler.TreeConverter.compiler_string_consts.GetNETOperName(PascalABCCompiler.TreeConverter.compiler_string_consts.greq_name), ">=");
+                    res.obj_val = EvalCommonOperation(left.obj_val, right.obj_val, compiler_string_consts.GetNETOperName(compiler_string_consts.greq_name), ">=");
                 }
             }
             eval_stack.Push(res);
@@ -4687,7 +4698,7 @@ namespace VisualPascalABC
                     left.obj_val = DebugUtils.MakeValue(left.prim_val);
                 if (right.obj_val == null && right.prim_val != null)
                     right.obj_val = DebugUtils.MakeValue(right.prim_val);
-                res.obj_val = EvalCommonOperation(left.obj_val, right.obj_val, PascalABCCompiler.TreeConverter.compiler_string_consts.GetNETOperName(PascalABCCompiler.TreeConverter.compiler_string_consts.mod_name), "mod");
+                res.obj_val = EvalCommonOperation(left.obj_val, right.obj_val, compiler_string_consts.GetNETOperName(compiler_string_consts.mod_name), "mod");
             }
         }
 
@@ -4844,9 +4855,9 @@ namespace VisualPascalABC
             }
             else
             {
-                string op = PascalABCCompiler.TreeConverter.compiler_string_consts.GetNETOperName(PascalABCCompiler.TreeConverter.compiler_string_consts.not_name);
+                string op = compiler_string_consts.GetNETOperName(compiler_string_consts.not_name);
                 {
-                    IList<MemberInfo> mems = left.obj_val.Type.GetMember(op, Debugger.BindingFlags.All);
+                    IList<MemberInfo> mems = left.obj_val.Type.GetMember(op, BindingFlags.All);
                     if (mems != null && mems.Count == 1 && mems[0] is MethodInfo)
                     {
                         MethodInfo mi = mems[0] as MethodInfo;
@@ -6118,7 +6129,7 @@ namespace VisualPascalABC
                         {
                             if (_default_property.GetGetMethod().GetParameters().Length != indices.Count)
                                 throw new WrongIndexersNumber();
-                            MethodInfo mi2 = rv.obj_val.Type.GetMember(_default_property.GetGetMethod().Name, Debugger.BindingFlags.All)[0] as MethodInfo;
+                            MethodInfo mi2 = rv.obj_val.Type.GetMember(_default_property.GetGetMethod().Name, BindingFlags.All)[0] as MethodInfo;
                             RetValue res = new RetValue();
                             res.obj_val = mi2.Invoke(rv.obj_val, get_val_arr(indices, _default_property.DeclaringType == typeof(string), _default_property.GetGetMethod()));
                             check_for_out_of_range(res.obj_val);
@@ -6139,11 +6150,11 @@ namespace VisualPascalABC
             {
                 //if (v is ArrayElement || true )
                 //    return v.AsString != null?v.AsString.Replace("{", "").Replace("}", ""):"";
-                IList<MemberInfo> mis = v.Type.GetMember("ToString", Debugger.BindingFlags.All);
+                IList<MemberInfo> mis = v.Type.GetMember("ToString", BindingFlags.All);
                 DebugType tmp = v.Type.BaseType;
                 while (mis.Count == 0 && tmp != null)
                 {
-                    mis = tmp.GetMember("ToString", Debugger.BindingFlags.All);
+                    mis = tmp.GetMember("ToString", BindingFlags.All);
                     tmp = tmp.BaseType;
                     if (tmp != null && tmp.BaseType.FullName == "System.Object")
                         break;
@@ -6154,10 +6165,10 @@ namespace VisualPascalABC
                 v = mi.Invoke(v, new Value[0]);
                 if (v != null) return v.PrimitiveValue as string;
             }
-            catch (Debugger.TooLongEvaluation ex)
+            catch (TooLongEvaluation ex)
             {
                 is_failed = true;
-                return PascalABCCompiler.StringResources.Get("DEBUG_VIEW_TOO_LONG_EVALUATION");
+                return StringResources.Get("DEBUG_VIEW_TOO_LONG_EVALUATION");
             }
             catch (System.Exception)
             {
@@ -6432,7 +6443,7 @@ namespace VisualPascalABC
                         throw new CommonEvaluationError(new NullReferenceException());
                     ident id = _dot_node.right as ident;
                     names.Add("." + id.name);
-                    //IList<Debugger.MemberInfo> members = rv.obj_val.Type.GetMember(id.name, BindingFlags.All);
+                    //IList<MemberInfo> members = rv.obj_val.Type.GetMember(id.name, BindingFlags.All);
                     if (rv.obj_val.IsArray)
                     {
                         if (string.Compare(id.name, "Length", true) == 0)

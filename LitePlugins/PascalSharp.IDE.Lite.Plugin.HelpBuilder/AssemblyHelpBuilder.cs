@@ -3,14 +3,15 @@ using System.Windows.Forms;
 using System.Reflection;
 using System.Collections;
 using System.Collections.Generic;
-using PascalABCCompiler.SyntaxTree;
 using System.Threading;
 using System.Diagnostics;
 using System.Xml;
 using System.Text;
 using System.IO;
-using PascalABCCompiler.SemanticTree;
 using System.Text.RegularExpressions;
+using PascalABCCompiler.SemanticTree;
+using PascalSharp.Internal.CodeCompletion;
+using PascalSharp.Internal.Localization;
 
 namespace VisualPascalABCPlugins
 {
@@ -96,7 +97,7 @@ namespace VisualPascalABCPlugins
                 copy_files();
                 int i = 0;
                 if (CompilationProgress != null)
-                CompilationProgress(string.Format(PascalABCCompiler.StringResources.Get(HelpBuilder_VisualPascalABCPlugin.StringsPrefix + "GENERATING_HTML_{0}"), Path.GetFileName(a.ManifestModule.Name)));
+                CompilationProgress(string.Format(StringResources.Get(HelpBuilder_VisualPascalABCPlugin.StringsPrefix + "GENERATING_HTML_{0}"), Path.GetFileName(a.ManifestModule.Name)));
                 if (_BuildHelp(a) == null)
                     return null;
                 classes.Clear();
@@ -108,9 +109,9 @@ namespace VisualPascalABCPlugins
                 consts.Clear();
                 GenerateChmProjectFiles();
                 if (CompilationProgress != null)
-                CompilationProgress(string.Format(PascalABCCompiler.StringResources.Get(HelpBuilder_VisualPascalABCPlugin.StringsPrefix + "CHM_GENERATION_{0}"), options.OutputCHMFileName));
+                CompilationProgress(string.Format(StringResources.Get(HelpBuilder_VisualPascalABCPlugin.StringsPrefix + "CHM_GENERATION_{0}"), options.OutputCHMFileName));
                 BuildChm();
-                CompilationProgress(PascalABCCompiler.StringResources.Get(HelpBuilder_VisualPascalABCPlugin.StringsPrefix + "READY"));
+                CompilationProgress(StringResources.Get(HelpBuilder_VisualPascalABCPlugin.StringsPrefix + "READY"));
                 if (options.GenerateCHM)
                 {
                     if (File.Exists(Path.Combine(output_dir, options.OutputCHMFileName)))
@@ -133,7 +134,7 @@ namespace VisualPascalABCPlugins
 			string name = Path.ChangeExtension(a.ManifestModule.Name,".xml");
             if (!File.Exists(name))
             {
-                //MessageBox.Show(PascalABCCompiler.StringResources.Get(HelpBuilder_VisualPascalABCPlugin.StringsPrefix + "XML_NOT_FOUND"));
+                //MessageBox.Show(StringResources.Get(HelpBuilder_VisualPascalABCPlugin.StringsPrefix + "XML_NOT_FOUND"));
                 //return null;
             }
 			if (GenerateDoc(a))
@@ -144,7 +145,7 @@ namespace VisualPascalABCPlugins
 		private bool GenerateDoc(Assembly a)
 		{
 			XmlReaderSettings settings = new XmlReaderSettings();
-		    string name = CodeCompletion.AssemblyDocCache.Load(a,a.ManifestModule.FullyQualifiedName);
+		    string name = AssemblyDocCache.Load(a,a.ManifestModule.FullyQualifiedName);
             if (name == null)
             {
                 bool ru = false;

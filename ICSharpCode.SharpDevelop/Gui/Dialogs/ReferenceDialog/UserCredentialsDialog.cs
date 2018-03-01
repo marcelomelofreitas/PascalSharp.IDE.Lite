@@ -4,7 +4,7 @@
 using System;
 using ICSharpCode.Core;
 
-namespace ICSharpCode.SharpDevelop.Gui
+namespace ICSharpCode.SharpDevelop.Gui.Dialogs.ReferenceDialog
 {
 	public class UserCredentialsDialog : System.Windows.Forms.Form
 	{

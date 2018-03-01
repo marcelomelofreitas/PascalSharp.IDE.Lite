@@ -6,6 +6,8 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.IO;
+using PascalABCCompiler;
+using PascalSharp.Internal.Errors;
 using VisualPascalABC.Projects;
 
 namespace VisualPascalABC
@@ -119,7 +121,7 @@ namespace VisualPascalABC
                         (Path.GetDirectoryName(StackTraceItem.SourceFileName) == WorkbenchServiceFactory.BuildService.CompilerOptions.SearchDirectory ||
                         Path.GetDirectoryName(StackTraceItem.SourceFileName) == WorkbenchServiceFactory.BuildService.CompilerOptions.SearchDirectory+"Source"))
                         continue;
-                    if (!(bool)Workbench.VisualEnvironmentCompiler.SourceFilesProvider(StackTraceItem.SourceFileName, PascalABCCompiler.SourceFileOperation.Exists))
+                    if (!(bool)Workbench.VisualEnvironmentCompiler.SourceFilesProvider(StackTraceItem.SourceFileName, SourceFileOperation.Exists))
                     {
                         string fn = Path.Combine(WorkbenchStorage.LibSourceDirectory, Path.GetFileName(StackTraceItem.SourceFileName));
                         if (File.Exists(fn))
@@ -133,7 +135,7 @@ namespace VisualPascalABC
             }
             if (ToSend != null)
             {
-                List<PascalABCCompiler.Errors.Error> list = new List<PascalABCCompiler.Errors.Error>();
+                List<Error> list = new List<Error>();
                 list.Add(new RuntimeException(
                     string.Format(
                     Form1StringResources.Get("ERRORLIST_RUNTIME_EXCEPTION_MESSAGE{0}"),

@@ -11,6 +11,7 @@ using System.Text.RegularExpressions;
 
 using ICSharpCode.Core;
 using ICSharpCode.SharpDevelop.Gui;
+using ICSharpCode.SharpDevelop.Gui.Dialogs;
 
 namespace ICSharpCode.SharpDevelop.Project
 {

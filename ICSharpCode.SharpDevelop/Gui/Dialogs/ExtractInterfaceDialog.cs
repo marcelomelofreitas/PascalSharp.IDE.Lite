@@ -3,15 +3,12 @@
 
 using System;
 using System.Collections.Generic;
-using System.Drawing;
-using System.Text;
 using System.Windows.Forms;
-
 using ICSharpCode.Core;
 using ICSharpCode.SharpDevelop.Dom;
 using ICSharpCode.SharpDevelop.Refactoring;
 
-namespace ICSharpCode.SharpDevelop.Gui
+namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 {
 	/// <summary>
 	/// Asks the user about Extract Interface refactoring options.

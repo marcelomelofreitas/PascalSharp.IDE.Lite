@@ -6,10 +6,9 @@ using System.ComponentModel;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
-
 using ICSharpCode.Core;
 
-namespace ICSharpCode.SharpDevelop.Gui.OptionPanels
+namespace ICSharpCode.SharpDevelop.Gui.Dialogs.OptionPanels.IDEOptions
 {
 	public partial class ProjectAndSolutionOptions : OptionPanel
 	{

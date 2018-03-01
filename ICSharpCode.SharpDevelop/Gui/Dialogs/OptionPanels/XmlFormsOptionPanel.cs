@@ -3,12 +3,11 @@
 
 using System;
 using System.Windows.Forms;
-
 using ICSharpCode.Core;
 using ICSharpCode.SharpDevelop.Gui.XmlForms;
 using ICSharpCode.SharpDevelop.Project;
 
-namespace ICSharpCode.SharpDevelop.Gui.OptionPanels
+namespace ICSharpCode.SharpDevelop.Gui.Dialogs.OptionPanels
 {
 	public class XmlFormsOptionPanel : BaseSharpDevelopUserControl, IOptionPanel
 	{

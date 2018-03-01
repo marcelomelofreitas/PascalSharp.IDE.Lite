@@ -2,10 +2,9 @@
 // This code is distributed under the GNU LGPL (for details please see \doc\license.txt)
 
 using System;
-using ICSharpCode.Core;
 using ICSharpCode.SharpDevelop.Project;
 
-namespace ICSharpCode.SharpDevelop.Gui.OptionPanels
+namespace ICSharpCode.SharpDevelop.Gui.Dialogs.OptionPanels.ProjectOptions
 {
 	/// <summary>
 	/// Base class for project option panels that are using the <see cref="ConfigurationGuiHelper"/>.

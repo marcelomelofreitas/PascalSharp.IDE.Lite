@@ -17,7 +17,7 @@ namespace VisualPascalABC
         public ToolBoxForm()
         {
             InitializeComponent();
-            TabText = PascalABCCompiler.StringResources.Get("VP_MF_M_TOOLBOX");
+            TabText = StringResources.Get("VP_MF_M_TOOLBOX");
         }
 
         private void ToolBoxForm_FormClosing(object sender, FormClosingEventArgs e)

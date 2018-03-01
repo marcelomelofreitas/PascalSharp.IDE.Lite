@@ -5,7 +5,7 @@
   <Import Project="$(BaseIntermediateOuputPath)$(OriginalProjectName).*.props" Condition=" '$(MSBuildProjectName)' != '$(OriginalProjectName)' and '$(ImportProjectExtensionProps)' != 'false' and exists('$(BaseIntermediateOuputPath)')" />
   
   <PropertyGroup>
-    <TargetFrameworks>net40;net461;net471</TargetFrameworks>
+    <TargetFrameworks>net40;net45;net471</TargetFrameworks>
     <OutputPath>$(SolutionDir)bin\</OutputPath>
     <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
     <GenerateAssemblyDescriptionAttribute>false</GenerateAssemblyDescriptionAttribute>

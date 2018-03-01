@@ -5,6 +5,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
+using PascalSharp.Compiler;
+using PascalSharp.Internal.Localization;
 
 namespace VisualPascalABCPlugins
 {
@@ -20,7 +22,7 @@ namespace VisualPascalABCPlugins
 			//
 			InitializeComponent();
 			
-			PascalABCCompiler.StringResources.SetTextForAllObjects(this, HelpBuilder_VisualPascalABCPlugin.StringsPrefix);
+			StringResources.SetTextForAllObjects(this, HelpBuilder_VisualPascalABCPlugin.StringsPrefix);
 			this.FileToProjectAdd += FileToProjectAddHandler;
 			this.FileFromProjectRemove += FileFromProjectRemovedHandler;
 			this.NewProject += NewProjectHandler;
@@ -49,7 +51,7 @@ namespace VisualPascalABCPlugins
 		
 		void SaveProjectHandler()
 		{
-			this.Text = PascalABCCompiler.StringResources.Get(HelpBuilder_VisualPascalABCPlugin.StringsPrefix+"FORM_NAME")+" - "+System.IO.Path.GetFileNameWithoutExtension(project.file_name);
+			this.Text = StringResources.Get(HelpBuilder_VisualPascalABCPlugin.StringsPrefix+"FORM_NAME")+" - "+System.IO.Path.GetFileNameWithoutExtension(project.file_name);
 		}
 		
 		void OpenProjectHandler()
@@ -62,7 +64,7 @@ namespace VisualPascalABCPlugins
 			{
 				SetStartCompilingButtonsEnabled(true);
 			}
-			this.Text = PascalABCCompiler.StringResources.Get(HelpBuilder_VisualPascalABCPlugin.StringsPrefix+"FORM_NAME")+" - "+System.IO.Path.GetFileNameWithoutExtension(project.file_name);
+			this.Text = StringResources.Get(HelpBuilder_VisualPascalABCPlugin.StringsPrefix+"FORM_NAME")+" - "+System.IO.Path.GetFileNameWithoutExtension(project.file_name);
 		}
 		
 		void FileToProjectAddHandler()
@@ -106,7 +108,7 @@ namespace VisualPascalABCPlugins
 		void HelpBuilderFormFormClosing(object sender, FormClosingEventArgs e)
 		{
 			e.Cancel = true;
-			VisualEnvironmentCompiler.StandartCompiler.OnChangeCompilerState -= new PascalABCCompiler.ChangeCompilerStateEventDelegate(Compiler_OnChangeCompilerState);
+			VisualEnvironmentCompiler.StandartCompiler.OnChangeCompilerState -= new ChangeCompilerStateEventDelegate(Compiler_OnChangeCompilerState);
             this.Visible = false;
 		}
 		
@@ -116,7 +118,7 @@ namespace VisualPascalABCPlugins
 			builder.Clear();
 			if (project.files.Count == 0)
 			{
-				MessageBox.Show(PascalABCCompiler.StringResources.Get(HelpBuilder_VisualPascalABCPlugin.StringsPrefix+"NO_FILES_MESSAGE"),PascalABCCompiler.StringResources.Get(HelpBuilder_VisualPascalABCPlugin.StringsPrefix+"ERROR"),MessageBoxButtons.OK,MessageBoxIcon.Warning);
+				MessageBox.Show(StringResources.Get(HelpBuilder_VisualPascalABCPlugin.StringsPrefix+"NO_FILES_MESSAGE"),StringResources.Get(HelpBuilder_VisualPascalABCPlugin.StringsPrefix+"ERROR"),MessageBoxButtons.OK,MessageBoxIcon.Warning);
 				return;
 			}
             string[] files = project.files.ToArray();
@@ -129,14 +131,14 @@ namespace VisualPascalABCPlugins
 				ClearStatusLine();*/
 		}
 		
-		internal void Compiler_OnChangeCompilerState(PascalABCCompiler.ICompiler sender, PascalABCCompiler.CompilerState State, string FileName)
+		internal void Compiler_OnChangeCompilerState(ICompiler sender, CompilerState State, string FileName)
         {
             switch (State)
             {
-                case PascalABCCompiler.CompilerState.CompilationStarting:              
+                case CompilerState.CompilationStarting:              
             		SetStartCompilingButtonsEnabled(false);
                     break;
-                case PascalABCCompiler.CompilerState.CompilationFinished:
+                case CompilerState.CompilationFinished:
                     this.builder.parser.SetSemanticTree(sender.SemanticTree);
                     SetStartCompilingButtonsEnabled(true);
                     break;
@@ -157,8 +159,8 @@ namespace VisualPascalABCPlugins
 				string FileName = (string)VisualEnvironmentCompiler.ExecuteAction(VisualEnvironmentCompilerAction.GetCurrentSourceFileName, null);
 				builder.options.OutputCHMFileName = System.IO.Path.ChangeExtension(System.IO.Path.GetFileName(FileName),".chm");
 				builder.options.WorkingDirectory = System.IO.Path.GetDirectoryName(FileName);
-				builder.options.CHMBannerText = PascalABCCompiler.StringResources.Get(HelpBuilder_VisualPascalABCPlugin.StringsPrefix+"BANNER_TEXT");
-				this.Text = PascalABCCompiler.StringResources.Get(HelpBuilder_VisualPascalABCPlugin.StringsPrefix+"FORM_NAME")+" - "+PascalABCCompiler.StringResources.Get(HelpBuilder_VisualPascalABCPlugin.StringsPrefix+"UNTITLED");
+				builder.options.CHMBannerText = StringResources.Get(HelpBuilder_VisualPascalABCPlugin.StringsPrefix+"BANNER_TEXT");
+				this.Text = StringResources.Get(HelpBuilder_VisualPascalABCPlugin.StringsPrefix+"FORM_NAME")+" - "+StringResources.Get(HelpBuilder_VisualPascalABCPlugin.StringsPrefix+"UNTITLED");
 				this.propertyGrid1.Update();
 				project.files.Add(FileName);
 				lbFiles.Items.Clear();
@@ -172,8 +174,8 @@ namespace VisualPascalABCPlugins
 			string FileName = (string)VisualEnvironmentCompiler.ExecuteAction(VisualEnvironmentCompilerAction.GetCurrentSourceFileName, null);
 			builder.options.OutputCHMFileName = System.IO.Path.ChangeExtension(System.IO.Path.GetFileName(FileName),".chm");
 			builder.options.WorkingDirectory = System.IO.Path.GetDirectoryName(FileName);
-			builder.options.CHMBannerText = PascalABCCompiler.StringResources.Get(HelpBuilder_VisualPascalABCPlugin.StringsPrefix+"BANNER_TEXT");
-			this.Text = PascalABCCompiler.StringResources.Get(HelpBuilder_VisualPascalABCPlugin.StringsPrefix+"FORM_NAME")+" - "+PascalABCCompiler.StringResources.Get(HelpBuilder_VisualPascalABCPlugin.StringsPrefix+"UNTITLED");
+			builder.options.CHMBannerText = StringResources.Get(HelpBuilder_VisualPascalABCPlugin.StringsPrefix+"BANNER_TEXT");
+			this.Text = StringResources.Get(HelpBuilder_VisualPascalABCPlugin.StringsPrefix+"FORM_NAME")+" - "+StringResources.Get(HelpBuilder_VisualPascalABCPlugin.StringsPrefix+"UNTITLED");
 			this.propertyGrid1.Update();
 		}
 		

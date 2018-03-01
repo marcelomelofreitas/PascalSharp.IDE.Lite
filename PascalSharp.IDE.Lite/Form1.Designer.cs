@@ -1912,8 +1912,8 @@ namespace VisualPascalABC
             // 
             // cmsCodeCompletion
             // 
-            this.cmsCodeCompletion.Name = "cmsCodeCompletion";
-            this.cmsCodeCompletion.Size = new System.Drawing.Size(220, 6);
+            this.cmsName = "cmsCodeCompletion";
+            this.cmsSize = new System.Drawing.Size(220, 6);
             // 
             // cmCut
             // 

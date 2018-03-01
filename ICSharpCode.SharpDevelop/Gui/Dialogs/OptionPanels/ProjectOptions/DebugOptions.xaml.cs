@@ -6,19 +6,14 @@
  * 
  * To change this template use Tools | Options | Coding | Edit Standard Headers.
  */
-using System;
-using System.Collections;
-using System.ComponentModel;
-using System.IO;
-using System.Linq;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Forms;
 
+using System;
+using System.ComponentModel;
+using System.Windows.Forms;
 using ICSharpCode.Core;
 using ICSharpCode.SharpDevelop.Project;
 
-namespace ICSharpCode.SharpDevelop.Gui.OptionPanels
+namespace ICSharpCode.SharpDevelop.Gui.Dialogs.OptionPanels.ProjectOptions
 {
 	/// <summary>
 	/// Interaction logic for DebugOptions.xaml

@@ -8,7 +8,7 @@ using System.Net;
 using System.ServiceModel.Description;
 using System.Web.Services.Discovery;
 
-namespace ICSharpCode.SharpDevelop.Gui
+namespace ICSharpCode.SharpDevelop.Gui.Dialogs.ReferenceDialog.ServiceReference
 {
 	public class ServiceReferenceDiscoveryClient
 	{

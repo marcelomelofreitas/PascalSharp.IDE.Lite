@@ -5,11 +5,10 @@ using System;
 using System.Diagnostics;
 using System.IO;
 using System.Windows.Forms;
-
 using ICSharpCode.Core;
 using ICSharpCode.SharpDevelop.Gui.XmlForms;
 
-namespace ICSharpCode.SharpDevelop.Gui.OptionPanels
+namespace ICSharpCode.SharpDevelop.Gui.Dialogs.OptionPanels.ProjectOptions
 {
     /// <summary>
     /// A form that creates keys for assembly signing.

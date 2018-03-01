@@ -1,15 +1,13 @@
 ﻿// Copyright (c) AlphaSierraPapa for the SharpDevelop Team (for details please see \doc\copyright.txt)
 // This code is distributed under the GNU LGPL (for details please see \doc\license.txt)
 
-using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-
 using ICSharpCode.Core.Presentation;
 using ICSharpCode.SharpDevelop.Project;
 
-namespace ICSharpCode.SharpDevelop.Gui.OptionPanels
+namespace ICSharpCode.SharpDevelop.Gui.Dialogs.OptionPanels.ProjectOptions
 {
 	/// <summary>
 	/// Allows choosing the storage location for an MSBuild property.

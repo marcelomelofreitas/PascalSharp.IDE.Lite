@@ -5,7 +5,7 @@ using System.Windows.Forms;
 using ICSharpCode.Core;
 using ICSharpCode.Core.WinForms;
 
-namespace ICSharpCode.SharpDevelop.Gui.OptionPanels
+namespace ICSharpCode.SharpDevelop.Gui.Dialogs.OptionPanels
 {
 	/// <summary>
 	/// The Output Window options panel.

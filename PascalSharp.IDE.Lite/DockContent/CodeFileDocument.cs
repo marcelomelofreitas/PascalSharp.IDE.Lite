@@ -10,7 +10,12 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.Windows.Forms;
 using ICSharpCode.FormsDesigner;
 using ICSharpCode.FormsDesigner.Services;
+using PascalABCCompiler.SyntaxTree;
+using PascalABCCompiler.TreeConverter;
+using PascalSharp.Internal.CodeCompletion;
+using PascalSharp.Internal.Errors;
 using VisualPascalABC.Projects;
+using StringResources = PascalSharp.Internal.Localization.StringResources;
 
 namespace VisualPascalABC.DockContent
 {
@@ -356,8 +361,8 @@ namespace VisualPascalABC.DockContent
             DesignerAndCodeTabs.Visible = false;
             Controls.Add(DesignerAndCodeTabs);
             DesignerAndCodeTabs.Dock = DockStyle.Fill;
-            DesignerAndCodeTabs.TabPages.Add(PascalABCCompiler.StringResources.Get("VP_MF_M_FORM_TAB"));
-            DesignerAndCodeTabs.TabPages.Add(PascalABCCompiler.StringResources.Get("VP_MF_M_PROGRAM_TAB"));
+            DesignerAndCodeTabs.TabPages.Add(StringResources.Get("VP_MF_M_FORM_TAB"));
+            DesignerAndCodeTabs.TabPages.Add(StringResources.Get("VP_MF_M_PROGRAM_TAB"));
             DesignerPage = DesignerAndCodeTabs.TabPages[0];
             TextPage = DesignerAndCodeTabs.TabPages[1];
             Controls.Remove(basePanel);
@@ -437,7 +442,7 @@ namespace VisualPascalABC.DockContent
             MainForm.UpdateUndoRedoEnabled();
         }
 
-        public static string BuildName(List<PascalABCCompiler.SyntaxTree.ident> names)
+        public static string BuildName(List<ident> names)
         {
             if (names == null || names.Count == 0)
                 return null;
@@ -504,20 +509,20 @@ namespace VisualPascalABC.DockContent
                 MessageDesignerCodeGenerationFailed();
                 return null;
             }
-            List<PascalABCCompiler.Errors.Error> Errors = new List<PascalABCCompiler.Errors.Error>();
-            List<PascalABCCompiler.Errors.CompilerWarning> Warnings = new List<PascalABCCompiler.Errors.CompilerWarning>();
-            //PascalABCCompiler.SyntaxTree.syntax_tree_node sn =
+            List<Error> Errors = new List<Error>();
+            List<CompilerWarning> Warnings = new List<CompilerWarning>();
+            //syntax_tree_node sn =
             //    MainForm.VisualEnvironmentCompiler.Compiler.ParsersController.Compile(
-            //    FileName, TextEditor.Text, null, Errors, PascalABCCompiler.Parsers.ParseMode.Normal);
-            PascalABCCompiler.SyntaxTree.compilation_unit sn =
-                CodeCompletion.CodeCompletionController.ParsersController.GetCompilationUnit(
+            //    FileName, TextEditor.Text, null, Errors, ParseMode.Normal);
+            compilation_unit sn =
+                CodeCompletionController.ParsersController.GetCompilationUnit(
                 VisualPABCSingleton.MainForm._currentCodeFileDocument.FileName,
                 existing_text, //VisualPascalABC.Form1.Form1_object._currentCodeFileDocument.TextEditor.Text,
                 Errors,
                 Warnings);
-            PascalABCCompiler.SyntaxTree.unit_module um = sn as PascalABCCompiler.SyntaxTree.unit_module;
+            unit_module um = sn as unit_module;
             bool good_syntax = um != null;
-            PascalABCCompiler.SyntaxTree.type_declaration form_decl = null;
+            type_declaration form_decl = null;
             if (good_syntax)
             {
                 good_syntax = um.implementation_part != null &&
@@ -528,12 +533,12 @@ namespace VisualPascalABC.DockContent
             }
             if (good_syntax)
             {
-                foreach (PascalABCCompiler.SyntaxTree.declaration decl in um.interface_part.interface_definitions.defs)
+                foreach (declaration decl in um.interface_part.interface_definitions.defs)
                 {
-                    PascalABCCompiler.SyntaxTree.type_declarations tdecls = decl as PascalABCCompiler.SyntaxTree.type_declarations;
+                    type_declarations tdecls = decl as type_declarations;
                     if (tdecls != null)
                     {
-                        foreach (PascalABCCompiler.SyntaxTree.type_declaration tdecl in tdecls.types_decl)
+                        foreach (type_declaration tdecl in tdecls.types_decl)
                         {
                             if (tdecl.source_context.begin_position.line_num - 1 < s_num &&
                                 tdecl.source_context.end_position.line_num - 1 > e_num)
@@ -544,15 +549,15 @@ namespace VisualPascalABC.DockContent
                     }
                 }
             }
-            PascalABCCompiler.SyntaxTree.class_definition form_def = null;
+            class_definition form_def = null;
             if (form_decl != null)
             {
-                form_def = form_decl.type_def as PascalABCCompiler.SyntaxTree.class_definition;
+                form_def = form_decl.type_def as class_definition;
             }
             if (form_decl == null || form_def == null || form_def.body == null)
             {
-                MessageBox.Show(PascalABCCompiler.StringResources.Get("VP_MF_CODE_GENERATION_UNSUCCEFULL"),
-                PascalABCCompiler.StringResources.Get("VP_MF_FORM_DESIGNER"),
+                MessageBox.Show(StringResources.Get("VP_MF_CODE_GENERATION_UNSUCCEFULL"),
+                StringResources.Get("VP_MF_FORM_DESIGNER"),
                 MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return null;
             }
@@ -569,10 +574,10 @@ namespace VisualPascalABC.DockContent
                     ReplaceName(form_decl.type_name, new_form_name, lines);
                     if (implementation_not_null)
                     {
-                        foreach (PascalABCCompiler.SyntaxTree.declaration decl in
+                        foreach (declaration decl in
                             um.implementation_part.implementation_definitions.defs)
                         {
-                            PascalABCCompiler.SyntaxTree.procedure_definition pd = decl as PascalABCCompiler.SyntaxTree.procedure_definition;
+                            procedure_definition pd = decl as procedure_definition;
                             if (pd != null)
                             {
                                 if (pd.proc_header.name.class_name != null &&
@@ -587,7 +592,7 @@ namespace VisualPascalABC.DockContent
                 if (event_description != null)
                 {
                     MethodInfo mi = event_description.e.EventType.GetMethod(
-                        PascalABCCompiler.TreeConverter.compiler_string_consts.invoke_method_name);
+                        compiler_string_consts.invoke_method_name);
                     ParameterInfo[] pinfos = mi.GetParameters();
                     bool handler_found = false;
 
@@ -595,7 +600,7 @@ namespace VisualPascalABC.DockContent
                     System.Text.RegularExpressions.MatchCollection matches =
                         System.Text.RegularExpressions.Regex.Matches(generated_text, string_consts.nr);
                     //строка, на которой последнее описание из секции реализаций
-                    PascalABCCompiler.SyntaxTree.file_position last_defs_pos = null;
+                    file_position last_defs_pos = null;
                     if (implementation_not_null)
                     {
                         last_defs_pos = um.implementation_part.implementation_definitions.defs[
@@ -603,10 +608,10 @@ namespace VisualPascalABC.DockContent
                             ].source_context.end_position;
                         
                         //Ищем описание обработчика
-                        foreach (PascalABCCompiler.SyntaxTree.declaration decl in
+                        foreach (declaration decl in
                             um.implementation_part.implementation_definitions.defs)
                         {
-                            PascalABCCompiler.SyntaxTree.procedure_definition pd = decl as PascalABCCompiler.SyntaxTree.procedure_definition;
+                            procedure_definition pd = decl as procedure_definition;
                             if (pd == null)
                             {
                                 continue;
@@ -617,7 +622,7 @@ namespace VisualPascalABC.DockContent
                             {
                                 continue;
                             }
-                            List<PascalABCCompiler.SyntaxTree.typed_parameters> syn_pars =
+                            List<typed_parameters> syn_pars =
                                 pd.proc_header.parameters.params_list;
                             bool should_continue = false;
                             int par_count = syn_pars.Count;
@@ -632,9 +637,9 @@ namespace VisualPascalABC.DockContent
                                     should_continue = true;
                                     break;
                                 }
-                                PascalABCCompiler.SyntaxTree.named_type_reference ntr =
-                                    syn_pars[i].vars_type as PascalABCCompiler.SyntaxTree.named_type_reference;
-                                if (ntr == null || syn_pars[i].param_kind != PascalABCCompiler.SyntaxTree.parametr_kind.none)
+                                named_type_reference ntr =
+                                    syn_pars[i].vars_type as named_type_reference;
+                                if (ntr == null || syn_pars[i].param_kind != parametr_kind.none)
                                 {
                                     should_continue = true;
                                     break;
@@ -702,9 +707,9 @@ namespace VisualPascalABC.DockContent
                 string_consts.tab2 + generated_text + s2;
         }
 
-        public void ReplaceName(PascalABCCompiler.SyntaxTree.ident id, string new_name, string[] lines)
+        public void ReplaceName(ident id, string new_name, string[] lines)
         {
-            PascalABCCompiler.SyntaxTree.SourceContext sc = id.source_context;
+            SourceContext sc = id.source_context;
             int type_name_num = sc.begin_position.line_num - 1;
             int bcol = sc.begin_position.column_num;
             int ecol = sc.end_position.column_num;
@@ -714,8 +719,8 @@ namespace VisualPascalABC.DockContent
 
         public void MessageDesignerCodeGenerationFailed()
         {
-            MessageBox.Show(PascalABCCompiler.StringResources.Get("VP_MF_CAN_NOT_GENERATE_CODE"),
-                PascalABCCompiler.StringResources.Get("VP_MF_FORM_DESIGNER"),
+            MessageBox.Show(StringResources.Get("VP_MF_CAN_NOT_GENERATE_CODE"),
+                StringResources.Get("VP_MF_FORM_DESIGNER"),
                 MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
 

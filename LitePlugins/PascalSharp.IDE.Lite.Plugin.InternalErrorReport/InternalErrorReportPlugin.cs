@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using ICSharpCode.NRefactory.Parser;
+using PascalSharp.Compiler;
+using PascalSharp.Internal.Errors;
 
 namespace VisualPascalABCPlugins
 {
@@ -17,9 +20,9 @@ namespace VisualPascalABCPlugins
         public InternalErrorReport_VisualPascalABCPlugin(IWorkbench Workbench)
         {
         	this.VisualEnvironmentCompiler=Workbench.VisualEnvironmentCompiler;
-            VisualEnvironmentCompiler.StandartCompiler.OnChangeCompilerState += new PascalABCCompiler.ChangeCompilerStateEventDelegate(Compiler_OnChangeCompilerState);
+            VisualEnvironmentCompiler.StandartCompiler.OnChangeCompilerState += new ChangeCompilerStateEventDelegate(Compiler_OnChangeCompilerState);
             if(VisualEnvironmentCompiler.RemoteCompiler!=null)
-                VisualEnvironmentCompiler.RemoteCompiler.OnChangeCompilerState += new PascalABCCompiler.ChangeCompilerStateEventDelegate(Compiler_OnChangeCompilerState);
+                VisualEnvironmentCompiler.RemoteCompiler.OnChangeCompilerState += new ChangeCompilerStateEventDelegate(Compiler_OnChangeCompilerState);
             //CompilerInternalErrorReport.Parent=(VisualEnvironmentCompiler as System.Windows.Forms.Control);
         }
         private string GetInfo()
@@ -29,14 +32,14 @@ namespace VisualPascalABCPlugins
                 s= ", debug version";
             else
                 s= ", relase version";
-            return string.Format("{0} ({1}){2}{3}", PascalABCCompiler.Compiler.Banner, PascalABCCompiler.Compiler.VersionDateTime.ToShortDateString(),s, Environment.NewLine) +
+            return string.Format("{0} ({1}){2}{3}", Compiler.Banner, Compiler.VersionDateTime.ToShortDateString(),s, Environment.NewLine) +
                     "Runtime version: " + Environment.Version + Environment.NewLine +
                     "OS version: " + Environment.OSVersion + Environment.NewLine+
                     "Processor count: " + Environment.ProcessorCount.ToString() + Environment.NewLine +
                     string.Format("WorkingSet: {0} kb", Environment.WorkingSet / 1024);
                     
         }
-        void Compiler_OnChangeCompilerState(PascalABCCompiler.ICompiler sender, PascalABCCompiler.CompilerState State, string FileName)
+        void Compiler_OnChangeCompilerState(ICompiler sender, CompilerState State, string FileName)
         {
             States += State.ToString();
             if (FileName != null) 
@@ -44,20 +47,20 @@ namespace VisualPascalABCPlugins
             States += Environment.NewLine;
             switch (State)
             {
-                case PascalABCCompiler.CompilerState.CompilationStarting:
+                case CompilerState.CompilationStarting:
                     FileNames.Clear();
                     States = "";
                     break;
-                case PascalABCCompiler.CompilerState.BeginCompileFile:
+                case CompilerState.BeginCompileFile:
                     FileNames.Add(FileName);
                     break;
-                case PascalABCCompiler.CompilerState.ReadPCUFile:
+                case CompilerState.ReadPCUFile:
                     FileNames.Add(FileName);
                     FileNames.Add(System.IO.Path.ChangeExtension(FileName,".pas"));
                     break;
-                case PascalABCCompiler.CompilerState.Ready:
-                    foreach (PascalABCCompiler.Errors.Error error in VisualEnvironmentCompiler.Compiler.ErrorsList)
-                        if (error is PascalABCCompiler.Errors.CompilerInternalError)
+                case CompilerState.Ready:
+                    foreach (Error error in VisualEnvironmentCompiler.Compiler.ErrorsList)
+                        if (error is CompilerInternalError)
                         {
                             ReportText = DateTime.Now.ToString() + Environment.NewLine;
                             ReportText += GetInfo()+Environment.NewLine;

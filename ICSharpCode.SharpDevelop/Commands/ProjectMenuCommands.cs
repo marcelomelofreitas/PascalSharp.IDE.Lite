@@ -9,7 +9,7 @@ using System.Xml;
 
 using ICSharpCode.Core;
 using ICSharpCode.SharpDevelop.Gui;
-using ICSharpCode.SharpDevelop.Project.Dialogs;
+using ICSharpCode.SharpDevelop.Gui.Dialogs;
 using Microsoft.Win32;
 
 namespace ICSharpCode.SharpDevelop.Project.Commands

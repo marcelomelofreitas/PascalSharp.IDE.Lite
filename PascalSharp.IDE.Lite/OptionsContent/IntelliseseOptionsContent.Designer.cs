@@ -84,19 +84,19 @@ namespace VisualPascalABC.OptionsContent
             // 
             // cbAllowCodeCompletion
             // 
-            this.cbAllowCodeCompletion.AutoSize = true;
-            this.cbAllowCodeCompletion.CheckAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.cbAllowCodeCompletion.Checked = true;
-            this.cbAllowCodeCompletion.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cbAllowCodeCompletion.Location = new System.Drawing.Point(7, 6);
-            this.cbAllowCodeCompletion.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.cbAllowCodeCompletion.Name = "cbAllowCodeCompletion";
-            this.cbAllowCodeCompletion.RightToLeft = System.Windows.Forms.RightToLeft.Yes;
-            this.cbAllowCodeCompletion.Size = new System.Drawing.Size(221, 21);
-            this.cbAllowCodeCompletion.TabIndex = 35;
-            this.cbAllowCodeCompletion.Text = "ALLOW_CODE_COMPLETION";
-            this.cbAllowCodeCompletion.UseVisualStyleBackColor = true;
-            this.cbAllowCodeCompletion.CheckedChanged += new System.EventHandler(this.cbAllowCodeCompletion_CheckedChanged);
+            this.cbAllowAutoSize = true;
+            this.cbAllowCheckAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.cbAllowChecked = true;
+            this.cbAllowCheckState = System.Windows.Forms.CheckState.Checked;
+            this.cbAllowLocation = new System.Drawing.Point(7, 6);
+            this.cbAllowMargin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.cbAllowName = "cbAllowCodeCompletion";
+            this.cbAllowRightToLeft = System.Windows.Forms.RightToLeft.Yes;
+            this.cbAllowSize = new System.Drawing.Size(221, 21);
+            this.cbAllowTabIndex = 35;
+            this.cbAllowText = "ALLOW_CODE_COMPLETION";
+            this.cbAllowUseVisualStyleBackColor = true;
+            this.cbAllowCheckedChanged += new System.EventHandler(this.cbAllowCodeCompletion_CheckedChanged);
             // 
             // cbCodeCompletionParams
             // 

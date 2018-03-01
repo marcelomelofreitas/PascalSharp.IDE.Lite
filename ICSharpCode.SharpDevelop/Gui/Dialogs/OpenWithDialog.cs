@@ -3,12 +3,11 @@
 
 using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Windows.Forms;
 using ICSharpCode.Core;
 using ICSharpCode.Core.WinForms;
 
-namespace ICSharpCode.SharpDevelop.Gui
+namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 {
 	/// <summary>
 	/// Dialog to choose the display binding to use to open a file.

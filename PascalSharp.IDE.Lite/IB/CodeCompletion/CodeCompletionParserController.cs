@@ -8,6 +8,10 @@ using System.Windows.Forms;
 using ICSharpCode.TextEditor;
 using ICSharpCode.TextEditor.Gui.CompletionWindow;
 using ICSharpCode.TextEditor.Document;
+using PascalABCCompiler;
+using PascalABCCompiler.Parsers;
+using PascalSharp.Internal.CodeCompletion;
+using PascalSharp.Internal.Localization;
 using VisualPascalABC.Projects;
 
 namespace VisualPascalABC
@@ -40,36 +44,36 @@ namespace VisualPascalABC
             ccp = new CodeCompletionProvider();
         }
 
-        public PascalABCCompiler.Parsers.ICodeCompletionDomConverter GetConverter(string fileName)
+        public ICodeCompletionDomConverter GetConverter(string fileName)
         {
-            return CodeCompletion.CodeCompletionController.comp_modules[fileName] as PascalABCCompiler.Parsers.ICodeCompletionDomConverter;
+            return CodeCompletionController.comp_modules[fileName] as ICodeCompletionDomConverter;
         }
 
         public static string CurrentTwoLetterISO
         {
             get
             {
-                return CodeCompletion.CodeCompletionController.currentLanguageISO;
+                return CodeCompletionController.currentLanguageISO;
             }
             set
             {
-                CodeCompletion.CodeCompletionController.currentLanguageISO = value;
+                CodeCompletionController.currentLanguageISO = value;
             }
         }
 
         public void Init()
         {
-            CodeCompletion.CodeCompletionController.ParsersController.SourceFilesProvider = visualEnvironmentCompiler.SourceFilesProvider;
-            CodeCompletion.CodeCompletionController.currentLanguageISO = PascalABCCompiler.StringResourcesLanguage.CurrentTwoLetterISO;
+            CodeCompletionController.ParsersController.SourceFilesProvider = visualEnvironmentCompiler.SourceFilesProvider;
+            CodeCompletionController.currentLanguageISO = StringResourcesLanguage.CurrentTwoLetterISO;
         }
 
         public void RenameFile(string OldFileName, string NewFileName)
         {
             if (string.Compare(OldFileName, NewFileName, true) != 0)
             {
-                CodeCompletion.CodeCompletionController.comp_modules[NewFileName] = CodeCompletion.CodeCompletionController.comp_modules[OldFileName];
-                if (CodeCompletion.CodeCompletionController.comp_modules.ContainsKey(OldFileName))
-                    CodeCompletion.CodeCompletionController.comp_modules.Remove(OldFileName);
+                CodeCompletionController.comp_modules[NewFileName] = CodeCompletionController.comp_modules[OldFileName];
+                if (CodeCompletionController.comp_modules.ContainsKey(OldFileName))
+                    CodeCompletionController.comp_modules.Remove(OldFileName);
                 open_files[NewFileName] = open_files[OldFileName];
                 if (open_files.ContainsKey(OldFileName))
                     open_files.Remove(OldFileName);
@@ -79,14 +83,14 @@ namespace VisualPascalABC
         public void RegisterFileForParsing(string FileName)
         {
             open_files[FileName] = true;
-            CodeCompletion.CodeCompletionController.SetParser(System.IO.Path.GetExtension(FileName));
+            CodeCompletionController.SetParser(System.IO.Path.GetExtension(FileName));
             //ParseAllFiles();
         }
 
         public void CloseFile(string FileName)
         {
-            if (CodeCompletion.CodeCompletionController.comp_modules[FileName] != null)
-                CodeCompletion.CodeCompletionController.comp_modules.Remove(FileName);
+            if (CodeCompletionController.comp_modules[FileName] != null)
+                CodeCompletionController.comp_modules.Remove(FileName);
             if (open_files[FileName] != null)
                 open_files.Remove(FileName);
         }
@@ -159,38 +163,38 @@ namespace VisualPascalABC
                     if (o != null && (bool)o == true)
                     {
                         is_comp = true;
-                        CodeCompletion.CodeCompletionController controller = new CodeCompletion.CodeCompletionController();
-                        string text = visualEnvironmentCompiler.SourceFilesProvider(FileName, PascalABCCompiler.SourceFileOperation.GetText) as string;
+                        CodeCompletionController controller = new CodeCompletionController();
+                        string text = visualEnvironmentCompiler.SourceFilesProvider(FileName, SourceFileOperation.GetText) as string;
                         if (string.IsNullOrEmpty(text))
                             text = "begin end.";
-                        CodeCompletion.DomConverter tmp = CodeCompletion.CodeCompletionController.comp_modules[FileName] as CodeCompletion.DomConverter;
+                        DomConverter tmp = CodeCompletionController.comp_modules[FileName] as DomConverter;
                         long cur_mem = Environment.WorkingSet;
-                        CodeCompletion.DomConverter dc = controller.Compile(FileName, text);
+                        DomConverter dc = controller.Compile(FileName, text);
                         mem_delta += Environment.WorkingSet - cur_mem;
                         open_files[FileName] = false;
                         if (dc.is_compiled)
                         {
-                            //CodeCompletion.CodeCompletionController.comp_modules.Remove(FileName);
+                            //CodeCompletionController.comp_modules.Remove(FileName);
                             if (tmp != null && tmp.visitor.entry_scope != null)
                             {
                                 tmp.visitor.entry_scope.Clear();
                                 if (tmp.visitor.cur_scope != null)
                                     tmp.visitor.cur_scope.Clear();
                             }
-                            CodeCompletion.CodeCompletionController.comp_modules[FileName] = dc;
+                            CodeCompletionController.comp_modules[FileName] = dc;
                             recomp_files[FileName] = FileName;
                             open_files[FileName] = false;
                             if (ParseInformationUpdated != null)
                                 ParseInformationUpdated(dc.visitor.entry_scope, FileName);
                         }
-                        else if (CodeCompletion.CodeCompletionController.comp_modules[FileName] == null)
-                            CodeCompletion.CodeCompletionController.comp_modules[FileName] = dc;
+                        else if (CodeCompletionController.comp_modules[FileName] == null)
+                            CodeCompletionController.comp_modules[FileName] = dc;
                     }
                 }
                 foreach (string FileName in open_files2.Keys)
                 {
-                    CodeCompletion.DomConverter dc = CodeCompletion.CodeCompletionController.comp_modules[FileName] as CodeCompletion.DomConverter;
-                    CodeCompletion.SymScope ss = null;
+                    DomConverter dc = CodeCompletionController.comp_modules[FileName] as DomConverter;
+                    SymScope ss = null;
                     if (dc != null)
                     {
                         if (dc.visitor.entry_scope != null) ss = dc.visitor.entry_scope;
@@ -216,14 +220,14 @@ namespace VisualPascalABC
                                     if (s != null && open_files2.ContainsKey(s) && recomp_files.ContainsKey(s))
                                     {
                                         is_comp = true;
-                                        CodeCompletion.CodeCompletionController controller = new CodeCompletion.CodeCompletionController();
-                                        string text = visualEnvironmentCompiler.SourceFilesProvider(FileName, PascalABCCompiler.SourceFileOperation.GetText) as string;
-                                        CodeCompletion.DomConverter tmp = CodeCompletion.CodeCompletionController.comp_modules[FileName] as CodeCompletion.DomConverter;
+                                        CodeCompletionController controller = new CodeCompletionController();
+                                        string text = visualEnvironmentCompiler.SourceFilesProvider(FileName, SourceFileOperation.GetText) as string;
+                                        DomConverter tmp = CodeCompletionController.comp_modules[FileName] as DomConverter;
                                         long cur_mem = Environment.WorkingSet;
                                         dc = controller.Compile(FileName, text);
                                         mem_delta += Environment.WorkingSet - cur_mem;
                                         open_files[FileName] = false;
-                                        CodeCompletion.CodeCompletionController.comp_modules[FileName] = dc;
+                                        CodeCompletionController.comp_modules[FileName] = dc;
                                         if (dc.is_compiled)
                                         {
                                             /*if (tmp != null && tmp.stv.entry_scope != null)
@@ -231,14 +235,14 @@ namespace VisualPascalABC
                                                 tmp.stv.entry_scope.Clear();
                                                 if (tmp.stv.cur_scope != null) tmp.stv.cur_scope.Clear();
                                             }*/
-                                            CodeCompletion.CodeCompletionController.comp_modules[FileName] = dc;
+                                            CodeCompletionController.comp_modules[FileName] = dc;
                                             recomp_files[FileName] = FileName;
                                             ss.used_units[i] = dc.visitor.entry_scope;
                                             if (ParseInformationUpdated != null)
                                                 ParseInformationUpdated(dc.visitor.entry_scope, FileName);
                                         }
-                                        else if (CodeCompletion.CodeCompletionController.comp_modules[FileName] == null)
-                                            CodeCompletion.CodeCompletionController.comp_modules[FileName] = dc;
+                                        else if (CodeCompletionController.comp_modules[FileName] == null)
+                                            CodeCompletionController.comp_modules[FileName] = dc;
                                     }
                                 }
                             }

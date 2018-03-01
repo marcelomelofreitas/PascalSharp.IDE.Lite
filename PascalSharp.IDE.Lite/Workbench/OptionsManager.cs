@@ -8,6 +8,8 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using PascalSharp.Internal.CompilerTools.Errors;
+using PascalSharp.Internal.Localization;
 using VisualPascalABC.DockContent;
 
 namespace VisualPascalABC
@@ -104,24 +106,24 @@ namespace VisualPascalABC
                     {
                         //MessageBox.Show(ex.Message);
                     }
-                    PascalABCCompiler.StringResourcesLanguage.CurrentLanguageName = language;
-                    CodeCompletionParserController.CurrentTwoLetterISO = PascalABCCompiler.StringResourcesLanguage.CurrentTwoLetterISO;
+                    StringResourcesLanguage.CurrentLanguageName = language;
+                    CodeCompletionParserController.CurrentTwoLetterISO = StringResourcesLanguage.CurrentTwoLetterISO;
                     return;
                 }
                 Hashtable Options = new Hashtable(StringComparer.CurrentCultureIgnoreCase);
-                PascalABCCompiler.AdvancedOptions adv_opt = new PascalABCCompiler.AdvancedOptions();
-                PascalABCCompiler.StringResources.ReadStringsFromStreamAsXml(FileName, new StreamReader(FileName, VisualEnvironmentCompiler.DefaultFileEncoding), Options, adv_opt);
+                AdvancedOptions adv_opt = new AdvancedOptions();
+                StringResources.ReadStringsFromStreamAsXml(FileName, new StreamReader(FileName, VisualEnvironmentCompiler.DefaultFileEncoding), Options, adv_opt);
                 string value;
                 int val;
                 if ((value = (string)Options[OptionsItemNameWorkDirectory]) != null)
                 {
                     WorkbenchStorage.WorkingDirectoryInOptionsFile = value;
-                    WorkbenchStorage.WorkingDirectory = PascalABCCompiler.Tools.ReplaceAllKeys(value, WorkbenchStorage.StandartDirectories);
+                    WorkbenchStorage.WorkingDirectory = PascalSharp.Internal.CompilerTools.Tools.ReplaceAllKeys(value, WorkbenchStorage.StandartDirectories);
                 }
                 if ((value = (string)Options[OptionsItemNameLanguage]) != null)
                 {
-                    PascalABCCompiler.StringResourcesLanguage.CurrentLanguageName = value;
-                    CodeCompletionParserController.CurrentTwoLetterISO = PascalABCCompiler.StringResourcesLanguage.CurrentTwoLetterISO;
+                    StringResourcesLanguage.CurrentLanguageName = value;
+                    CodeCompletionParserController.CurrentTwoLetterISO = StringResourcesLanguage.CurrentTwoLetterISO;
                 }
                 if ((value = (string)Options[OptionsItemNameMainFormLeft]) != null)
                 {
@@ -172,9 +174,9 @@ namespace VisualPascalABC
                     UserOptions.EditorFontSize = Convert.ToInt32(value);
                 if ((value = (string)Options[OptionsItemNameErrorsStrategy]) != null)
                 {
-                    ErrorsManager.Strategy = (PascalABCCompiler.Errors.ErrorsStrategy)Convert.ToByte(value);
-                    if (ErrorsManager.Strategy == PascalABCCompiler.Errors.ErrorsStrategy.All)
-                        ErrorsManager.Strategy = PascalABCCompiler.Errors.ErrorsStrategy.FirstSemanticAndSyntax;
+                    ErrorsManager.Strategy = (ErrorsStrategy)Convert.ToByte(value);
+                    if (ErrorsManager.Strategy == ErrorsStrategy.All)
+                        ErrorsManager.Strategy = ErrorsStrategy.FirstSemanticAndSyntax;
                 }
                 /*if ((value = (string)Options[OptionsItemNameErrorsCursorPosStrategy]) != null)
                 {
@@ -240,7 +242,7 @@ namespace VisualPascalABC
                 {
                 	AddVariable(w,false);
                 }*/
-                System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo(PascalABCCompiler.StringResourcesLanguage.CurrentTwoLetterISO);
+                System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo(StringResourcesLanguage.CurrentTwoLetterISO);
             }
             catch (Exception e)
             {
@@ -254,7 +256,7 @@ namespace VisualPascalABC
             Hashtable Options = new Hashtable(StringComparer.CurrentCultureIgnoreCase);
 
             Options.Add(OptionsItemNameWorkDirectory, WorkbenchStorage.WorkingDirectoryInOptionsFile);
-            Options.Add(OptionsItemNameLanguage, PascalABCCompiler.StringResourcesLanguage.CurrentLanguageName);
+            Options.Add(OptionsItemNameLanguage, StringResourcesLanguage.CurrentLanguageName);
             Options.Add(OptionsItemNameMainFormLeft, FormLeft);
             Options.Add(OptionsItemNameMainFormTop, FormTop);
             Options.Add(OptionsItemNameMainFormHeight, FormHeight);
@@ -301,10 +303,10 @@ namespace VisualPascalABC
                 Options.Add(OptionsItemNameLastFile + (LastOpenFiles.Count - i - 1).ToString(), LastOpenFiles[i]);
             for (int i = 0; i < LastOpenProjects.Count; i++)
                 Options.Add(OptionsItemNameLastProject + (LastOpenProjects.Count - i - 1).ToString(), LastOpenProjects[i]);
-            System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo(PascalABCCompiler.StringResourcesLanguage.CurrentTwoLetterISO);
+            System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo(StringResourcesLanguage.CurrentTwoLetterISO);
             try
             {
-                PascalABCCompiler.StringResources.WriteStringsToStreamAsXml(new StreamWriter(FileName, false, /*VisualEnvironmentCompiler.DefaultFileEncoding*/System.Text.Encoding.UTF8), Options, GetAdvancedOptions());
+                StringResources.WriteStringsToStreamAsXml(new StreamWriter(FileName, false, /*VisualEnvironmentCompiler.DefaultFileEncoding*/System.Text.Encoding.UTF8), Options, GetAdvancedOptions());
             }
             catch (Exception)
             {
@@ -342,14 +344,14 @@ namespace VisualPascalABC
             tsViewIntellisensePanel.Visible = tssmIntellisence.Visible = tsGotoDefinition.Visible = tsGotoRealization.Visible =
                 tsFindAllReferences.Visible = miGenerateRealization.Visible =
                 miGenerateRealization.Visible = cmGenerateRealization.Visible =
-                cmsCodeCompletion.Visible = cmFindAllReferences.Visible = cmGotoDefinition.Visible =
+                cmFindAllReferences.Visible = cmGotoDefinition.Visible =
                 cmGotoRealization.Visible = UserOptions.AllowCodeCompletion;
 
         }
 
-        private PascalABCCompiler.AdvancedOptions GetAdvancedOptions()
+        private AdvancedOptions GetAdvancedOptions()
         {
-            PascalABCCompiler.AdvancedOptions adv_opt = new PascalABCCompiler.AdvancedOptions();
+            AdvancedOptions adv_opt = new AdvancedOptions();
             return adv_opt;
         }
         

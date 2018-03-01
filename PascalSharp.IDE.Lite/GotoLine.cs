@@ -7,6 +7,8 @@ using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
+using PascalSharp.Internal.Errors;
+using PascalSharp.Internal.Localization;
 
 namespace VisualPascalABC
 {
@@ -27,7 +29,7 @@ namespace VisualPascalABC
         {
             this.ActiveControl = tbLineNumber;
             MainForm = (Form1)this.Owner;
-            label1.Text = string.Format(PascalABCCompiler.StringResources.Get("VP_GOTOLINEFORM_GOTO_LINE_{0}_{1}"),
+            label1.Text = string.Format(StringResources.Get("VP_GOTOLINEFORM_GOTO_LINE_{0}_{1}"),
                 1, MainForm.CurrentSyntaxEditor.LinesCount);
         }
 
@@ -38,7 +40,7 @@ namespace VisualPascalABC
                 if (line <= MainForm.CurrentSyntaxEditor.LinesCount)
                 {
                     Close();
-                    MainForm.ExecuteSourceLocationAction(new PascalABCCompiler.SourceLocation(MainForm.CurrentSourceFileName, line, 1, line, 1), VisualPascalABCPlugins.SourceLocationAction.GotoBeg);
+                    MainForm.ExecuteSourceLocationAction(new SourceLocation(MainForm.CurrentSourceFileName, line, 1, line, 1), VisualPascalABCPlugins.SourceLocationAction.GotoBeg);
                     return;
                 }
             this.ActiveControl = tbLineNumber;

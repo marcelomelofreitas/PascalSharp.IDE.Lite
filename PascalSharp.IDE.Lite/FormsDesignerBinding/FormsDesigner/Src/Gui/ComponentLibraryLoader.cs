@@ -7,6 +7,7 @@ using System.Drawing;
 using System.IO;
 using System.Reflection;
 using System.Xml;
+using PascalSharp.Internal.Localization;
 
 namespace ICSharpCode.FormsDesigner.Gui
 {
@@ -317,7 +318,7 @@ namespace ICSharpCode.FormsDesigner.Gui
 				
 				foreach (XmlNode node in doc.DocumentElement["Categories"].ChildNodes) {
 					if (node.Name == "Category") {
-                        string name = PascalABCCompiler.StringResources.Get(node.Attributes["name"].InnerText);//roman//
+                        string name = StringResources.Get(node.Attributes["name"].InnerText);//roman//
 						Category newCategory = new Category(name);
 						foreach (XmlNode componentNode in node.ChildNodes) {
 							ToolComponent newToolComponent = new ToolComponent(componentNode.Attributes["class"].InnerText,

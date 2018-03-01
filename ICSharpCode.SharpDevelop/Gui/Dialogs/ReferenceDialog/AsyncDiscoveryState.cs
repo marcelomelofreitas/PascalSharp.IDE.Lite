@@ -3,7 +3,7 @@
 
 using System;
 
-namespace ICSharpCode.SharpDevelop.Gui
+namespace ICSharpCode.SharpDevelop.Gui.Dialogs.ReferenceDialog
 {
 	/// <summary>
 	/// Holds information needed when an async web discovery call has completed.

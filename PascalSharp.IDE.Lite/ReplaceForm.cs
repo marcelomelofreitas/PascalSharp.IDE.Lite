@@ -7,6 +7,8 @@ using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
+using PascalSharp.Internal.Errors;
+using PascalSharp.Internal.Localization;
 
 namespace VisualPascalABC
 {
@@ -41,7 +43,7 @@ namespace VisualPascalABC
             {
                 this.AcceptButton = this.btReplace;
                 AddOwnedForm(ReplaceConfirmDlg = new ReplaceConfirmDialog());
-                PascalABCCompiler.StringResources.SetTextForAllObjects(ReplaceConfirmDlg, "VP_REPLACECONFIRMDLGFORM_");
+                StringResources.SetTextForAllObjects(ReplaceConfirmDlg, "VP_REPLACECONFIRMDLGFORM_");
             }
         }
 
@@ -98,7 +100,7 @@ namespace VisualPascalABC
             }
             catch (Exception e)
             {
-                MessageBox.Show(string.Format(PascalABCCompiler.StringResources.Get("VP_REPLACEFORM_REGEXPERR{0}"),e.Message), PascalABCCompiler.StringResources.Get("!ERROR"), MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show(string.Format(StringResources.Get("VP_REPLACEFORM_REGEXPERR{0}"),e.Message), StringResources.Get("!ERROR"), MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 findSuccess = false;
                 return findSuccess;
             }
@@ -115,7 +117,7 @@ namespace VisualPascalABC
                 if (exec_goto_action)
                 {
                     ICSharpCode.TextEditor.TextLocation p = Form1.CurrentSyntaxEditor.TextEditor.Document.OffsetToPosition(resOffset);
-                    Form1.ExecuteSourceLocationAction(new PascalABCCompiler.SourceLocation(null, p.Y + 1, p.X + 1, p.Y + 1, p.X + resLength), VisualPascalABCPlugins.SourceLocationAction.FindSelection);
+                    Form1.ExecuteSourceLocationAction(new SourceLocation(null, p.Y + 1, p.X + 1, p.Y + 1, p.X + resLength), VisualPascalABCPlugins.SourceLocationAction.FindSelection);
                 }
                 else
                     startOffset = resOffset + resLength;
@@ -138,7 +140,7 @@ namespace VisualPascalABC
                 if (exec_goto_action)
                 {
                     ICSharpCode.TextEditor.TextLocation p = Form1.CurrentSyntaxEditor.TextEditor.Document.OffsetToPosition(resOffset);
-                    Form1.ExecuteSourceLocationAction(new PascalABCCompiler.SourceLocation(null, p.Y + 1, p.X + 1, p.Y + 1, p.X + resLength), VisualPascalABCPlugins.SourceLocationAction.SelectAndGotoEnd);
+                    Form1.ExecuteSourceLocationAction(new SourceLocation(null, p.Y + 1, p.X + 1, p.Y + 1, p.X + resLength), VisualPascalABCPlugins.SourceLocationAction.SelectAndGotoEnd);
                 }
                 else
                     startOffset = resOffset + resLength;
@@ -179,7 +181,7 @@ namespace VisualPascalABC
                 ReplaceAll();
                 /*while (findSuccess)
                 {
-                    ReplaceConfirmDlg.lMessage.Text = String.Format(PascalABCCompiler.StringResources.Get("VP_REPLACECONFIRMDLGFORM_REPLACE{0}TO{1}"), Match.Value, tbTextToReplace.Text);
+                    ReplaceConfirmDlg.lMessage.Text = String.Format(StringResources.Get("VP_REPLACECONFIRMDLGFORM_REPLACE{0}TO{1}"), Match.Value, tbTextToReplace.Text);
                     ReplaceConfirmDlg.ShowDialog();
                     if (ReplaceConfirmDlg.Result == ReplaceConfirmDialog.ModalResult.Yes)
                         Replace();
@@ -234,7 +236,7 @@ namespace VisualPascalABC
                 }
                 catch (Exception e)
                 {
-                    MessageBox.Show(string.Format(PascalABCCompiler.StringResources.Get("VP_REPLACEFORM_REGEXPERR{0}"), e.Message), PascalABCCompiler.StringResources.Get("!ERROR"), MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show(string.Format(StringResources.Get("VP_REPLACEFORM_REGEXPERR{0}"), e.Message), StringResources.Get("!ERROR"), MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     findSuccess = false;
                     lastSearched = null;
                     return;

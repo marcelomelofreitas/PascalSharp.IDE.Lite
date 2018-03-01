@@ -9,7 +9,8 @@ using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using ICSharpCode.TextEditor.Document;
-using Debugger;
+using PascalSharp.Internal.Debugger;
+using PascalSharp.Internal.Debugger.Variables.Values;
 
 namespace VisualPascalABC
 {

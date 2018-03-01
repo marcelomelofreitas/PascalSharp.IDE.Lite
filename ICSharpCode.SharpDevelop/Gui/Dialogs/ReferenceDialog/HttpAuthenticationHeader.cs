@@ -5,7 +5,7 @@ using System;
 using System.Net;
 using System.Text;
 
-namespace ICSharpCode.SharpDevelop.Gui
+namespace ICSharpCode.SharpDevelop.Gui.Dialogs.ReferenceDialog
 {
 	/// <summary>
 	/// Represents the WWW-Authenticate HTTP response header.

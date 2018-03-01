@@ -7,6 +7,9 @@ using System.Text;
 using System.Windows.Forms;
 using System.Collections;
 using System.IO;
+using PascalSharp.Compiler;
+using PascalSharp.Internal.CodeCompletion;
+using PascalSharp.Internal.Localization;
 
 namespace VisualPascalABCPlugins
 {
@@ -20,19 +23,19 @@ namespace VisualPascalABCPlugins
         public CompilerInformation()
         {
             InitializeComponent();
-            PascalABCCompiler.StringResources.SetTextForAllObjects(this, CompilerController_VisualPascalABCPlugin.StringsPrefix);
+            StringResources.SetTextForAllObjects(this, CompilerController_VisualPascalABCPlugin.StringsPrefix);
         }
 
-        private delegate void OnChangeCompilerStateDelegate(PascalABCCompiler.ICompiler sender, PascalABCCompiler.CompilerState State, string FileName);
-        void Compiler_OnChangeCompilerStateSync(PascalABCCompiler.ICompiler sender, PascalABCCompiler.CompilerState State, string FileName)
+        private delegate void OnChangeCompilerStateDelegate(ICompiler sender, CompilerState State, string FileName);
+        void Compiler_OnChangeCompilerStateSync(ICompiler sender, CompilerState State, string FileName)
         {
             if(this.Visible)
                 BeginInvoke(new OnChangeCompilerStateDelegate(Compiler_OnChangeCompilerState), sender, State, FileName);
         }
-        void Compiler_OnChangeCompilerState(PascalABCCompiler.ICompiler sender, PascalABCCompiler.CompilerState State, string FileName)
+        void Compiler_OnChangeCompilerState(ICompiler sender, CompilerState State, string FileName)
         {
             string text;
-            if (State == PascalABCCompiler.CompilerState.CompilationStarting || State == PascalABCCompiler.CompilerState.Reloading)
+            if (State == CompilerState.CompilationStarting || State == CompilerState.Reloading)
             {
                 //CompilerConsole.Clear();
                 dt = DateTime.Now;
@@ -42,7 +45,7 @@ namespace VisualPascalABCPlugins
             text = State.ToString();
             if (FileName != null)
                 text += " " + System.IO.Path.GetFileName(FileName) + "...";
-            if (State == PascalABCCompiler.CompilerState.Ready)
+            if (State == CompilerState.Ready)
             {
                 if (VisualEnvironmentCompiler.Compiler.ErrorsList.Count > 0)
                     text += string.Format(" [{0} errors]", VisualEnvironmentCompiler.Compiler.ErrorsList.Count);
@@ -60,7 +63,7 @@ namespace VisualPascalABCPlugins
                 //OnRebuld.Checked = VisualEnvironmentCompiler.Compiler.CompilerOptions.Rebuild;
             }
             text += Environment.NewLine;
-            if (sender.CompilerType == PascalABCCompiler.CompilerType.Remote)
+            if (sender.CompilerType == CompilerType.Remote)
                 text = "[remote]" + text;
             CompilerConsole.AppendText(text);
             CompilerConsole.SelectionStart = CompilerConsole.Text.Length;
@@ -69,8 +72,8 @@ namespace VisualPascalABCPlugins
 
         private void CompilerInformation_Load(object sender, EventArgs e)
         {
-            VisualEnvironmentCompiler.StandartCompiler.OnChangeCompilerState += new PascalABCCompiler.ChangeCompilerStateEventDelegate(Compiler_OnChangeCompilerStateSync);
-            CompilerVersion.Text = "Core "+PascalABCCompiler.Compiler.Version +Environment.NewLine;
+            VisualEnvironmentCompiler.StandartCompiler.OnChangeCompilerState += new ChangeCompilerStateEventDelegate(Compiler_OnChangeCompilerStateSync);
+            CompilerVersion.Text = "Core "+Compiler.Version +Environment.NewLine;
             if (VisualEnvironmentCompiler.Compiler.InternalDebug.DebugVersion)
                 CompilerVersion.Text += "debug version";
             else
@@ -177,7 +180,7 @@ namespace VisualPascalABCPlugins
             Options.Add(oiRunMono,cbRunMono.Checked);
             try
             {
-                PascalABCCompiler.StringResources.WriteStringsToStream(new StreamWriter(FileName, false, System.Text.Encoding.GetEncoding(1251)), Options);
+                StringResources.WriteStringsToStream(new StreamWriter(FileName, false, System.Text.Encoding.GetEncoding(1251)), Options);
             }
             catch (Exception)
             {
@@ -185,13 +188,13 @@ namespace VisualPascalABCPlugins
         }
         public void LoadOptions(string FileName)
         {
-            cbNotUseRemoteCompiler.Checked = VisualEnvironmentCompiler.DefaultCompilerType == PascalABCCompiler.CompilerType.Standart;
+            cbNotUseRemoteCompiler.Checked = VisualEnvironmentCompiler.DefaultCompilerType == CompilerType.Standart;
             try
             {
                 if (!File.Exists(FileName))
                     return;
                 Hashtable Options = new Hashtable(StringComparer.CurrentCultureIgnoreCase);
-                PascalABCCompiler.StringResources.ReadStringsFromStream(new StreamReader(FileName, System.Text.Encoding.GetEncoding(1251)), Options);
+                StringResources.ReadStringsFromStream(new StreamReader(FileName, System.Text.Encoding.GetEncoding(1251)), Options);
                 string value;
                 if ((value = (string)Options[oiNoCodeGeneration]) != null)
                     NoCodeGeneration.Checked = Convert.ToBoolean(value);
@@ -220,10 +223,10 @@ namespace VisualPascalABCPlugins
         private void cbNotUseRemoteCompiler_CheckedChanged(object sender, EventArgs e)
         {
             if (cbNotUseRemoteCompiler.Checked)
-                VisualEnvironmentCompiler.DefaultCompilerType = PascalABCCompiler.CompilerType.Standart;
+                VisualEnvironmentCompiler.DefaultCompilerType = CompilerType.Standart;
             else
             {
-                VisualEnvironmentCompiler.DefaultCompilerType = PascalABCCompiler.CompilerType.Remote;
+                VisualEnvironmentCompiler.DefaultCompilerType = CompilerType.Remote;
                 VisualEnvironmentCompiler.RemoteCompiler.OnChangeCompilerState += Compiler_OnChangeCompilerStateSync;
                 VisualEnvironmentCompiler.RemoteCompiler.InternalDebug = VisualEnvironmentCompiler.StandartCompiler.InternalDebug;
             }
@@ -231,8 +234,8 @@ namespace VisualPascalABCPlugins
         
         void Button2Click(object sender, EventArgs e)
         {
-        	CodeCompletion.CodeCompletionTester.Test();
-            CodeCompletion.CodeCompletionTester.TestIntellisense(Path.Combine(@"c:\Work\Miks\_PABCNETGitHub\TestSuite", "intellisense_tests"));
+        	CodeCompletionTester.Test();
+            CodeCompletionTester.TestIntellisense(Path.Combine(@"c:\Work\Miks\_PABCNETGitHub\TestSuite", "intellisense_tests"));
             MessageBox.Show("Done");
         }
         
@@ -244,7 +247,7 @@ namespace VisualPascalABCPlugins
 
         private void button3_Click(object sender, EventArgs e)
         {
-            CodeCompletion.FormatterTester.Test();
+            FormatterTester.Test();
             MessageBox.Show("Done");
         }
     }

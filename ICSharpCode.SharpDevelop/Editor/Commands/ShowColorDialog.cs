@@ -6,6 +6,7 @@ using ICSharpCode.Core;
 using ICSharpCode.SharpDevelop.Gui;
 using System.IO;
 using System.Windows.Forms;
+using ICSharpCode.SharpDevelop.Gui.Dialogs;
 
 namespace ICSharpCode.SharpDevelop.Editor.Commands
 {

@@ -7,6 +7,8 @@ using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using ICSharpCode.FormsDesigner;
 using PascalABCCompiler;
+using PascalABCCompiler.NetHelper;
+using PascalSharp.Compiler;
 
 namespace VisualPascalABC.Projects
 {
@@ -23,11 +25,11 @@ namespace VisualPascalABC.Projects
 					string[] assemblies = ReferenceForm.Instance.GetSelectedGACAssemblies();
 					foreach (string s in assemblies)
 					{
-						PascalABCCompiler.IReferenceInfo ri = ProjectFactory.Instance.AddReference(s);
+						IReferenceInfo ri = ProjectFactory.Instance.AddReference(s);
 						ProjectExplorerWindow.AddReferenceNode(ri);
                         try
                         {
-                            ToolboxProvider.AddComponentsFromAssembly(PascalABCCompiler.NetHelper.NetHelper.LoadAssembly(Compiler.get_assembly_path(ri.FullAssemblyName, false)));
+                            ToolboxProvider.AddComponentsFromAssembly(NetHelper.LoadAssembly(Compiler.get_assembly_path(ri.FullAssemblyName, false)));
                         }
                         catch
                         {
@@ -41,7 +43,7 @@ namespace VisualPascalABC.Projects
 					string[] assemblies = ReferenceForm.Instance.GetSelectedCOMObjects();
 					foreach (string s in assemblies)
 					{
-						PascalABCCompiler.IReferenceInfo ri = ProjectFactory.Instance.AddReference(s);
+						IReferenceInfo ri = ProjectFactory.Instance.AddReference(s);
 						ProjectExplorerWindow.AddReferenceNode(ri);
 					}
 				}
@@ -63,18 +65,18 @@ namespace VisualPascalABC.Projects
                         //ProjectExplorerWindow.AddReferenceNode(Path.GetFileNameWithoutExtension(s));
                         try
                         {
-                            PascalABCCompiler.NetHelper.NetHelper.LoadAssembly(dll);
+                            NetHelper.LoadAssembly(dll);
                         }
                         catch
                         {
                             continue;
                         }
                         
-                        PascalABCCompiler.IReferenceInfo ri = ProjectFactory.Instance.AddReference(Path.GetFileNameWithoutExtension(dll));
+                        IReferenceInfo ri = ProjectFactory.Instance.AddReference(Path.GetFileNameWithoutExtension(dll));
                         ProjectExplorerWindow.AddReferenceNode(ri);
                         try
                         {
-                            ToolboxProvider.AddComponentsFromAssembly(PascalABCCompiler.NetHelper.NetHelper.LoadAssembly(Compiler.get_assembly_path(Path.Combine(ProjectFactory.Instance.ProjectDirectory, ri.FullAssemblyName), false)));
+                            ToolboxProvider.AddComponentsFromAssembly(NetHelper.LoadAssembly(Compiler.get_assembly_path(Path.Combine(ProjectFactory.Instance.ProjectDirectory, ri.FullAssemblyName), false)));
                         }
                         catch
                         {
@@ -94,7 +96,7 @@ namespace VisualPascalABC.Projects
 			frm.SetUnitFilter();
 			if (frm.ShowDialog() == DialogResult.OK)
 			{
-				PascalABCCompiler.IFileInfo fi = ProjectFactory.Instance.AddSourceFile(frm.FileName);
+				IFileInfo fi = ProjectFactory.Instance.AddSourceFile(frm.FileName);
 				ProjectExplorerWindow.AddSourceFile(fi,false);
 				string full_file_name = Path.Combine(Path.GetDirectoryName(ProjectFactory.Instance.CurrentProject.Path),frm.FileName);
                 StreamWriter sw = File.CreateText(full_file_name);
@@ -129,7 +131,7 @@ namespace VisualPascalABC.Projects
 			frm.FileName = ProjectFactory.Instance.GetUnitFileName();
             if (prompt && frm.ShowDialog() != DialogResult.OK) //roman//
                 return;
-            PascalABCCompiler.IFileInfo fi = ProjectFactory.Instance.AddSourceFile(frm.FileName);
+            IFileInfo fi = ProjectFactory.Instance.AddSourceFile(frm.FileName);
             string full_file_name = Path.Combine(Path.GetDirectoryName(ProjectFactory.Instance.CurrentProject.Path), frm.FileName);            
             StreamWriter sw = File.CreateText(full_file_name);
             sw.Close();
@@ -155,7 +157,7 @@ namespace VisualPascalABC.Projects
 
 		public static void AddFile(ProjectExplorerForm ProjectExplorerWindow, string file_name)
 		{
-			PascalABCCompiler.IFileInfo fi = ProjectFactory.Instance.AddSourceFile(file_name);
+			IFileInfo fi = ProjectFactory.Instance.AddSourceFile(file_name);
 			ProjectExplorerWindow.AddSourceFile(fi,false);
 		}
 		
@@ -189,7 +191,7 @@ namespace VisualPascalABC.Projects
 			open_dlg.ShowDialog();
 		}
 		
-		public static void RemoveReference(PascalABCCompiler.IReferenceInfo ri)
+		public static void RemoveReference(IReferenceInfo ri)
 		{
 			ProjectFactory.Instance.RemoveReference(ri);
             ToolboxProvider.RemoveComponentsFromAssembly(GetReflectionAssembly(ri));
@@ -201,11 +203,11 @@ namespace VisualPascalABC.Projects
             if (path == null)
                 path = Compiler.get_assembly_path(ri.FullAssemblyName, false);
             if (path != null)
-                return PascalABCCompiler.NetHelper.NetHelper.LoadAssembly(path);
+                return NetHelper.LoadAssembly(path);
             return null;
         }
 
-		public static void ExcludeFile(PascalABCCompiler.IFileInfo fi)
+		public static void ExcludeFile(IFileInfo fi)
 		{
 			ProjectFactory.Instance.ExcludeFile(fi);
 			ProjectFactory.Instance.RemoveNamespaceFileReference(fi.Path);

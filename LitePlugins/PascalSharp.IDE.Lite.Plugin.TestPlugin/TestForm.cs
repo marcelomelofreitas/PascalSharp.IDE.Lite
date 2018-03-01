@@ -5,8 +5,9 @@ using System.Data;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
-using PascalABCCompiler.Errors;
 using System.IO;
+using PascalSharp.Compiler;
+using PascalSharp.Internal.Localization;
 
 namespace VisualPascalABCPlugins
 {
@@ -17,7 +18,7 @@ namespace VisualPascalABCPlugins
         public TestForm()
         {
             InitializeComponent();
-            PascalABCCompiler.StringResources.SetTextForAllObjects(this, TestPlugin_VisualPascalABCPlugin.StringsPrefix);
+            StringResources.SetTextForAllObjects(this, TestPlugin_VisualPascalABCPlugin.StringsPrefix);
         }
 
         private void SyntaxTreeVisualisatorForm_Load(object sender, EventArgs e)
@@ -33,10 +34,10 @@ namespace VisualPascalABCPlugins
 
         private void SyntaxTreeVisualisatorForm_Shown(object sender, EventArgs e)
         {
-            VisualEnvironmentCompiler.Compiler.OnChangeCompilerState += new PascalABCCompiler.ChangeCompilerStateEventDelegate(Compiler_OnChangeCompilerState);
+            VisualEnvironmentCompiler.Compiler.OnChangeCompilerState += new ChangeCompilerStateEventDelegate(Compiler_OnChangeCompilerState);
         }
 
-        void Compiler_OnChangeCompilerState(PascalABCCompiler.ICompiler sender, PascalABCCompiler.CompilerState State, string FileName)
+        void Compiler_OnChangeCompilerState(ICompiler sender, CompilerState State, string FileName)
         {
             //compiler states
         }

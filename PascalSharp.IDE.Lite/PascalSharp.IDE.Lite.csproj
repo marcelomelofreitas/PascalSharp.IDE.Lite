@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>net461;net471</TargetFrameworks>
+    <TargetFrameworks>net40;net45;net471</TargetFrameworks>
     <OutputPath>$(SolutionDir)bin\</OutputPath>
     <RootNamespace>VisualPascalABC</RootNamespace>
     <OutputType>WinExe</OutputType>
@@ -25,10 +25,8 @@
   <ItemGroup>
     <PackageReference Include="DockPanelSuite" Version="3.0.4" />
     <PackageReference Include="DockPanelSuite.ThemeVS2015" Version="3.0.4" />
-    <PackageReference Include="Microsoft.Build.Tasks.Core" Version="15.5.180" />
-    <PackageReference Include="Microsoft.Build.Engine" Version="15.5.180" />
     <PackageReference Include="SharpDisasm" Version="1.1.9" />
-    <PackageReference Include="PascalSharp.Compiler" Version="0.1.1.1-ci.2018.2.13" />
+    <PackageReference Include="PascalSharp.Compiler" Version="0.1.2.1-ci.2018.2.28" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="PresentationCore" />
@@ -39,6 +37,8 @@
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Windows.Forms.DataVisualization" />
     <Reference Include="System.Xaml" />
+    <Reference Include="Microsoft.Build" />
+    <Reference Include="Microsoft.Build.Framework" />
     <Reference Include="UIAutomationProvider" />
     <Reference Include="WindowsBase" />
     <Reference Include="WindowsFormsIntegration" />

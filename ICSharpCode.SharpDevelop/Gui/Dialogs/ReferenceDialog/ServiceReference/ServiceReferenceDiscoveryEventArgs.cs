@@ -8,10 +8,9 @@ using System.ServiceModel.Description;
 using System.Text;
 using System.Web.Services.Description;
 using System.Web.Services.Discovery;
-
 using WebServices = System.Web.Services.Description;
 
-namespace ICSharpCode.SharpDevelop.Gui
+namespace ICSharpCode.SharpDevelop.Gui.Dialogs.ReferenceDialog.ServiceReference
 {
 	public class ServiceReferenceDiscoveryEventArgs : EventArgs
 	{

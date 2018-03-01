@@ -6,19 +6,13 @@
  * 
  * To change this template use Tools | Options | Coding | Edit Standard Headers.
  */
+
 using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
 
-using ICSharpCode.SharpDevelop.Gui;
-
-namespace ICSharpCode.SharpDevelop.Gui.OptionPanels
+namespace ICSharpCode.SharpDevelop.Gui.Dialogs.OptionPanels.IDEOptions
 {
 	/// <summary>
 	/// Interaction logic for TaskListXaml.xaml

@@ -13,6 +13,8 @@ using ICSharpCode.TextEditor.Gui;
 using ICSharpCode.TextEditor.Document;
 using ICSharpCode.TextEditor.Gui.CompletionWindow;
 using ICSharpCode.TextEditor.Gui.InsightWindow;
+using PascalSharp.Internal.CodeCompletion;
+using KeywordKind = PascalABCCompiler.Parsers.KeywordKind;
 
 namespace VisualPascalABC
 {
@@ -65,7 +67,7 @@ namespace VisualPascalABC
         {
             if (!WorkbenchServiceFactory.Workbench.UserOptions.AllowCodeCompletion || !VisualPABCSingleton.MainForm.VisualEnvironmentCompiler.compilerLoaded)
                 return false;
-            if (CodeCompletion.CodeCompletionController.CurrentParser == null) return false;
+            if (CodeCompletionController.CurrentParser == null) return false;
             if (codeCompletionWindow != null)
             {
                 // If completion window is open and wants to handle the key, don't let the text area
@@ -90,7 +92,7 @@ namespace VisualPascalABC
             }
             if (key == '.')
             {
-                if (CodeCompletion.CodeCompletionController.CurrentParser == null)
+                if (CodeCompletionController.CurrentParser == null)
                     return false;
                 if (!string.IsNullOrEmpty(WorkbenchServiceFactory.DocumentService.CurrentCodeFileDocument.TextEditor.ActiveTextAreaControl.SelectionManager.SelectedText))
                 {
@@ -110,7 +112,7 @@ namespace VisualPascalABC
                         key,							// Key pressed - will be passed to the provider
                         true,
                         true,
-                        PascalABCCompiler.Parsers.KeywordKind.None
+                        KeywordKind.None
                     );
                     CodeCompletionNamesOnlyInModuleAction.is_begin = true;
                     CodeCompletionNamesOnlyInModuleAction.comp_windows[editor.ActiveTextAreaControl.TextArea] = codeCompletionWindow;
@@ -120,7 +122,7 @@ namespace VisualPascalABC
             }
             else if (key == '(' || key == '[' || key == ',')
             {
-                if (CodeCompletion.CodeCompletionController.CurrentParser == null) return false;
+                if (CodeCompletionController.CurrentParser == null) return false;
                 if (VisualPABCSingleton.MainForm.UserOptions.CodeCompletionParams)
                 {
                     ICSharpCode.TextEditor.Gui.InsightWindow.IInsightDataProvider idp = new DefaultInsightDataProvider(-1, false, key);
@@ -142,11 +144,11 @@ namespace VisualPascalABC
             }
             else if (key == ' ')
             {
-                if (CodeCompletion.CodeCompletionController.CurrentParser == null) return false;
+                if (CodeCompletionController.CurrentParser == null) return false;
                 if (VisualPABCSingleton.MainForm.UserOptions.CodeCompletionDot)
                 {
-                    PascalABCCompiler.Parsers.KeywordKind keyw = KeywordChecker.TestForKeyword(editor.Document.TextContent, editor.ActiveTextAreaControl.TextArea.Caret.Offset - 1);
-                    if (keyw == PascalABCCompiler.Parsers.KeywordKind.New || keyw == PascalABCCompiler.Parsers.KeywordKind.Uses)
+                    KeywordKind keyw = KeywordChecker.TestForKeyword(editor.Document.TextContent, editor.ActiveTextAreaControl.TextArea.Caret.Offset - 1);
+                    if (keyw == KeywordKind.New || keyw == KeywordKind.Uses)
                     {
                         completionDataProvider = new CodeCompletionProvider();
                         codeCompletionWindow = PABCNETCodeCompletionWindow.ShowCompletionWindow(
@@ -168,14 +170,14 @@ namespace VisualPascalABC
             }
             else if (key == '\n')
             {
-                if (VisualPABCSingleton.MainForm.UserOptions.AllowCodeCompletion && CodeCompletion.CodeCompletionController.CurrentParser != null)
+                if (VisualPABCSingleton.MainForm.UserOptions.AllowCodeCompletion && CodeCompletionController.CurrentParser != null)
                 {
                     try
                     {
-                        CodeCompletion.DomConverter dconv = (CodeCompletion.DomConverter)CodeCompletion.CodeCompletionController.comp_modules[editor.FileName];
+                        DomConverter dconv = (DomConverter)CodeCompletionController.comp_modules[editor.FileName];
                         if (dconv != null)
                         {
-                            CodeCompletion.SymScope ss = dconv.FindScopeByLocation(editor.ActiveTextAreaControl.TextArea.Caret.Line + 1, editor.ActiveTextAreaControl.TextArea.Caret.Column + 1);
+                            SymScope ss = dconv.FindScopeByLocation(editor.ActiveTextAreaControl.TextArea.Caret.Line + 1, editor.ActiveTextAreaControl.TextArea.Caret.Column + 1);
                             ss.IncreaseEndLine();
                         }
                     }
@@ -189,9 +191,9 @@ namespace VisualPascalABC
             {
                 if (VisualPABCSingleton.MainForm.UserOptions.CodeCompletionDot)
                 {
-                    if (CodeCompletion.CodeCompletionController.CurrentParser == null) return false;
-                    PascalABCCompiler.Parsers.KeywordKind keyw = KeywordChecker.TestForKeyword(editor.Document.TextContent, editor.ActiveTextAreaControl.TextArea.Caret.Offset - 1);
-                    if (CodeCompletion.CodeCompletionController.CurrentParser.LanguageInformation.IsDefinitionIdentifierAfterKeyword(keyw))
+                    if (CodeCompletionController.CurrentParser == null) return false;
+                    KeywordKind keyw = KeywordChecker.TestForKeyword(editor.Document.TextContent, editor.ActiveTextAreaControl.TextArea.Caret.Offset - 1);
+                    if (CodeCompletionController.CurrentParser.LanguageInformation.IsDefinitionIdentifierAfterKeyword(keyw))
                         return false;
 
                     if (editor.ActiveTextAreaControl.TextArea.Caret.Offset > 0 && (char.IsLetterOrDigit(editor.Document.TextContent[editor.ActiveTextAreaControl.TextArea.Caret.Offset - 1]) || editor.Document.TextContent[editor.ActiveTextAreaControl.TextArea.Caret.Offset - 1] == '_'))
@@ -215,9 +217,9 @@ namespace VisualPascalABC
             {
             	if (mainForm.UserOptions.AllowCodeFormatting)
                 {
-            		if (CodeCompletion.CodeCompletionController.currentParser == null) return false;
-            		string bracket = CodeCompletion.CodeCompletionController.currentParser.LanguageInformation.GetBodyStartBracket();
-            		string end_bracket = CodeCompletion.CodeCompletionController.currentParser.LanguageInformation.GetBodyEndBracket();
+            		if (CodeCompletionController.currentParser == null) return false;
+            		string bracket = CodeCompletionController.currentParser.LanguageInformation.GetBodyStartBracket();
+            		string end_bracket = CodeCompletionController.currentParser.LanguageInformation.GetBodyEndBracket();
             		if (bracket != null)
             		{
             			int i = editor.ActiveTextAreaControl.TextArea.Caret.Offset-1;
@@ -265,8 +267,8 @@ namespace VisualPascalABC
             {
                 codeCompletionWindow.Closed -= new EventHandler(CloseCodeCompletionWindow);
                 CodeCompletionProvider.disp.Reset();
-                CodeCompletion.AssemblyDocCache.Reset();
-                CodeCompletion.UnitDocCache.Reset();
+                AssemblyDocCache.Reset();
+                UnitDocCache.Reset();
                 codeCompletionWindow.Dispose();
                 CodeCompletionNamesOnlyInModuleAction.comp_windows[editor.ActiveTextAreaControl.TextArea] = null;
                 codeCompletionWindow = null;

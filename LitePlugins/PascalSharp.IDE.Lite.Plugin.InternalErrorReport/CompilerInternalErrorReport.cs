@@ -7,6 +7,7 @@ using System.Text;
 using System.Windows.Forms;
 using ICSharpCode.SharpZipLib.Zip;
 using System.IO;
+using PascalSharp.Internal.Localization;
 
 namespace VisualPascalABCPlugins
 {
@@ -20,7 +21,7 @@ namespace VisualPascalABCPlugins
         public CompilerInternalErrorReport()
         {
             InitializeComponent();
-            PascalABCCompiler.StringResources.SetTextForAllObjects(this, StringPrefix);
+            StringResources.SetTextForAllObjects(this, StringPrefix);
             this.ActiveControl = okButton;
         }
 
@@ -31,7 +32,7 @@ namespace VisualPascalABCPlugins
 
         private void CompilerInternalErrorReport_Shown(object sender, EventArgs e)
         {
-            ReportTextBox.Text = PascalABCCompiler.StringResources.Get(StringPrefix+"ADD_YUOR_COMMENT_HERE") + Environment.NewLine + ReportText;
+            ReportTextBox.Text = StringResources.Get(StringPrefix+"ADD_YUOR_COMMENT_HERE") + Environment.NewLine + ReportText;
             string fn = "";
             if (FileNames.Count > 0)
                 if (FileNames[0]!=null)

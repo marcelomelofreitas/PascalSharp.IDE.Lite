@@ -8,6 +8,8 @@ using System.Data;
 using System.Text;
 using System.Windows.Forms;
 using System.IO;
+using PascalSharp.Compiler;
+using PascalSharp.Internal.Localization;
 
 namespace VisualPascalABC.OptionsContent
 {
@@ -19,7 +21,7 @@ namespace VisualPascalABC.OptionsContent
         {
             this.MainForm = MainForm;
             InitializeComponent();
-            PascalABCCompiler.StringResources.SetTextForAllObjects(this, strprefix);
+            StringResources.SetTextForAllObjects(this, strprefix);
             //this.cbUseDllForSystemUnits.Visible = false;
         }
 
@@ -31,14 +33,14 @@ namespace VisualPascalABC.OptionsContent
         {
             get
             {
-                return PascalABCCompiler.StringResources.Get(strprefix+"NAME");
+                return StringResources.Get(strprefix+"NAME");
             }
         }
         public string Description
         {
             get
             {
-                return PascalABCCompiler.StringResources.Get(strprefix+"DESCRIPTION");
+                return StringResources.Get(strprefix+"DESCRIPTION");
             }
         }
 
@@ -49,7 +51,7 @@ namespace VisualPascalABC.OptionsContent
 
         public void Action(OptionsContentAction action)
         {
-            PascalABCCompiler.CompilerOptions CompOpt = WorkbenchServiceFactory.BuildService.CompilerOptions;
+            CompilerOptions CompOpt = WorkbenchServiceFactory.BuildService.CompilerOptions;
             UserOptions opt = MainForm.UserOptions;
 
             switch (action)
@@ -59,18 +61,18 @@ namespace VisualPascalABC.OptionsContent
                     if (!alreadyShown)
                     {
                         comboBox1.Items.Clear();
-                        comboBox1.Items.Add(PascalABCCompiler.StringResources.Get("VP_MF_AT_CONSOLE"));
-                        comboBox1.Items.Add(PascalABCCompiler.StringResources.Get("VP_MF_AT_WINDOWS"));
-                        comboBox1.Items.Add(PascalABCCompiler.StringResources.Get("VP_MF_AT_DLL"));
+                        comboBox1.Items.Add(StringResources.Get("VP_MF_AT_CONSOLE"));
+                        comboBox1.Items.Add(StringResources.Get("VP_MF_AT_WINDOWS"));
+                        comboBox1.Items.Add(StringResources.Get("VP_MF_AT_DLL"));
                         switch (CompOpt.OutputFileType)
                         {
-                            case PascalABCCompiler.CompilerOptions.OutputType.ConsoleApplicaton:
+                            case CompilerOptions.OutputType.ConsoleApplicaton:
                                 comboBox1.SelectedItem = comboBox1.Items[0];
                                 break;
-                            case PascalABCCompiler.CompilerOptions.OutputType.WindowsApplication:
+                            case CompilerOptions.OutputType.WindowsApplication:
                                 comboBox1.SelectedItem = comboBox1.Items[1];
                                 break;
-                            case PascalABCCompiler.CompilerOptions.OutputType.ClassLibrary:
+                            case CompilerOptions.OutputType.ClassLibrary:
                                 comboBox1.SelectedItem = comboBox1.Items[2];
                                 break;
                         }
@@ -89,13 +91,13 @@ namespace VisualPascalABC.OptionsContent
                     /*switch (comboBox1.Items.IndexOf(comboBox1.SelectedItem))
                     {
                         case 0:
-                            CompOpt.OutputFileType = PascalABCCompiler.CompilerOptions.OutputType.ConsoleApplicaton;
+                            CompOpt.OutputFileType = CompilerOptions.OutputType.ConsoleApplicaton;
                             break;
                         case 1:
-                            CompOpt.OutputFileType = PascalABCCompiler.CompilerOptions.OutputType.WindowsApplication;
+                            CompOpt.OutputFileType = CompilerOptions.OutputType.WindowsApplication;
                             break;
                         case 2:
-                            CompOpt.OutputFileType = PascalABCCompiler.CompilerOptions.OutputType.ClassLibrary;
+                            CompOpt.OutputFileType = CompilerOptions.OutputType.ClassLibrary;
                             break;
                     }*/
                     CompOpt.Debug = checkBox1.Checked;
@@ -110,7 +112,7 @@ namespace VisualPascalABC.OptionsContent
                         }
                         catch (Exception ex)
                         {
-                            MessageBox.Show(ex.Message, PascalABCCompiler.StringResources.Get("!ERROR_ON_CREATE_DIRECORY"), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            MessageBox.Show(ex.Message, StringResources.Get("!ERROR_ON_CREATE_DIRECORY"), MessageBoxButtons.OK, MessageBoxIcon.Error);
                             ActiveControl = tbOutputDirectory;
                             return;
                         }

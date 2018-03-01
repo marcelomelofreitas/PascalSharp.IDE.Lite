@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.Threading;
+using PascalSharp.Internal.Localization;
 
 namespace VisualPascalABC.DockContent
 {
@@ -46,9 +47,9 @@ namespace VisualPascalABC.DockContent
             MainForm.SelectContent(this, true);
             MainForm.FindAllReferncesEnabled = true;
             if (__syms_count > 0)
-                MainForm.SetStateText(string.Format(PascalABCCompiler.StringResources.Get("VP_VEC_STATETEXT_FINDREFERNCES_RESULT{0}"), __syms_count));
+                MainForm.SetStateText(string.Format(StringResources.Get("VP_VEC_STATETEXT_FINDREFERNCES_RESULT{0}"), __syms_count));
             else
-                MainForm.SetStateText(PascalABCCompiler.StringResources.Get("VP_VEC_STATETEXT_NOTFOUND"));
+                MainForm.SetStateText(StringResources.Get("VP_VEC_STATETEXT_NOTFOUND"));
         }
         private void __gaFindReferences(object state)
         {
@@ -74,7 +75,7 @@ namespace VisualPascalABC.DockContent
             	MainForm.ShowContent(this, false);
             }
             MainForm.FindAllReferncesEnabled = false;
-            MainForm.SetStateText(PascalABCCompiler.StringResources.Get("VP_VEC_STATETEXT_FINDREFERNCES"));
+            MainForm.SetStateText(StringResources.Get("VP_VEC_STATETEXT_FINDREFERNCES"));
             lvFindSymbolResults.Items.Clear();
             __textarea = MainForm.CurrentCodeFileDocument.TextEditor.ActiveTextAreaControl.TextArea;
             if (!ThreadPool.QueueUserWorkItem(__gaFindReferences))

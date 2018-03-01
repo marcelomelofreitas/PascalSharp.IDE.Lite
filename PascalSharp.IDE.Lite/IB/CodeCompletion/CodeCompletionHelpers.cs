@@ -8,6 +8,9 @@ using System.Windows.Forms;
 using ICSharpCode.TextEditor;
 using ICSharpCode.TextEditor.Gui.CompletionWindow;
 using ICSharpCode.TextEditor.Document;
+using PascalABCCompiler.Parsers;
+using PascalSharp.Internal.CodeCompletion;
+using KeywordKind = PascalABCCompiler.Parsers.KeywordKind;
 
 namespace VisualPascalABC
 {
@@ -29,10 +32,10 @@ namespace VisualPascalABC
     		return dict[ch.ToString()] as ICompletionData;
     	}
     	
-    	private static CodeCompletion.SymScope cur_sc;
+    	private static SymScope cur_sc;
     	private static Hashtable ht = new Hashtable();
     	
-    	public static void AddMemberBeforeDot(CodeCompletion.SymScope sc)
+    	public static void AddMemberBeforeDot(SymScope sc)
     	{
     		cur_sc = sc;
     	}
@@ -44,7 +47,7 @@ namespace VisualPascalABC
     		cur_sc = null;
     	}
     	
-    	public static string GetRecentUsedMember(CodeCompletion.SymScope sc)
+    	public static string GetRecentUsedMember(SymScope sc)
     	{
     		return ht[sc.GetFullName()] as string;
     	}
@@ -52,11 +55,11 @@ namespace VisualPascalABC
     
     public class KeywordChecker
     {
-    	public static PascalABCCompiler.Parsers.KeywordKind TestForKeyword(string Text, int i)
+    	public static KeywordKind TestForKeyword(string Text, int i)
         {
-            if (CodeCompletion.CodeCompletionController.CurrentParser != null && CodeCompletion.CodeCompletionController.CurrentParser.LanguageInformation !=null)
-        	    return CodeCompletion.CodeCompletionController.CurrentParser.LanguageInformation.TestForKeyword(Text, i);
-        	return PascalABCCompiler.Parsers.KeywordKind.None;
+            if (CodeCompletionController.CurrentParser != null && CodeCompletionController.CurrentParser.LanguageInformation !=null)
+        	    return CodeCompletionController.CurrentParser.LanguageInformation.TestForKeyword(Text, i);
+        	return KeywordKind.None;
         } 
         
     }
@@ -65,9 +68,9 @@ namespace VisualPascalABC
     /// Класс-диспетчер, прицепляющий документацию к методам и классам.
     /// Документация прицепляется в отдельном потоке
     /// </summary>
-    public class DefaultDispatcher : CodeCompletion.AbstractDispatcher
+    public class DefaultDispatcher : AbstractDispatcher
     {
-        private Dictionary<PascalABCCompiler.Parsers.SymInfo, ICompletionData> dict = new Dictionary<PascalABCCompiler.Parsers.SymInfo, ICompletionData>();
+        private Dictionary<SymInfo, ICompletionData> dict = new Dictionary<SymInfo, ICompletionData>();
         private Dictionary<string, ICompletionData> dict2 = new Dictionary<string, ICompletionData>();
     	public void Reset()
     	{
@@ -75,7 +78,7 @@ namespace VisualPascalABC
             dict2.Clear();
     	}
 
-        public void Add(PascalABCCompiler.Parsers.SymInfo si, ICompletionData data)
+        public void Add(SymInfo si, ICompletionData data)
     	{
     		if (!dict.ContainsKey(si))
     		    dict[si] = data;
@@ -83,7 +86,7 @@ namespace VisualPascalABC
                 dict2[si.description] = data;
     	}
 
-        public override void Update(PascalABCCompiler.Parsers.SymInfo si)
+        public override void Update(SymInfo si)
 		{
     		ICompletionData val=null;
     		if (dict.TryGetValue(si,out val))

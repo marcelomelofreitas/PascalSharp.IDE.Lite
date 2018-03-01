@@ -7,6 +7,10 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using PascalABCCompiler.NetHelper;
+using PascalSharp.Compiler;
+using PascalSharp.Internal.CodeCompletion;
+using PascalSharp.Internal.Localization;
 using VisualPascalABC.DockContent;
 using VisualPascalABC.Projects;
 using VisualPascalABCPlugins;
@@ -29,7 +33,7 @@ namespace VisualPascalABC
                     if (!CloseProject())
                         return;
                 }
-                PascalABCCompiler.IProjectInfo proj = ProjectFactory.Instance.CreateProject(npf.ProjectName, npf.ProjectFileName, npf.ProjectType);
+                IProjectInfo proj = ProjectFactory.Instance.CreateProject(npf.ProjectName, npf.ProjectFileName, npf.ProjectType);
                 ProjectExplorerWindow.LoadProject(npf.ProjectName, ProjectFactory.Instance.CurrentProject);
                 ProjectExplorerWindow.Show();
                 //ShowContent(ProjectExplorerWindow,true);
@@ -39,13 +43,13 @@ namespace VisualPascalABC
                 WorkbenchServiceFactory.FileService.OpenFile(proj.MainFile, null);
                 ActiveCodeFileDocument = CurrentCodeFileDocument;
                 AddLastProject(npf.ProjectFileName);
-                if (CodeCompletion.CodeCompletionController.comp != null)
+                if (CodeCompletionController.comp != null)
                 {
-                    CodeCompletion.CodeCompletionController.comp.CompilerOptions.CurrentProject = proj;
+                    CodeCompletionController.comp.CompilerOptions.CurrentProject = proj;
                 }
                 this.mRPROJECTToolStripMenuItem.Visible = true;
                 this.miCloseProject.Visible = true;
-                if (proj.ProjectType == PascalABCCompiler.ProjectType.WindowsApp)
+                if (proj.ProjectType == ProjectType.WindowsApp)
                 {
                     //string s = ProjectFactory.Instance.GetFullUnitFileName();
                     //OpenFile(null,s);
@@ -65,7 +69,7 @@ namespace VisualPascalABC
         {
             if (!File.Exists(projectFileName))
             {
-                MessageBox.Show(string.Format(PascalABCCompiler.StringResources.Get("!PROJECT_NOT_FOUND{0}"), projectFileName), PascalABCCompiler.StringResources.Get("!ERROR"), MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show(string.Format(StringResources.Get("!PROJECT_NOT_FOUND{0}"), projectFileName), StringResources.Get("!ERROR"), MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
             if (ProjectFactory.Instance.ProjectLoaded)
@@ -74,7 +78,7 @@ namespace VisualPascalABC
             }
             try
             {
-                PascalABCCompiler.IProjectInfo proj = ProjectFactory.Instance.OpenProject(projectFileName);
+                IProjectInfo proj = ProjectFactory.Instance.OpenProject(projectFileName);
                 ProjectExplorerWindow.LoadProject(Path.GetFileNameWithoutExtension(projectFileName), ProjectFactory.Instance.CurrentProject);
                 ICSharpCode.FormsDesigner.ToolboxProvider.ReloadSideTabs(false);
                 CloseFilesAndSaveState();
@@ -87,7 +91,7 @@ namespace VisualPascalABC
                     var path = Compiler.get_assembly_path(Path.Combine(ProjectFactory.Instance.ProjectDirectory, ri.FullAssemblyName), false);
                     if (path == null)
                         path = Compiler.get_assembly_path(ri.FullAssemblyName, false);
-                    ICSharpCode.FormsDesigner.ToolboxProvider.AddComponentsFromAssembly(PascalABCCompiler.NetHelper.NetHelper.LoadAssembly(path));
+                    ICSharpCode.FormsDesigner.ToolboxProvider.AddComponentsFromAssembly(NetHelper.LoadAssembly(path));
                 }
                 if (setts != null)
                 {
@@ -132,20 +136,20 @@ namespace VisualPascalABC
                     WorkbenchServiceFactory.FileService.OpenFile(proj.MainFile, null);
                 ActiveCodeFileDocument = CurrentCodeFileDocument;
                 AddLastProject(projectFileName);
-                if (CodeCompletion.CodeCompletionController.comp != null)
+                if (CodeCompletionController.comp != null)
                 {
-                    CodeCompletion.CodeCompletionController.comp.CompilerOptions.CurrentProject = proj;
+                    CodeCompletionController.comp.CompilerOptions.CurrentProject = proj;
                 }
                 this.mRPROJECTToolStripMenuItem.Visible = true;
                 this.miCloseProject.Visible = true;
             }
-            catch (PascalABCCompiler.TooOldProjectFileVersion)
+            catch (TooOldProjectFileVersion)
             {
-                MessageBox.Show(Form1StringResources.Get("TOO_OLD_PROJECT_FILE_VERSION"), PascalABCCompiler.StringResources.Get("!ERROR"), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(Form1StringResources.Get("TOO_OLD_PROJECT_FILE_VERSION"), StringResources.Get("!ERROR"), MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             catch (Exception ex)
             {
-                MessageBox.Show(Form1StringResources.Get("ERROR_OPEN_PROJECT"), PascalABCCompiler.StringResources.Get("!ERROR"), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(Form1StringResources.Get("ERROR_OPEN_PROJECT"), StringResources.Get("!ERROR"), MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -172,7 +176,7 @@ namespace VisualPascalABC
             mrDesigner.Visible = false;
             miCloseProject.Visible = false;
             this.mRPROJECTToolStripMenuItem.Visible = false;
-            CodeCompletion.CodeCompletionController.comp.CompilerOptions.CurrentProject = null;
+            CodeCompletionController.comp.CompilerOptions.CurrentProject = null;
             return true;
         }
 
@@ -226,7 +230,7 @@ namespace VisualPascalABC
 
         int QuestionAndSaveProject()
         {
-            DialogResult result = MessageBox.Show(string.Format(Form1StringResources.Get("SAVE_CHANGES_IN_PROJECT{0}"), ProjectFactory.Instance.CurrentProject.Name), PascalABCCompiler.StringResources.Get("!CONFIRM"), MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
+            DialogResult result = MessageBox.Show(string.Format(Form1StringResources.Get("SAVE_CHANGES_IN_PROJECT{0}"), ProjectFactory.Instance.CurrentProject.Name), StringResources.Get("!CONFIRM"), MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
             if (result == DialogResult.Yes)
             {
                 ProjectFactory.Instance.SaveProject();

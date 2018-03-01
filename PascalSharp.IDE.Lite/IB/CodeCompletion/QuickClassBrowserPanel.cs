@@ -6,9 +6,11 @@ using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
 using System.Collections.Generic;
-using CodeCompletion;
+using PascalSharp.Internal.CodeCompletion;
 using System.Threading;
 using PascalABCCompiler.Parsers;
+using PascalSharp.Internal.Errors;
+using PascalSharp.Internal.Localization;
 using VisualPascalABC.DockContent;
 
 namespace VisualPascalABC
@@ -552,19 +554,19 @@ namespace VisualPascalABC
             int ind = 0;
             if (currentCompilationUnit == null)
             {
-                //items.Add(new ComboBoxItem(currentCompilationUnit,PascalABCCompiler.StringResources.Get("CODE_COMPLETION_GLOBAL"),CodeCompletionProvider.ImagesProvider.IconNumberUnitNamespace,true,true));
+                //items.Add(new ComboBoxItem(currentCompilationUnit,StringResources.Get("CODE_COMPLETION_GLOBAL"),CodeCompletionProvider.ImagesProvider.IconNumberUnitNamespace,true,true));
                 return;
             }
             if ((currentCompilationUnit as InterfaceUnitScope).impl_scope != null)
             {
-                items.Add(new ComboBoxItem(currentCompilationUnit, PascalABCCompiler.StringResources.Get("CODE_COMPLETION_INTERFACE"), CodeCompletionProvider.ImagesProvider.GetPictureNum(currentCompilationUnit.SymbolInfo), true, false));
+                items.Add(new ComboBoxItem(currentCompilationUnit, StringResources.Get("CODE_COMPLETION_INTERFACE"), CodeCompletionProvider.ImagesProvider.GetPictureNum(currentCompilationUnit.SymbolInfo), true, false));
                 impl = (currentCompilationUnit as IInterfaceUnitScope).ImplementationUnitScope;
-                items.Add(new ComboBoxItem(impl, PascalABCCompiler.StringResources.Get("CODE_COMPLETION_IMPLEMENTATION"), CodeCompletionProvider.ImagesProvider.GetPictureNum(impl.SymbolInfo), true, false));
+                items.Add(new ComboBoxItem(impl, StringResources.Get("CODE_COMPLETION_IMPLEMENTATION"), CodeCompletionProvider.ImagesProvider.GetPictureNum(impl.SymbolInfo), true, false));
                 ind = 2;
             }
             else
             {
-                items.Add(new ComboBoxItem(currentCompilationUnit, PascalABCCompiler.StringResources.Get("CODE_COMPLETION_GLOBAL"), CodeCompletionProvider.ImagesProvider.IconNumberUnitNamespace, true, true));
+                items.Add(new ComboBoxItem(currentCompilationUnit, StringResources.Get("CODE_COMPLETION_GLOBAL"), CodeCompletionProvider.ImagesProvider.IconNumberUnitNamespace, true, true));
                 ind = 1;
             }
             foreach (IBaseScope ss in currentCompilationUnit.Members)
@@ -694,7 +696,7 @@ namespace VisualPascalABC
                 AddClasses(items);
                 if (items.Count == 0)
                 {
-                    items.Add(new ComboBoxItem(currentCompilationUnit, PascalABCCompiler.StringResources.Get("CODE_COMPLETION_GLOBAL"), CodeCompletionProvider.ImagesProvider.IconNumberUnitNamespace, true, true));
+                    items.Add(new ComboBoxItem(currentCompilationUnit, StringResources.Get("CODE_COMPLETION_GLOBAL"), CodeCompletionProvider.ImagesProvider.IconNumberUnitNamespace, true, true));
                     only_global = true;
                 }
                 classComboBox.Invoke(new Invoke_del(Invoke_Clear));
@@ -799,10 +801,10 @@ namespace VisualPascalABC
                     {
                         //textAreaControl.ActiveTextAreaControl.Caret.Position = new ICSharpCode.TextEditor.TextLocation(item.Column, item.Line);
                         //textAreaControl.ActiveTextAreaControl.TextArea.Focus();
-                        //VisualPABCSingleton.MainForm.ExecuteSourceLocationAction(new PascalABCCompiler.SourceLocation(textAreaControl.FileName,item.Line+1,item.Column,
+                        //VisualPABCSingleton.MainForm.ExecuteSourceLocationAction(new SourceLocation(textAreaControl.FileName,item.Line+1,item.Column,
                         //                                                                                              item.EndLine+1,item.Column),VisualPascalABCPlugins.SourceLocationAction.NavigationGoto);
                         VisualPABCSingleton.MainForm.VisualEnvironmentCompiler.ExecuteSourceLocationAction(
-                            new PascalABCCompiler.SourceLocation(textAreaControl.FileName, item.Line + 1, item.Column + 1, item.Line + 1, item.Column + 1), VisualPascalABCPlugins.SourceLocationAction.GotoBeg);
+                            new SourceLocation(textAreaControl.FileName, item.Line + 1, item.Column + 1, item.Line + 1, item.Column + 1), VisualPascalABCPlugins.SourceLocationAction.GotoBeg);
                     }
                     else
                     {

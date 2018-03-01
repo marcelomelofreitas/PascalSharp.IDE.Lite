@@ -8,6 +8,7 @@ using System.Windows.Forms;
 
 using ICSharpCode.Core;
 using ICSharpCode.SharpDevelop.Gui;
+using ICSharpCode.SharpDevelop.Gui.Dialogs;
 
 namespace ICSharpCode.SharpDevelop.Commands
 {

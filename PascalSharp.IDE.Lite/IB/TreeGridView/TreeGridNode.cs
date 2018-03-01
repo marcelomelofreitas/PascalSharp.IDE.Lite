@@ -17,6 +17,7 @@ using System.ComponentModel.Design;
 using System.ComponentModel.Design.Serialization;
 using System.Drawing.Design;
 using System.Text;
+using PascalSharp.Internal.Debugger.Wrappers;
 using VisualPascalABC;
 using VisualPascalABCPlugins;
 
@@ -489,7 +490,7 @@ namespace AdvancedDataGridView
 		
 		private void Update()
 		{
-			DateTime start = Debugger.Util.HighPrecisionTimer.Now;
+			DateTime start = PascalSharp.Internal.Debugger.Util.HighPrecisionTimer.Now;
 			updated = false;
             //this.HasChildren = Content.HasSubItems;
             //this._image = content.Image;
@@ -513,7 +514,7 @@ namespace AdvancedDataGridView
 			if (this.Cells[2].Value == null)
 				this.Cells[2].Value = this.type;
 			//this.Cells[2].Value = this.type;
-            DateTime end = Debugger.Util.HighPrecisionTimer.Now;
+            DateTime end = PascalSharp.Internal.Debugger.Util.HighPrecisionTimer.Now;
 
             //LoggingService.InfoFormatted("Updated node {0} ({1} ms)", FullName, (end - start).TotalMilliseconds);
 

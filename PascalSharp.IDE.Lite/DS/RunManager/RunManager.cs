@@ -4,9 +4,11 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Text;
-using PascalABCCompiler.Errors;
+
 using System.IO;
 using System.Diagnostics;
+using PascalSharp.Internal.CompilerTools;
+using PascalSharp.Internal.Localization;
 
 namespace VisualPascalABC
 {
@@ -14,7 +16,7 @@ namespace VisualPascalABC
     {
         Hashtable StartedProcesses = new Hashtable(StringComparer.CurrentCultureIgnoreCase);
         Hashtable StartedFiles = new Hashtable();
-        PascalABCCompiler.EventedStreamReaderList EventedStreamReaderList;
+        EventedStreamReaderList EventedStreamReaderList;
         //EventedEventWaitHandleList ReadSignalList;
         //Encoding InputEncoding = Encoding.GetEncoding(866);
         Encoding InputEncoding = Encoding.UTF8;
@@ -187,8 +189,8 @@ namespace VisualPascalABC
         public RunManager(ReadStringRequestDelegate ReadStringRequest)
         {
             this.ReadStringRequest = ReadStringRequest;
-            EventedStreamReaderList = new PascalABCCompiler.EventedStreamReaderList(StringRecived);
-            StackOverflowExceptionText = PascalABCCompiler.StringResources.Get("!STACK_OVERFLOW_EXCEPTION_TEXT");
+            EventedStreamReaderList = new EventedStreamReaderList(StringRecived);
+            StackOverflowExceptionText = StringResources.Get("!STACK_OVERFLOW_EXCEPTION_TEXT");
             StackOverflowExceptionType = "StackOverflowException";
             //ReadSignalList = new EventedEventWaitHandleList(ReadSignal);
             /*

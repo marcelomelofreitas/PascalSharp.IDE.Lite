@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Window
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:core="http://icsharpcode.net/sharpdevelop/core" xmlns:widgets="http://icsharpcode.net/sharpdevelop/widgets"
-	x:Class="ICSharpCode.SharpDevelop.Gui.TabbedOptionsDialog"
+	x:Class="ICSharpCode.SharpDevelop.Gui.Dialogs.TabbedOptionsDialog"
 	Height="425"
 	Width="450"
 	WindowStartupLocation="CenterOwner"

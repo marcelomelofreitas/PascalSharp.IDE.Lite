@@ -7,6 +7,8 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
+using PascalSharp.Compiler;
+using PascalSharp.Internal.Localization;
 using VisualPascalABC.Projects;
 using VisualPascalABCPlugins;
 
@@ -71,7 +73,7 @@ namespace VisualPascalABC
             bool attachdbg = forDebugging || startWithGoto || needFirstBreakpoint; //|| WorkbenchServiceFactory.DebuggerManager.HasBreakpoints();
             bool fictive_attach = false;
             BuildService.CompilerOptions.UseDllForSystemUnits = false;
-            BuildService.CompilerOptions.OutputFileType = PascalABCCompiler.CompilerOptions.OutputType.ConsoleApplicaton;
+            BuildService.CompilerOptions.OutputFileType = CompilerOptions.OutputType.ConsoleApplicaton;
             if (ProjectFactory.Instance.ProjectLoaded)
                 tabPage = DocumentService.GetTabPageForMainFile();
             if (attachdbg && !Workbench.UserOptions.AlwaysAttachDebuggerAtStart)
@@ -88,7 +90,7 @@ namespace VisualPascalABC
                 ModeName = RedirectIOModeName;
                 if (Workbench.UserOptions.UseDllForSystemUnits && !Workbench.UserOptions.PABCDllChecked)
                 {
-                    if (typeof(System.Runtime.CompilerServices.ExtensionAttribute).Assembly != typeof(int).Assembly || PascalABCCompiler.Compiler.get_assembly_path("PABCRtl.dll", false) == null)
+                    if (typeof(System.Runtime.CompilerServices.ExtensionAttribute).Assembly != typeof(int).Assembly || Compiler.get_assembly_path("PABCRtl.dll", false) == null)
                         Workbench.UserOptions.UseDllForSystemUnits = false;
                     Workbench.UserOptions.PABCDllChecked = true;
                 }
@@ -124,16 +126,16 @@ namespace VisualPascalABC
                     OutputFileName = BuildService.Compile(ProjectFactory.Instance.CurrentProject, false, runtimeModule, true, true);
             }
             if (RunWithPause)
-                RunWithPause = RunWithPause && Workbench.VisualEnvironmentCompiler.Compiler.CompilerOptions.OutputFileType == PascalABCCompiler.CompilerOptions.OutputType.ConsoleApplicaton;
+                RunWithPause = RunWithPause && Workbench.VisualEnvironmentCompiler.Compiler.CompilerOptions.OutputFileType == CompilerOptions.OutputType.ConsoleApplicaton;
             if (OutputFileName != null)
             {
                 switch (Workbench.VisualEnvironmentCompiler.Compiler.CompilerOptions.OutputFileType)
                 {
-                    case PascalABCCompiler.CompilerOptions.OutputType.ClassLibrary:
-                        MessageBox.Show(Form1StringResources.Get("RUN_DLL_WARNING_TEXT"), PascalABCCompiler.StringResources.Get("!WARNING"), MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    case CompilerOptions.OutputType.ClassLibrary:
+                        MessageBox.Show(Form1StringResources.Get("RUN_DLL_WARNING_TEXT"), StringResources.Get("!WARNING"), MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         RunActiveTabPage = false;
                         break;
-                    case PascalABCCompiler.CompilerOptions.OutputType.PascalCompiledUnit:
+                    case CompilerOptions.OutputType.PascalCompiledUnit:
                         if (DocumentService.ActiveCodeFileDocument != null && DocumentService.ActiveCodeFileDocument != DocumentService.CurrentCodeFileDocument && !DocumentService.ActiveCodeFileDocument.Run)
                             if (!RunActiveTabPage)
                             {
@@ -141,10 +143,10 @@ namespace VisualPascalABC
                                 return Run(DocumentService.ActiveCodeFileDocument, forDebugging, startWithGoto, needFirstBreakpoint);
                             }
                         RunActiveTabPage = false;
-                        MessageBox.Show(Form1StringResources.Get("RUN_PCU_WARNING_TEXT"), PascalABCCompiler.StringResources.Get("!WARNING"), MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        MessageBox.Show(Form1StringResources.Get("RUN_PCU_WARNING_TEXT"), StringResources.Get("!WARNING"), MessageBoxButtons.OK, MessageBoxIcon.Warning);
                         break;
-                    case PascalABCCompiler.CompilerOptions.OutputType.ConsoleApplicaton:
-                    case PascalABCCompiler.CompilerOptions.OutputType.WindowsApplication:
+                    case CompilerOptions.OutputType.ConsoleApplicaton:
+                    case CompilerOptions.OutputType.WindowsApplication:
                         if (forDebugging)
                         {
                             BuildService.CompilerOptions.Debug = debug;

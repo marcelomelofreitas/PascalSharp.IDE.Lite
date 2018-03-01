@@ -464,7 +464,7 @@ namespace VisualPascalABC
             SetTabPageText(debuggedPage);
             ChangeDebugButtons(false);
             SaveDebugContext();
-            //this.mDEBUGSTARTToolStripMenuItem.Text = PascalABCCompiler.StringResources.Get("M_DEBUGSTART");
+            //this.mDEBUGSTARTToolStripMenuItem.Text = StringResources.Get("M_DEBUGSTART");
         }
 
         private bool play_pause_buttons_visible = true;

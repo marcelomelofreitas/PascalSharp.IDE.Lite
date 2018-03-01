@@ -9,6 +9,8 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
+using PascalSharp.Internal.CodeCompletion;
+using PascalSharp.Internal.Localization;
 
 namespace ICSharpCode.TextEditor.Util
 {
@@ -46,7 +48,7 @@ namespace ICSharpCode.TextEditor.Util
                             bold_beg = basicDescription.IndexOf('(', basicDescription.IndexOf(')') + 1) + 1;
                         if (bold_beg != 0)
                         {
-                            int end = basicDescription.IndexOf(CodeCompletion.CodeCompletionController.CurrentParser.LanguageInformation.ParameterDelimiter);
+                            int end = basicDescription.IndexOf(CodeCompletionController.CurrentParser.LanguageInformation.ParameterDelimiter);
                             int end_sk = basicDescription.IndexOf(')', bold_beg);
                             if (end > end_sk || end == -1) end = end_sk;
                             //if (end == -1) end = basicDescription.IndexOf(')');
@@ -58,13 +60,13 @@ namespace ICSharpCode.TextEditor.Util
                         int i = 1; bold_beg = 0;
                         while (i < param_num)
                         {
-                            bold_beg = basicDescription.IndexOf(CodeCompletion.CodeCompletionController.CurrentParser.LanguageInformation.ParameterDelimiter, bold_beg) + 1;
+                            bold_beg = basicDescription.IndexOf(CodeCompletionController.CurrentParser.LanguageInformation.ParameterDelimiter, bold_beg) + 1;
                             if (bold_beg == 0) break;
                             i++;
                         }
                         if (bold_beg != 0)
                         {
-                            int end = basicDescription.IndexOf(CodeCompletion.CodeCompletionController.CurrentParser.LanguageInformation.ParameterDelimiter, bold_beg);
+                            int end = basicDescription.IndexOf(CodeCompletionController.CurrentParser.LanguageInformation.ParameterDelimiter, bold_beg);
                             int end_sk = basicDescription.IndexOf(')', bold_beg);
                             if (end > end_sk || end == -1) end = end_sk;
                             if (end != -1) bold_len = end - bold_beg;
@@ -107,7 +109,7 @@ namespace ICSharpCode.TextEditor.Util
                             bold_beg = basicDescription.IndexOf('(', basicDescription.IndexOf(')') + 1) + 1;
                         if (bold_beg != 0)
                         {
-                            int end = basicDescription.IndexOf(CodeCompletion.CodeCompletionController.CurrentParser.LanguageInformation.ParameterDelimiter);
+                            int end = basicDescription.IndexOf(CodeCompletionController.CurrentParser.LanguageInformation.ParameterDelimiter);
                             int end_sk = basicDescription.IndexOf(')', bold_beg);
                             if (end > end_sk || end == -1) end = end_sk;
                             //if (end == -1) end = basicDescription.IndexOf(')');
@@ -119,13 +121,13 @@ namespace ICSharpCode.TextEditor.Util
                         int i = 1; bold_beg = 0;
                         while (i < param_num)
                         {
-                            bold_beg = basicDescription.IndexOf(CodeCompletion.CodeCompletionController.CurrentParser.LanguageInformation.ParameterDelimiter, bold_beg) + 1;
+                            bold_beg = basicDescription.IndexOf(CodeCompletionController.CurrentParser.LanguageInformation.ParameterDelimiter, bold_beg) + 1;
                             if (bold_beg == 0) break;
                             i++;
                         }
                         if (bold_beg != 0)
                         {
-                            int end = basicDescription.IndexOf(CodeCompletion.CodeCompletionController.CurrentParser.LanguageInformation.ParameterDelimiter, bold_beg);
+                            int end = basicDescription.IndexOf(CodeCompletionController.CurrentParser.LanguageInformation.ParameterDelimiter, bold_beg);
                             int end_sk = basicDescription.IndexOf(')', bold_beg);
                             if (end > end_sk || end == -1) end = end_sk;
                             if (end != -1) bold_len = end - bold_beg;
@@ -184,7 +186,7 @@ namespace ICSharpCode.TextEditor.Util
                         TipText paramsTextTip = null;
                         if (params_ind != -1 && addit_info)
                         {
-                            paramsTextTipHeader = new TipText(graphics, new Font(font, FontStyle.Bold), PascalABCCompiler.StringResources.Get("CODE_COMPLETION_PARAMETERS"));
+                            paramsTextTipHeader = new TipText(graphics, new Font(font, FontStyle.Bold), StringResources.Get("CODE_COMPLETION_PARAMETERS"));
                             paramsTextTipHeader.is_head = true;
                             int end_param = documentation.IndexOf("<returns>", params_ind);
                             string params_text;
@@ -247,7 +249,7 @@ namespace ICSharpCode.TextEditor.Util
                         TipText returnTextTip = null;
                         if (return_ind != -1 && addit_info)
                         {
-                            returnTextTipHeader = new TipText(graphics,new Font(font, FontStyle.Bold),PascalABCCompiler.StringResources.Get("CODE_COMPLETION_RETURN"));
+                            returnTextTipHeader = new TipText(graphics,new Font(font, FontStyle.Bold),StringResources.Get("CODE_COMPLETION_RETURN"));
                             returnTextTipHeader.is_head = true;
                             int end_return = documentation.IndexOf("<params>",return_ind);
                             string return_text;
@@ -285,7 +287,7 @@ namespace ICSharpCode.TextEditor.Util
                 sections.Insert(0, docTip);
                 if (!string.IsNullOrEmpty(documentation))
                 {
-                    TipText descr_head = new TipText(graphics, new Font(font, FontStyle.Bold), PascalABCCompiler.StringResources.Get("CODE_COMPLETION_DESCRIPTION"));
+                    TipText descr_head = new TipText(graphics, new Font(font, FontStyle.Bold), StringResources.Get("CODE_COMPLETION_DESCRIPTION"));
                     descr_head.is_head = true;
                     sections.Insert(0, descr_head);
                     sections.Insert(0, new TipText(graphics, new Font(font.FontFamily, 1), " "));
@@ -377,7 +379,7 @@ namespace ICSharpCode.TextEditor.Util
                         TipText paramsTextTip = null;
                         if (params_ind != -1 && addit_info)
                         {
-                            paramsTextTipHeader = new TipText(graphics, new Font(font, FontStyle.Bold), PascalABCCompiler.StringResources.Get("CODE_COMPLETION_PARAMETERS"));
+                            paramsTextTipHeader = new TipText(graphics, new Font(font, FontStyle.Bold), StringResources.Get("CODE_COMPLETION_PARAMETERS"));
                             paramsTextTipHeader.is_head = true;
                             int end_param = documentation.IndexOf("<returns>", params_ind);
                             string params_text;
@@ -440,7 +442,7 @@ namespace ICSharpCode.TextEditor.Util
                         TipText returnTextTip = null;
                         if (return_ind != -1 && addit_info)
                         {
-                            returnTextTipHeader = new TipText(graphics,new Font(font, FontStyle.Bold),PascalABCCompiler.StringResources.Get("CODE_COMPLETION_RETURN"));
+                            returnTextTipHeader = new TipText(graphics,new Font(font, FontStyle.Bold),StringResources.Get("CODE_COMPLETION_RETURN"));
                             returnTextTipHeader.is_head = true;
                             int end_return = documentation.IndexOf("<params>",return_ind);
                             string return_text;
@@ -478,7 +480,7 @@ namespace ICSharpCode.TextEditor.Util
                 sections.Insert(0, docTip);
                 if (!string.IsNullOrEmpty(documentation))
                 {
-                    TipText descr_head = new TipText(graphics, new Font(font, FontStyle.Bold), PascalABCCompiler.StringResources.Get("CODE_COMPLETION_DESCRIPTION"));
+                    TipText descr_head = new TipText(graphics, new Font(font, FontStyle.Bold), StringResources.Get("CODE_COMPLETION_DESCRIPTION"));
                     descr_head.is_head = true;
                     sections.Insert(0, descr_head);
                     sections.Insert(0, new TipText(graphics, new Font(font.FontFamily, 1), " "));

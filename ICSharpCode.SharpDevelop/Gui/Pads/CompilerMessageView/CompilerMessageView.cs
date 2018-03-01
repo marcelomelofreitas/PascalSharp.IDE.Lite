@@ -18,7 +18,7 @@ using ICSharpCode.AvalonEdit.Rendering;
 using ICSharpCode.AvalonEdit.Search;
 using ICSharpCode.Core;
 using ICSharpCode.Core.Presentation;
-using ICSharpCode.SharpDevelop.Gui.OptionPanels;
+using ICSharpCode.SharpDevelop.Gui.Dialogs.OptionPanels;
 using ICSharpCode.SharpDevelop.Project;
 
 namespace ICSharpCode.SharpDevelop.Gui

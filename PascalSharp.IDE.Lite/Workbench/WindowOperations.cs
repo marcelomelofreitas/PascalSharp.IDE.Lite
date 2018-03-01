@@ -9,6 +9,9 @@ using System.Windows.Forms;
 using ICSharpCode.FormsDesigner;
 using ICSharpCode.SharpDevelop.Gui;
 using ICSharpCode.TextEditor;
+using PascalSharp.Internal.CodeCompletion;
+using PascalSharp.Internal.Errors;
+using PascalSharp.Internal.Localization;
 using VisualPascalABC.DockContent;
 using VisualPascalABC.OptionsContent;
 using VisualPascalABC.Projects;
@@ -407,7 +410,7 @@ namespace VisualPascalABC
                 OutputWindow.outputTextBox.Visible = false;
                 OutputWindow.outputTextBox = OutputTextBoxs[CurrentCodeFileDocument];
             }
-            CodeCompletion.CodeCompletionController.SetParser(Path.GetExtension(CurrentCodeFileDocument.FileName));
+            CodeCompletionController.SetParser(Path.GetExtension(CurrentCodeFileDocument.FileName));
             SetFocusToEditor();
             bool run = WorkbenchServiceFactory.RunService.IsRun(CurrentEXEFileName);
             WorkbenchServiceFactory.DebuggerManager.SetAsPossibleDebugPage(CurrentCodeFileDocument);
@@ -477,14 +480,14 @@ namespace VisualPascalABC
             if (tp.DocumentChanged && !tp.FromMetadata)
                 tp.Text += "*";
             if (tp.FromMetadata)
-                tp.Text += string.Format(" [{0}]", PascalABCCompiler.StringResources.Get("VP_MF_FROM_METADATA"));
+                tp.Text += string.Format(" [{0}]", StringResources.Get("VP_MF_FROM_METADATA"));
             if (!ProjectFactory.Instance.ProjectLoaded && !tp.FromMetadata)
             {
                 if (tp.Run && (!WorkbenchServiceFactory.DebuggerManager.IsRun(tp.EXEFileName) || !WorkbenchServiceFactory.DebuggerManager.ShowDebugTabs))
-                    tp.Text += string.Format(" [{0}]", PascalABCCompiler.StringResources.Get("VP_MF_TS_RUN"));
+                    tp.Text += string.Format(" [{0}]", StringResources.Get("VP_MF_TS_RUN"));
                 else
                     if (WorkbenchServiceFactory.DebuggerManager.IsRun(tp.EXEFileName, tp.FileName))
-                        tp.Text += string.Format(" [{0}]", PascalABCCompiler.StringResources.Get("VP_MF_MR_DEBUG"));
+                        tp.Text += string.Format(" [{0}]", StringResources.Get("VP_MF_MR_DEBUG"));
             }
             if (tp == ActiveCodeFileDocument && !tp.FromMetadata)
                 tp.Text = Convert.ToChar(0x25CF) + tp.Text;//25CF //2022
@@ -577,7 +580,7 @@ namespace VisualPascalABC
         {
             if (WorkbenchServiceFactory.BuildService.ErrorsList.Count > 0)
             {
-                PascalABCCompiler.Errors.LocatedError er = WorkbenchServiceFactory.BuildService.ErrorsList[0] as PascalABCCompiler.Errors.LocatedError;
+                LocatedError er = WorkbenchServiceFactory.BuildService.ErrorsList[0] as LocatedError;
                 if (er != null && er.SourceLocation != null && er.SourceLocation.FileName.ToLower() == FileName.ToLower())
                     ClearErrorList();
 

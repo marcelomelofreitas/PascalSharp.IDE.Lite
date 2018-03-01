@@ -7,11 +7,10 @@ using System.Globalization;
 using System.Reflection;
 using System.Text;
 using System.Windows.Forms;
-
 using ICSharpCode.Core;
 using ICSharpCode.Core.WinForms;
 
-namespace ICSharpCode.SharpDevelop.Gui
+namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 {
 	public class AboutSharpDevelopTabPage : UserControl
 	{

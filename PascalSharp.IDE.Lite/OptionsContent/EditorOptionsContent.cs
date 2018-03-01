@@ -19,7 +19,7 @@ namespace VisualPascalABC.OptionsContent
         {
             this.MainForm = MainForm;
             InitializeComponent();
-            PascalABCCompiler.StringResources.SetTextForAllObjects(this, strprefix);
+            StringResources.SetTextForAllObjects(this, strprefix);
             cbEditorFontSize.Items.Add(8);
             cbEditorFontSize.Items.Add(10);
             cbEditorFontSize.Items.Add(12);
@@ -49,14 +49,14 @@ namespace VisualPascalABC.OptionsContent
         {
             get
             {
-                return PascalABCCompiler.StringResources.Get(strprefix + "NAME");
+                return StringResources.Get(strprefix + "NAME");
             }
         }
         public string Description
         {
             get
             {
-                return PascalABCCompiler.StringResources.Get(strprefix + "DESCRIPTION");
+                return StringResources.Get(strprefix + "DESCRIPTION");
             }
         }
 

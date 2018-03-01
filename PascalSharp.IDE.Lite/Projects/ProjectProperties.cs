@@ -5,6 +5,8 @@ using System;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
+using PascalSharp.Compiler;
+using PascalSharp.Internal.Localization;
 
 namespace VisualPascalABC.Projects
 {
@@ -25,9 +27,9 @@ namespace VisualPascalABC.Projects
 			//
 		}
 
-        private PascalABCCompiler.IProjectInfo proj;
+        private IProjectInfo proj;
 
-        public void LoadOptions(PascalABCCompiler.IProjectInfo prj)
+        public void LoadOptions(IProjectInfo prj)
         {
             proj = prj;
             this.cbDeleteExe.Checked = prj.DeleteEXE;
@@ -53,7 +55,7 @@ namespace VisualPascalABC.Projects
             this.tbCopyright.Text = prj.Copyright;
         }
 
-        public void SetOptions(PascalABCCompiler.IProjectInfo prj)
+        public void SetOptions(IProjectInfo prj)
         {
             prj.DeleteEXE = this.cbDeleteExe.Checked;
             prj.DeletePDB = this.cbDeletePdb.Checked;
@@ -87,7 +89,7 @@ namespace VisualPascalABC.Projects
             if (string.IsNullOrEmpty(this.tbMajor.Text))
             {
                 e.Cancel = true;
-                MessageBox.Show(Form1StringResources.Get("MAJOR_VERSION_MUST_BE_SET"), PascalABCCompiler.StringResources.Get("!ERROR"), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(Form1StringResources.Get("MAJOR_VERSION_MUST_BE_SET"), StringResources.Get("!ERROR"), MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
             try
@@ -96,21 +98,21 @@ namespace VisualPascalABC.Projects
                 if (ver < 0)
                 {
                     e.Cancel = true;
-                    MessageBox.Show(Form1StringResources.Get("MAJOR_VERSION_LESS_ZERO"), PascalABCCompiler.StringResources.Get("!ERROR"), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(Form1StringResources.Get("MAJOR_VERSION_LESS_ZERO"), StringResources.Get("!ERROR"), MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
             }
             catch
             {
                 e.Cancel = true;
-                MessageBox.Show(Form1StringResources.Get("MAJOR_VERSION_MUST_BE_INT"), PascalABCCompiler.StringResources.Get("!ERROR"), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(Form1StringResources.Get("MAJOR_VERSION_MUST_BE_INT"), StringResources.Get("!ERROR"), MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
             if (string.IsNullOrEmpty(this.tbMinor.Text))
             {
                 e.Cancel = true;
-                MessageBox.Show(Form1StringResources.Get("MINOR_VERSION_MUST_BE_SET"), PascalABCCompiler.StringResources.Get("!ERROR"), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(Form1StringResources.Get("MINOR_VERSION_MUST_BE_SET"), StringResources.Get("!ERROR"), MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
             try
@@ -119,21 +121,21 @@ namespace VisualPascalABC.Projects
                 if (ver < 0)
                 {
                     e.Cancel = true;
-                    MessageBox.Show(Form1StringResources.Get("MINOR_VERSION_LESS_ZERO"), PascalABCCompiler.StringResources.Get("!ERROR"), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(Form1StringResources.Get("MINOR_VERSION_LESS_ZERO"), StringResources.Get("!ERROR"), MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
             }
             catch
             {
                 e.Cancel = true;
-                MessageBox.Show(Form1StringResources.Get("MINOR_VERSION_MUST_BE_INT"), PascalABCCompiler.StringResources.Get("!ERROR"), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(Form1StringResources.Get("MINOR_VERSION_MUST_BE_INT"), StringResources.Get("!ERROR"), MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
             if (string.IsNullOrEmpty(this.tbBuild.Text))
             {
                 e.Cancel = true;
-                MessageBox.Show(Form1StringResources.Get("BUILD_VERSION_MUST_BE_SET"), PascalABCCompiler.StringResources.Get("!ERROR"), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(Form1StringResources.Get("BUILD_VERSION_MUST_BE_SET"), StringResources.Get("!ERROR"), MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
             try
@@ -142,21 +144,21 @@ namespace VisualPascalABC.Projects
                 if (ver < 0)
                 {
                     e.Cancel = true;
-                    MessageBox.Show(Form1StringResources.Get("BUILD_VERSION_LESS_ZERO"), PascalABCCompiler.StringResources.Get("!ERROR"), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(Form1StringResources.Get("BUILD_VERSION_LESS_ZERO"), StringResources.Get("!ERROR"), MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
             }
             catch
             {
                 e.Cancel = true;
-                MessageBox.Show(Form1StringResources.Get("BUILD_VERSION_MUST_BE_INT"), PascalABCCompiler.StringResources.Get("!ERROR"), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(Form1StringResources.Get("BUILD_VERSION_MUST_BE_INT"), StringResources.Get("!ERROR"), MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
             if (string.IsNullOrEmpty(this.tbRevision.Text))
             {
                 e.Cancel = true;
-                MessageBox.Show(Form1StringResources.Get("REVISION_VERSION_MUST_BE_SET"), PascalABCCompiler.StringResources.Get("!ERROR"), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(Form1StringResources.Get("REVISION_VERSION_MUST_BE_SET"), StringResources.Get("!ERROR"), MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
             try
@@ -165,21 +167,21 @@ namespace VisualPascalABC.Projects
                 if (ver < 0)
                 {
                     e.Cancel = true;
-                    MessageBox.Show(Form1StringResources.Get("REVISION_VERSION_LESS_ZERO"), PascalABCCompiler.StringResources.Get("!ERROR"), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(Form1StringResources.Get("REVISION_VERSION_LESS_ZERO"), StringResources.Get("!ERROR"), MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
             }
             catch
             {
                 e.Cancel = true;
-                MessageBox.Show(Form1StringResources.Get("REVISION_VERSION_MUST_BE_INT"), PascalABCCompiler.StringResources.Get("!ERROR"), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(Form1StringResources.Get("REVISION_VERSION_MUST_BE_INT"), StringResources.Get("!ERROR"), MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
             if (!string.IsNullOrEmpty(tbAppIcon.Text))
                 if (!File.Exists(tbAppIcon.Text) && !File.Exists(Path.Combine(proj.ProjectDirectory, tbAppIcon.Text)))
                 {
                     e.Cancel = true;
-                    MessageBox.Show(Form1StringResources.Get("ICON_FILE_NOT_FOUND"), PascalABCCompiler.StringResources.Get("!ERROR"), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(Form1StringResources.Get("ICON_FILE_NOT_FOUND"), StringResources.Get("!ERROR"), MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
         }
@@ -204,7 +206,7 @@ namespace VisualPascalABC.Projects
             catch
             {
             }
-            return PascalABCCompiler.Tools.RelativePathTo(ProjectFactory.Instance.CurrentProject.ProjectDirectory, fileName);
+            return PascalSharp.Internal.CompilerTools.Tools.RelativePathTo(ProjectFactory.Instance.CurrentProject.ProjectDirectory, fileName);
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -220,7 +222,7 @@ namespace VisualPascalABC.Projects
                 catch
                 {
                 }
-                this.tbAppIcon.Text = Path.GetFileName(openFileDialog1.FileName);//PascalABCCompiler.Tools.RelativePathTo(ProjectFactory.Instance.CurrentProject.ProjectDirectory, openFileDialog1.FileName);
+                this.tbAppIcon.Text = Path.GetFileName(openFileDialog1.FileName);//Tools.RelativePathTo(ProjectFactory.Instance.CurrentProject.ProjectDirectory, openFileDialog1.FileName);
             }
         }
 

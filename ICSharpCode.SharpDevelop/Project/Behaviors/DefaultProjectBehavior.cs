@@ -11,7 +11,6 @@ using System.Xml.Linq;
 using ICSharpCode.Core;
 using ICSharpCode.SharpDevelop.Debugging;
 using ICSharpCode.SharpDevelop.Gui;
-using ICSharpCode.SharpDevelop.Gui.OptionPanels;
 using ICSharpCode.SharpDevelop.Project.Converter;
 using ICSharpCode.SharpDevelop.Util;
 

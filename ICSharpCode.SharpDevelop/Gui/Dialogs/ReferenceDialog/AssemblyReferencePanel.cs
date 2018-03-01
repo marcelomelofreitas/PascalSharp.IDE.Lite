@@ -5,10 +5,10 @@ using System;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
-using ICSharpCode.SharpDevelop.Project;
 using ICSharpCode.Core;
+using ICSharpCode.SharpDevelop.Project;
 
-namespace ICSharpCode.SharpDevelop.Gui
+namespace ICSharpCode.SharpDevelop.Gui.Dialogs.ReferenceDialog
 {
 	public class AssemblyReferencePanel : Panel, IReferencePanel
 	{

@@ -4,7 +4,6 @@
 using System;
 using System.IO;
 using ICSharpCode.Core;
-using ICSharpCode.SharpDevelop.Gui.OptionPanels;
 
 namespace ICSharpCode.SharpDevelop.Project.Commands
 {

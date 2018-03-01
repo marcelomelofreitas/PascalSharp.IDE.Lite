@@ -5,10 +5,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows.Forms;
-
 using ICSharpCode.Core;
 
-namespace ICSharpCode.SharpDevelop.Gui
+namespace ICSharpCode.SharpDevelop.Gui.Dialogs
 {
 	/// <summary>
 	/// A ColorDialog that remembers any custom colors defined.

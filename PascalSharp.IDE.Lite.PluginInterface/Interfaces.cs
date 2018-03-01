@@ -3,6 +3,12 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using ICSharpCode.NRefactory.Parser;
+using PascalABCCompiler;
+using PascalABCCompiler.Parsers;
+using PascalSharp.Compiler;
+using PascalSharp.Internal.CompilerTools.Errors;
+using PascalSharp.Internal.Errors;
 
 namespace VisualPascalABCPlugins
 {
@@ -94,32 +100,32 @@ namespace VisualPascalABCPlugins
     public delegate IAsyncResult InvokeDegegate(Delegate method, params object[] args);
     public interface IVisualEnvironmentCompiler
     {
-        PascalABCCompiler.ICompiler Compiler
+        ICompiler Compiler
         {
             get;
         }
-        PascalABCCompiler.Compiler StandartCompiler
+        Compiler StandartCompiler
         {
             get;
         }
-        PascalABCCompiler.RemoteCompiler RemoteCompiler
+        RemoteCompiler RemoteCompiler
         {
             get;
         }
-        PascalABCCompiler.CompilerType DefaultCompilerType
+        CompilerType DefaultCompilerType
         {
             get;
             set;
         }
-        void ExecuteSourceLocationAction(PascalABCCompiler.SourceLocation SourceLocation, SourceLocationAction Action);
+        void ExecuteSourceLocationAction(SourceLocation SourceLocation, SourceLocationAction Action);
         event ChangeVisualEnvironmentStateDelegate ChangeVisualEnvironmentState;
 
         object ExecuteAction(VisualEnvironmentCompilerAction Action, object obj);
 
-        string Compile(PascalABCCompiler.CompilerOptions CompilerOptions);
-        void StartCompile(PascalABCCompiler.CompilerOptions CompilerOptions);
+        string Compile(CompilerOptions CompilerOptions);
+        void StartCompile(CompilerOptions CompilerOptions);
 
-        object SourceFilesProvider(string FileName, PascalABCCompiler.SourceFileOperation FileOperation);
+        object SourceFilesProvider(string FileName, SourceFileOperation FileOperation);
         InvokeDegegate BeginInvoke
         {
             get;
@@ -314,18 +320,18 @@ namespace VisualPascalABCPlugins
     public interface IWorkbenchBuildService
     {
         string Compile(string FileName, bool rebuild, string RuntimeServicesModule, bool ForRun, bool RunWithEnvironment);
-        string Compile(PascalABCCompiler.IProjectInfo project, bool rebuild, string RuntimeServicesModule, bool ForRun, bool RunWithEnvironment);
+        string Compile(IProjectInfo project, bool rebuild, string RuntimeServicesModule, bool ForRun, bool RunWithEnvironment);
         bool Build();
         bool Rebuild();
         bool Build(string FileName);
         void StartCompile(bool rebuild);
 
-        List<PascalABCCompiler.Errors.Error> ErrorsList
+        List<Error> ErrorsList
         {
             get;
         }
 
-        PascalABCCompiler.CompilerOptions CompilerOptions
+        CompilerOptions CompilerOptions
         {
             get;
         }
@@ -436,7 +442,7 @@ namespace VisualPascalABCPlugins
 
     public interface ICodeCompletionService
     {
-        PascalABCCompiler.Parsers.ICodeCompletionDomConverter GetConverter(string FileName);
+        ICodeCompletionDomConverter GetConverter(string FileName);
         void SetAsChanged(string FileName);
         void RegisterFileForParsing(string FileName);
     }
@@ -449,7 +455,7 @@ namespace VisualPascalABCPlugins
         System.Windows.Forms.Form MainForm { get; }
         IWorkbenchServiceContainer ServiceContainer { get; }
         IUserOptions UserOptions { get; }
-        PascalABCCompiler.Errors.ErrorsStrategyManager ErrorsManager { get; }
+        ErrorsStrategyManager ErrorsManager { get; }
         string CurrentEXEFileName { get; }
         ICompilerConsoleWindow CompilerConsoleWindow { get; }
         IOutputWindow OutputWindow { get; }
@@ -465,7 +471,7 @@ namespace VisualPascalABCPlugins
 
     public interface IErrorListWindow
     {
-        void ShowErrorsSync(List<PascalABCCompiler.Errors.Error> errors, bool ChangeViewTab);
+        void ShowErrorsSync(List<Error> errors, bool ChangeViewTab);
         void ClearErrorList();
     }
 
@@ -523,8 +529,8 @@ namespace VisualPascalABCPlugins
 
     public interface ILanguageManager
     {
-        PascalABCCompiler.ICompiler StandartCompiler { get; }
-        PascalABCCompiler.ICompiler RemoteCompiler { get; }
+        ICompiler StandartCompiler { get; }
+        ICompiler RemoteCompiler { get; }
         IDebuggerManager Debugger { get; }
     }
 }

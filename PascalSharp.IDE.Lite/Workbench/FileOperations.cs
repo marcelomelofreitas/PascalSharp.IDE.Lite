@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using ICSharpCode.FormsDesigner;
+using PascalSharp.Internal.Localization;
 using VisualPascalABC.DockContent;
 using VisualPascalABC.Projects;
 using VisualPascalABCPlugins;
@@ -45,7 +46,7 @@ namespace VisualPascalABC
             {
                 if (!IsNewFile && !File.Exists(FileName))
                 {
-                    MessageBox.Show(string.Format(PascalABCCompiler.StringResources.Get("!FILE_NOT_FOUND{0}"), FileName), PascalABCCompiler.StringResources.Get("!ERROR"), MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show(string.Format(StringResources.Get("!FILE_NOT_FOUND{0}"), FileName), StringResources.Get("!ERROR"), MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return false;
                 }
                 visualStates.FileOpened = true;//?????
@@ -152,7 +153,7 @@ namespace VisualPascalABC
                 visualStates.FileOpened = true;//?????
                 if (!IsNewFile && !File.Exists(FileName))
                 {
-                    //MessageBox.Show(string.Format(PascalABCCompiler.StringResources.Get("!FILE_NOT_FOUND{0}"), FileName), PascalABCCompiler.StringResources.Get("!ERROR"), MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    //MessageBox.Show(string.Format(StringResources.Get("!FILE_NOT_FOUND{0}"), FileName), StringResources.Get("!ERROR"), MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     bool exists = false;
                     foreach (string s in search_debug_paths)
                     {
@@ -396,7 +397,7 @@ namespace VisualPascalABC
             }
             catch (Exception ex)
             {
-                MessageBox.Show(String.Format(Form1StringResources.Get("SAVE_FILE_ERROR_TEXT{0}"), FileName), PascalABCCompiler.StringResources.Get("!ERROR"), MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(String.Format(Form1StringResources.Get("SAVE_FILE_ERROR_TEXT{0}"), FileName), StringResources.Get("!ERROR"), MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
         }
@@ -468,7 +469,7 @@ namespace VisualPascalABC
         bool QuestionAndSaveFile(CodeFileDocumentControl tp)
         {
             CurrentCodeFileDocument = tp;
-            DialogResult result = MessageBox.Show(string.Format(Form1StringResources.Get("SAVE_CHANGES_IN_FILE{0}"), Path.GetFileName(tp.FileName)), PascalABCCompiler.StringResources.Get("!CONFIRM"), MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
+            DialogResult result = MessageBox.Show(string.Format(Form1StringResources.Get("SAVE_CHANGES_IN_FILE{0}"), Path.GetFileName(tp.FileName)), StringResources.Get("!CONFIRM"), MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
             if (result == DialogResult.Yes)
                 SaveSelFile(CurrentCodeFileDocument);
             else

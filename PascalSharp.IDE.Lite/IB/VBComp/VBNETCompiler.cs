@@ -18,7 +18,7 @@ namespace VisualPascalABC
 	/*public class VBNETCompiler
 	{
 		private static VBNETCompiler compiler;
-		public event PascalABCCompiler.ChangeCompilerStateEventDelegate OnChangeCompilerState;
+		public event ChangeCompilerStateEventDelegate OnChangeCompilerState;
 		
 		public static VBNETCompiler Compiler
 		{
@@ -33,7 +33,7 @@ namespace VisualPascalABC
 			}
 		}
 		
-		public void Compile(PascalABCCompiler.CompilerOptions options)
+		public void Compile(CompilerOptions options)
 		{
 			VBCodeProvider vbcp = new VBCodeProvider();
 			string[] sources = new string[1];

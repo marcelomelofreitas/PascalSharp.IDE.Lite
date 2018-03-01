@@ -5,6 +5,8 @@ using System;
 using System.Windows.Forms;
 using ICSharpCode.Core;
 using ICSharpCode.SharpDevelop.Gui;
+using TabbedOptionsDialog = ICSharpCode.SharpDevelop.Gui.Dialogs.TabbedOptionsDialog;
+using TreeViewOptionsDialog = ICSharpCode.SharpDevelop.Gui.Dialogs.TreeViewOptionsDialog;
 
 namespace ICSharpCode.SharpDevelop.Commands
 {

@@ -6,7 +6,7 @@ using System.Windows.Forms;
 using ICSharpCode.Core.WinForms;
 using ICSharpCode.SharpDevelop.Internal.Templates;
 
-namespace ICSharpCode.SharpDevelop.Gui.OptionPanels
+namespace ICSharpCode.SharpDevelop.Gui.Dialogs.OptionPanels.IDEOptions
 {
 	public class EditStandardHeaderPanel : XmlFormsOptionPanel
 	{

@@ -9,6 +9,7 @@ using VisualPascalABCPlugins;
 using System.Net;
 using System.Reflection;
 using Microsoft.Win32;
+using PascalSharp.Internal.Localization;
 
 namespace VisualPascalABC
 {
@@ -43,11 +44,11 @@ namespace VisualPascalABC
             string curVersion = null;
             if (!IsDotnet71Installed())
             {
-                if (MessageBox.Show(PascalABCCompiler.StringResources.Get("VP_MF_DOTNET_AVAILABLE"),
-                        PascalABCCompiler.StringResources.Get("VP_MF_DOTNET_UPDATE_CHECK"),
+                if (MessageBox.Show(StringResources.Get("VP_MF_DOTNET_AVAILABLE"),
+                        StringResources.Get("VP_MF_DOTNET_UPDATE_CHECK"),
                         MessageBoxButtons.YesNo) == DialogResult.Yes)
                 {
-                    WorkbenchServiceFactory.OperationsService.AddTabWithUrl(".NET Framework", PascalABCCompiler.StringResources.Get("VP_MF_FRAMEWORK_DOWNLOAD_PAGE"));
+                    WorkbenchServiceFactory.OperationsService.AddTabWithUrl(".NET Framework", StringResources.Get("VP_MF_FRAMEWORK_DOWNLOAD_PAGE"));
                 }
             }
             try
@@ -65,20 +66,20 @@ namespace VisualPascalABC
             switch (status)
             {
                 case 1:
-                    MessageBox.Show(PascalABCCompiler.StringResources.Get("VP_MF_VERSION_IS_UP_TO_DATE"), PascalABCCompiler.StringResources.Get("VP_MF_UPDATE_CHECK"), MessageBoxButtons.OK);
+                    MessageBox.Show(StringResources.Get("VP_MF_VERSION_IS_UP_TO_DATE"), StringResources.Get("VP_MF_UPDATE_CHECK"), MessageBoxButtons.OK);
                     break;
                 case 0:
-                    if (MessageBox.Show(PascalABCCompiler.StringResources.Get("VP_MF_UPDATE_AVAILABLE") + Environment.NewLine + 
-                        string.Format(PascalABCCompiler.StringResources.Get("VP_MF_UPDATE_AVAILABLE_CURRENT_VESION{0}"), curVersion) + Environment.NewLine +
-                        string.Format(PascalABCCompiler.StringResources.Get("VP_MF_UPDATE_AVAILABLE_NEW_VESION{0}"), newVersion), 
-                        PascalABCCompiler.StringResources.Get("VP_MF_UPDATE_CHECK"), 
+                    if (MessageBox.Show(StringResources.Get("VP_MF_UPDATE_AVAILABLE") + Environment.NewLine + 
+                        string.Format(StringResources.Get("VP_MF_UPDATE_AVAILABLE_CURRENT_VESION{0}"), curVersion) + Environment.NewLine +
+                        string.Format(StringResources.Get("VP_MF_UPDATE_AVAILABLE_NEW_VESION{0}"), newVersion), 
+                        StringResources.Get("VP_MF_UPDATE_CHECK"), 
                         MessageBoxButtons.YesNo) == DialogResult.Yes)
                     {
-                        WorkbenchServiceFactory.OperationsService.AddTabWithUrl("PascalABC.NET", PascalABCCompiler.StringResources.Get("VP_MF_PABC_DOWNLOAD_PAGE"));
+                        WorkbenchServiceFactory.OperationsService.AddTabWithUrl("PascalABC.NET", StringResources.Get("VP_MF_PABC_DOWNLOAD_PAGE"));
                     }
                     break;
                 case -1:
-                    MessageBox.Show(PascalABCCompiler.StringResources.Get("VP_MF_UPDATE_CHECK_ERROR"), PascalABCCompiler.StringResources.Get("VP_MF_UPDATE_CHECK"), MessageBoxButtons.OK);
+                    MessageBox.Show(StringResources.Get("VP_MF_UPDATE_CHECK_ERROR"), StringResources.Get("VP_MF_UPDATE_CHECK"), MessageBoxButtons.OK);
                     break;
             }
         }

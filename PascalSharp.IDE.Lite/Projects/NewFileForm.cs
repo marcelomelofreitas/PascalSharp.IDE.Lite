@@ -55,19 +55,19 @@ namespace VisualPascalABC.Projects
 				if (lvTemplates.SelectedItems.Count == 0)
 				{
 					e.Cancel = true;
-					MessageBox.Show(Form1StringResources.Get("FILE_TEMPLATE_NOT_SELECTED"), PascalABCCompiler.StringResources.Get("!ERROR"), MessageBoxButtons.OK, MessageBoxIcon.Error);
+					MessageBox.Show(Form1StringResources.Get("FILE_TEMPLATE_NOT_SELECTED"), StringResources.Get("!ERROR"), MessageBoxButtons.OK, MessageBoxIcon.Error);
 					return;
 				}
 				if (string.IsNullOrEmpty(tbFileName.Text))
 				{
 					e.Cancel = true;
-					MessageBox.Show(Form1StringResources.Get("FILE_NAME_EMPTY"), PascalABCCompiler.StringResources.Get("!ERROR"), MessageBoxButtons.OK, MessageBoxIcon.Error);
+					MessageBox.Show(Form1StringResources.Get("FILE_NAME_EMPTY"), StringResources.Get("!ERROR"), MessageBoxButtons.OK, MessageBoxIcon.Error);
 					return;
 				}
 				if (File.Exists(Path.Combine(ProjectFactory.Instance.ProjectDirectory,tbFileName.Text)))
 				{
 					e.Cancel = true;
-					MessageBox.Show(string.Format(Form1StringResources.Get("FILE_ALREADY_EXISTS{0}"), tbFileName.Text), PascalABCCompiler.StringResources.Get("!ERROR"), MessageBoxButtons.OK, MessageBoxIcon.Error);
+					MessageBox.Show(string.Format(Form1StringResources.Get("FILE_ALREADY_EXISTS{0}"), tbFileName.Text), StringResources.Get("!ERROR"), MessageBoxButtons.OK, MessageBoxIcon.Error);
 					return;
 				}
 				FileInfo fi = new FileInfo(tbFileName.Text);
@@ -75,19 +75,19 @@ namespace VisualPascalABC.Projects
 			catch(PathTooLongException ex)
 			{
 				e.Cancel = true;
-				MessageBox.Show(string.Format(Form1StringResources.Get("TOO_LONG_FILE_NAME{0}"), tbFileName.Text), PascalABCCompiler.StringResources.Get("!ERROR"), MessageBoxButtons.OK, MessageBoxIcon.Error);
+				MessageBox.Show(string.Format(Form1StringResources.Get("TOO_LONG_FILE_NAME{0}"), tbFileName.Text), StringResources.Get("!ERROR"), MessageBoxButtons.OK, MessageBoxIcon.Error);
 				return;	
 			}
 			catch(ArgumentException ex)
 			{
 				e.Cancel = true;
-				MessageBox.Show(Form1StringResources.Get("ERROR_IN_PATH"), PascalABCCompiler.StringResources.Get("!ERROR"), MessageBoxButtons.OK, MessageBoxIcon.Error);
+				MessageBox.Show(Form1StringResources.Get("ERROR_IN_PATH"), StringResources.Get("!ERROR"), MessageBoxButtons.OK, MessageBoxIcon.Error);
 				return;	
 			}
 			catch(Exception ex)
 			{
 				e.Cancel = true;
-				MessageBox.Show(Form1StringResources.Get("ERROR_IN_FILE_CREATION"), PascalABCCompiler.StringResources.Get("!ERROR"), MessageBoxButtons.OK, MessageBoxIcon.Error);
+				MessageBox.Show(Form1StringResources.Get("ERROR_IN_FILE_CREATION"), StringResources.Get("!ERROR"), MessageBoxButtons.OK, MessageBoxIcon.Error);
 				return;
 			}
 		}

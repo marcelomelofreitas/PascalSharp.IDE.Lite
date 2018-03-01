@@ -7,6 +7,10 @@ using System.Drawing;
 using System.Windows.Forms;
 using System.Reflection;
 using System.IO;
+using PascalABCCompiler.Parsers;
+using PascalSharp.Compiler;
+using PascalSharp.Compiler.SemanticTreeConverters;
+using PascalSharp.Internal.Localization;
 
 namespace VisualPascalABC
 {
@@ -120,20 +124,20 @@ namespace VisualPascalABC
         private void AboutBox_Shown(object sender, EventArgs e)
         {
             
-            lVersion.Text = string.Format("{0}, сборка {1} ({2})", PascalABCCompiler.Compiler.ShortVersion, "wow", PascalABCCompiler.Compiler.VersionDateTime.ToShortDateString());
+            lVersion.Text = string.Format("{0}, сборка {1} ({2})", Compiler.ShortVersion, "wow", Compiler.VersionDateTime.ToShortDateString());
             dgvModules.Items.Clear();
             
             string apppatch = Path.GetDirectoryName(Application.ExecutablePath);
 
             VisualEnvironmentCompiler vec = (Owner as Form1).VisualEnvironmentCompiler;
-            PascalABCCompiler.ICompiler comp = vec.StandartCompiler;
+            ICompiler comp = vec.StandartCompiler;
             if (comp != null)
             {
                 Assembly a = Assembly.GetAssembly(comp.GetType());
-                dgvModules.Items.Add(MakeItem("Core", "PascalABCCompiler.Core", a.GetName().Version.ToString(), "Copyright © 2005-2018 by Ivan Bondarev, Stanislav Mihalkovich"));
-                foreach (PascalABCCompiler.Parsers.IParser parser in comp.ParsersController.Parsers)
+                dgvModules.Items.Add(MakeItem("Core", "Core", a.GetName().Version.ToString(), "Copyright © 2005-2018 by Ivan Bondarev, Stanislav Mihalkovich"));
+                foreach (IParser parser in comp.ParsersController.Parsers)
                     dgvModules.Items.Add(MakeItem("Parser",parser.Name, parser.Version, parser.Copyright));
-                foreach (PascalABCCompiler.SemanticTreeConverters.ISemanticTreeConverter conv in comp.SemanticTreeConvertersController.SemanticTreeConverters)
+                foreach (ISemanticTreeConverter conv in comp.SemanticTreeConvertersController.SemanticTreeConverters)
                     dgvModules.Items.Add(MakeItem("Converter", conv.Name, conv.Version, conv.Copyright));
                 foreach (VisualPascalABCPlugins.IVisualPascalABCPlugin plugin in vec.PluginsController.Plugins)
                     dgvModules.Items.Add(MakeItem("Plugin",plugin.Name, plugin.Version, plugin.Copyright));
@@ -145,15 +149,15 @@ namespace VisualPascalABC
             dgvModules.Items.Add(MakeItem(Assembly.LoadFile(Path.Combine(apppatch,"WeifenLuo.WinFormsUI.Docking.dll")))); 
             ActiveControl = button1;
             /*lbComponents.Items.Clear();
-            PascalABCCompiler.Compiler comp = (Owner as Form1).VisualEnvironmentCompiler.Compiler;
+            Compiler comp = (Owner as Form1).VisualEnvironmentCompiler.Compiler;
             if (comp != null)
             {
                 lbComponents.Items.Add(BuildComponentString(comp));
-                foreach (PascalABCCompiler.ParserTools.BaseParser parser in comp.ParsersController.Parsers)
+                foreach (ParserTools.BaseParser parser in comp.ParsersController.Parsers)
                     lbComponents.Items.Add("Language: "+BuildComponentString(parser));
                 foreach (VisualPascalABCPlugins.IVisualPascalABCPlugin plugin in (Owner as Form1).VisualEnvironmentCompiler.PluginsController.Plugins)
                     lbComponents.Items.Add("Plugin: "+BuildComponentString(plugin));
-                foreach (PascalABCCompiler.SemanticTreeConverters.ISemanticTreeConverter conv in (Owner as Form1).VisualEnvironmentCompiler.Compiler.SemanticTreeConvertersController.SemanticTreeConverters)
+                foreach (SemanticTreeConverters.ISemanticTreeConverter conv in (Owner as Form1).VisualEnvironmentCompiler.Compiler.SemanticTreeConvertersController.SemanticTreeConverters)
                     lbComponents.Items.Add("Converter: " + BuildComponentString(conv));
 
             }*/
@@ -214,12 +218,12 @@ namespace VisualPascalABC
 
         private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            System.Diagnostics.Process.Start(PascalABCCompiler.StringResources.Get("!PASCALABCNET_SITE_LINK"));
+            System.Diagnostics.Process.Start(StringResources.Get("!PASCALABCNET_SITE_LINK"));
         }
 
         private void linkLabel2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            System.Diagnostics.Process.Start(PascalABCCompiler.StringResources.Get("!PASCALABCNET_FORUM_LINK"));
+            System.Diagnostics.Process.Start(StringResources.Get("!PASCALABCNET_FORUM_LINK"));
         }
 
         private void label12_Click(object sender, EventArgs e)
@@ -233,7 +237,7 @@ namespace VisualPascalABC
 
         private void linkLabel3_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            System.Diagnostics.Process.Start(PascalABCCompiler.StringResources.Get("!PASCALABCNET_DEVELOPERS_LINK"));
+            System.Diagnostics.Process.Start(StringResources.Get("!PASCALABCNET_DEVELOPERS_LINK"));
         }
     }
 }

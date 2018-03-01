@@ -1,11 +1,10 @@
 ﻿// Copyright (c) AlphaSierraPapa for the SharpDevelop Team (for details please see \doc\copyright.txt)
 // This code is distributed under the GNU LGPL (for details please see \doc\license.txt)
 
-using System;
 using System.Net;
 using System.Web.Services.Discovery;
 
-namespace ICSharpCode.SharpDevelop.Gui
+namespace ICSharpCode.SharpDevelop.Gui.Dialogs.ReferenceDialog
 {
 	/// <summary>
 	/// Custom DiscoveryClientProtocol that determines whether user authentication

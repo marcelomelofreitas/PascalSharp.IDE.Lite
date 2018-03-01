@@ -3,12 +3,11 @@
 
 using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
 using ICSharpCode.Core;
 
-namespace ICSharpCode.SharpDevelop.Gui
+namespace ICSharpCode.SharpDevelop.Gui.Dialogs.SolutionConfiguration
 {
 	/// <summary>
 	/// Dialog for adding a new configuration or platform to a solution or project.

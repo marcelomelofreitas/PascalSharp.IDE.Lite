@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
+using PascalSharp.Internal.Localization;
 
 namespace VisualPascalABC.DockContent
 {
@@ -75,7 +76,7 @@ namespace VisualPascalABC.DockContent
         	if (this.watchList.Rows[i].Cells[0].Value != null)
             {
         		this.ClearRow(i);
-                //FixedItem fi = new FixedItem(this.watchList.Rows[i].Cells[0].Value as string,PascalABCCompiler.StringResources.Get("EXPR_VALUE_UNDEFINED_VALUE"),PascalABCCompiler.StringResources.Get("EXPR_VALUE_UNDEFINED_TYPE"));
+                //FixedItem fi = new FixedItem(this.watchList.Rows[i].Cells[0].Value as string,StringResources.Get("EXPR_VALUE_UNDEFINED_VALUE"),StringResources.Get("EXPR_VALUE_UNDEFINED_TYPE"));
                 FixedItem fi = new FixedItem(this.watchList.Rows[i].Cells[0].Value as string,"","");
                 //fi.imageIndex = CodeCompletionProvider.ImagesProvider.IconNumberEvalError;
                 this.watchList.Rows[i].Cells[1].Value = fi.Text;
@@ -107,7 +108,7 @@ namespace VisualPascalABC.DockContent
                     if (rv.syn_err)
                     {
                         this.ClearRow(i);
-                        FixedItem fi = new FixedItem(this.watchList.Rows[i].Cells[0].Value as string, PascalABCCompiler.StringResources.Get("EXPR_VALUE_SYNTAX_ERROR_IN_EXPR"), "");
+                        FixedItem fi = new FixedItem(this.watchList.Rows[i].Cells[0].Value as string, StringResources.Get("EXPR_VALUE_SYNTAX_ERROR_IN_EXPR"), "");
                         fi.imageIndex = CodeCompletionProvider.ImagesProvider.IconNumberEvalError;
                         this.watchList.Rows[i].Cells[1].Value = fi.Text;
                         this.watchList.Rows[i].Cells[2].Value = fi.Type;
@@ -155,7 +156,7 @@ namespace VisualPascalABC.DockContent
                             FixedItem fi = null;
                             if (WorkbenchServiceFactory.DebuggerManager.IsRunning)
                             {
-                                fi = new FixedItem(s, rv.err_mes != null ? rv.err_mes : PascalABCCompiler.StringResources.Get("EXPR_VALUE_UNDEFINED_VALUE"),/*PascalABCCompiler.StringResources.Get("EXPR_VALUE_UNDEFINED_TYPE")*/"");
+                                fi = new FixedItem(s, rv.err_mes != null ? rv.err_mes : StringResources.Get("EXPR_VALUE_UNDEFINED_VALUE"),/*StringResources.Get("EXPR_VALUE_UNDEFINED_TYPE")*/"");
                                 fi.imageIndex = CodeCompletionProvider.ImagesProvider.IconNumberEvalError;
                             }
                             else

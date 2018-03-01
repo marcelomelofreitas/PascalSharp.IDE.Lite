@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
+using PascalSharp.Compiler;
 
 namespace VisualPascalABCPlugins
 {
@@ -37,7 +38,7 @@ namespace VisualPascalABCPlugins
         
         public void Execute()
         {
-            VisualEnvironmentCompiler.StandartCompiler.OnChangeCompilerState += new PascalABCCompiler.ChangeCompilerStateEventDelegate(HelpBuilderForm.Compiler_OnChangeCompilerState);
+            VisualEnvironmentCompiler.StandartCompiler.OnChangeCompilerState += new ChangeCompilerStateEventDelegate(HelpBuilderForm.Compiler_OnChangeCompilerState);
             HelpBuilderForm.Init();
             HelpBuilderForm.Show();
         }

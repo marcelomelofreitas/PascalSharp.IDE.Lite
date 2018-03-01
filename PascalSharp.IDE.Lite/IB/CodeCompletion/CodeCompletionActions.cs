@@ -15,8 +15,13 @@ using ICSharpCode.TextEditor.Gui.CompletionWindow;
 using ICSharpCode.TextEditor.Gui.InsightWindow;
 using PascalABCCompiler;
 using PascalABCCompiler.Parsers;
+using PascalABCCompiler.SyntaxTree;
+using PascalSharp.Compiler;
+using PascalSharp.Internal.CodeCompletion;
+using PascalSharp.Internal.Errors;
 using VisualPascalABC.DockContent;
 using VisualPascalABC.Projects;
+using KeywordKind = PascalABCCompiler.Parsers.KeywordKind;
 
 namespace VisualPascalABC
 {
@@ -27,7 +32,7 @@ namespace VisualPascalABC
 
         public static void Rename(TextArea textArea)
         {
-            if (CodeCompletion.CodeCompletionController.CurrentParser == null) return;
+            if (CodeCompletionController.CurrentParser == null) return;
             IDocument doc = textArea.Document;
             string textContent = doc.TextContent;
             ccp = new CodeCompletionProvider();
@@ -37,7 +42,7 @@ namespace VisualPascalABC
             List<SymbolsViewerSymbol> refers = ccp.Rename(expressionResult, name, textArea.MotherTextEditorControl.FileName, textArea.Caret.Line, textArea.Caret.Column, ref new_val);
             if (refers == null || new_val == null) return;
             int addit = 0;
-            PascalABCCompiler.SourceLocation tmp = new PascalABCCompiler.SourceLocation(null, 0, 0, 0, 0);
+            SourceLocation tmp = new SourceLocation(null, 0, 0, 0, 0);
             string file_name = null;
             foreach (SymbolsViewerSymbol svs in refers)
             {
@@ -64,28 +69,28 @@ namespace VisualPascalABC
 
         public static void RenameUnit(string FileName, string new_val)
         {
-            if (CodeCompletion.CodeCompletionController.CurrentParser == null) return;
+            if (CodeCompletionController.CurrentParser == null) return;
             ccp = new CodeCompletionProvider();
             IDocument doc = null;
-            CodeCompletion.CodeCompletionController controller = new CodeCompletion.CodeCompletionController();
-            string text = WorkbenchServiceFactory.Workbench.VisualEnvironmentCompiler.SourceFilesProvider(FileName, PascalABCCompiler.SourceFileOperation.GetText) as string;
-            PascalABCCompiler.SyntaxTree.compilation_unit cu = controller.ParseOnlySyntaxTree(FileName, text);
-            PascalABCCompiler.SyntaxTree.ident unitName = null;
-            if (cu is PascalABCCompiler.SyntaxTree.unit_module)
+            CodeCompletionController controller = new CodeCompletionController();
+            string text = WorkbenchServiceFactory.Workbench.VisualEnvironmentCompiler.SourceFilesProvider(FileName, SourceFileOperation.GetText) as string;
+            compilation_unit cu = controller.ParseOnlySyntaxTree(FileName, text);
+            ident unitName = null;
+            if (cu is unit_module)
             {
-                unitName = (cu as PascalABCCompiler.SyntaxTree.unit_module).unit_name.idunit_name;
+                unitName = (cu as unit_module).unit_name.idunit_name;
             }
-            else  if (cu is PascalABCCompiler.SyntaxTree.program_module)
+            else  if (cu is program_module)
             {
-                if ((cu as PascalABCCompiler.SyntaxTree.program_module).program_name == null)
+                if ((cu as program_module).program_name == null)
                     return;
-                unitName = (cu as PascalABCCompiler.SyntaxTree.program_module).program_name.prog_name;
+                unitName = (cu as program_module).program_name.prog_name;
             }
 
             List<SymbolsViewerSymbol> refers = ccp.Rename(unitName.name, unitName.name, FileName, unitName.source_context.begin_position.line_num, unitName.source_context.begin_position.column_num);
             if (refers == null || new_val == null) return;
             int addit = 0;
-            PascalABCCompiler.SourceLocation tmp = new PascalABCCompiler.SourceLocation(null, 0, 0, 0, 0);
+            SourceLocation tmp = new SourceLocation(null, 0, 0, 0, 0);
             string file_name = null;
             VisualPABCSingleton.MainForm.StopTimer();
             WorkbenchServiceFactory.CodeCompletionParserController.StopParseThread();
@@ -121,7 +126,7 @@ namespace VisualPascalABC
 
         public static List<Position> GetDefinitionPosition(TextArea textArea, bool only_check)
         {
-            if (CodeCompletion.CodeCompletionController.CurrentParser == null) return new List<Position>();
+            if (CodeCompletionController.CurrentParser == null) return new List<Position>();
             IDocument doc = textArea.Document;
             string textContent = doc.TextContent;
             ccp = new CodeCompletionProvider();
@@ -139,7 +144,7 @@ namespace VisualPascalABC
 
         public static List<Position> GetRealizationPosition(TextArea textArea)
         {
-            if (CodeCompletion.CodeCompletionController.CurrentParser == null) return new List<Position>();
+            if (CodeCompletionController.CurrentParser == null) return new List<Position>();
             IDocument doc = textArea.Document;
             string textContent = doc.TextContent;
             ccp = new CodeCompletionProvider();
@@ -153,7 +158,7 @@ namespace VisualPascalABC
 
         public static List<SymbolsViewerSymbol> FindReferences(TextArea textArea)
         {
-            if (CodeCompletion.CodeCompletionController.CurrentParser == null) return new List<SymbolsViewerSymbol>();
+            if (CodeCompletionController.CurrentParser == null) return new List<SymbolsViewerSymbol>();
             ccp = new CodeCompletionProvider();
             string full_expr;
             string expressionResult = FindFullExpression(textArea.Document.TextContent, textArea, out ccp.keyword, out full_expr);
@@ -162,7 +167,7 @@ namespace VisualPascalABC
 
         public static void GotoRealization(TextArea textArea)
         {
-            if (CodeCompletion.CodeCompletionController.CurrentParser == null) return;
+            if (CodeCompletionController.CurrentParser == null) return;
             position = GetRealizationPosition(textArea);
             if (position == null) return;
             if (position.Count == 1)
@@ -171,7 +176,7 @@ namespace VisualPascalABC
                 if (pos.file_name != null)
                 {
                     WorkbenchServiceFactory.Workbench.VisualEnvironmentCompiler.ExecuteSourceLocationAction(
-                        new PascalABCCompiler.SourceLocation(pos.file_name, pos.line, pos.column, pos.line, pos.column), VisualPascalABCPlugins.SourceLocationAction.GotoBeg);
+                        new SourceLocation(pos.file_name, pos.line, pos.column, pos.line, pos.column), VisualPascalABCPlugins.SourceLocationAction.GotoBeg);
                 }
             }
             else
@@ -180,7 +185,7 @@ namespace VisualPascalABC
                 foreach (Position pos in position)
                 {
                     if (pos.file_name != null)
-                        svs_lst.Add(new SymbolsViewerSymbol(new PascalABCCompiler.SourceLocation(pos.file_name, pos.line, pos.column, pos.end_line, pos.end_column), CodeCompletionProvider.ImagesProvider.IconNumberGotoText));
+                        svs_lst.Add(new SymbolsViewerSymbol(new SourceLocation(pos.file_name, pos.line, pos.column, pos.end_line, pos.end_column), CodeCompletionProvider.ImagesProvider.IconNumberGotoText));
                 }
                 VisualPABCSingleton.MainForm.FindSymbolResults.showInThread = false;
                 VisualPABCSingleton.MainForm.ShowFindResults(svs_lst);
@@ -191,35 +196,35 @@ namespace VisualPascalABC
 
         public static bool CanGoTo(TextArea textArea)
         {
-            if (CodeCompletion.CodeCompletionController.CurrentParser == null) return false;
+            if (CodeCompletionController.CurrentParser == null) return false;
             List<Position> poses = GetDefinitionPosition(textArea, true);
             if (poses == null || poses.Count == 0) return false;
             foreach (Position pos in poses)
-                if (pos.from_metadata || pos.file_name != null && (bool)WorkbenchServiceFactory.Workbench.VisualEnvironmentCompiler.SourceFilesProvider(pos.file_name, PascalABCCompiler.SourceFileOperation.Exists))
+                if (pos.from_metadata || pos.file_name != null && (bool)WorkbenchServiceFactory.Workbench.VisualEnvironmentCompiler.SourceFilesProvider(pos.file_name, SourceFileOperation.Exists))
                     return true;
             return false;
             //string file_name = GetDefinitionPosition(textArea).file_name;
-            //return file_name != null && (bool)VisualPABCSingleton.MainForm.VisualEnvironmentCompiler.SourceFilesProvider(file_name, PascalABCCompiler.SourceFileOperation.Exists);
+            //return file_name != null && (bool)VisualPABCSingleton.MainForm.VisualEnvironmentCompiler.SourceFilesProvider(file_name, SourceFileOperation.Exists);
         }
 
         public static bool CanGoToRealization(TextArea textArea)
         {
-            if (CodeCompletion.CodeCompletionController.CurrentParser == null) return false;
+            if (CodeCompletionController.CurrentParser == null) return false;
             List<Position> poses = GetRealizationPosition(textArea);
             if (poses == null || poses.Count == 0) return false;
             foreach (Position pos in poses)
-                if (pos.file_name != null && (bool)WorkbenchServiceFactory.Workbench.VisualEnvironmentCompiler.SourceFilesProvider(pos.file_name, PascalABCCompiler.SourceFileOperation.Exists))
+                if (pos.file_name != null && (bool)WorkbenchServiceFactory.Workbench.VisualEnvironmentCompiler.SourceFilesProvider(pos.file_name, SourceFileOperation.Exists))
                     return true;
             return false;
             //        	string file_name = GetRealizationPosition(textArea).file_name;
-            //          return file_name != null && (bool)VisualPABCSingleton.MainForm.VisualEnvironmentCompiler.SourceFilesProvider(file_name, PascalABCCompiler.SourceFileOperation.Exists);
+            //          return file_name != null && (bool)VisualPABCSingleton.MainForm.VisualEnvironmentCompiler.SourceFilesProvider(file_name, SourceFileOperation.Exists);
         }
 
         public static bool CanFindReferences(TextArea textArea)
         {
             try
             {
-                if (CodeCompletion.CodeCompletionController.CurrentParser == null) return false;
+                if (CodeCompletionController.CurrentParser == null) return false;
                 ccp = new CodeCompletionProvider();
                 string full_expr;
                 string expressionResult = FindFullExpression(textArea.Document.TextContent, textArea, out ccp.keyword, out full_expr);
@@ -240,7 +245,7 @@ namespace VisualPascalABC
         {
             try
             {
-                if (CodeCompletion.CodeCompletionController.CurrentParser == null) return false;
+                if (CodeCompletionController.CurrentParser == null) return false;
                 ccp = new CodeCompletionProvider();
                 Position pos = new Position();
                 //string text = "procedure Test(a : integer);\n begin \n x := 1; \n end;";//ccp.GetRealizationTextToAdd(out pos);
@@ -257,7 +262,7 @@ namespace VisualPascalABC
         {
             try
             {
-                if (CodeCompletion.CodeCompletionController.CurrentParser == null) return;
+                if (CodeCompletionController.CurrentParser == null) return;
                 ccp = new CodeCompletionProvider();
                 Position pos = new Position();
                 //string text = "procedure Test(a : integer);\n begin \n x := 1; \n end;";//ccp.GetRealizationTextToAdd(out pos);
@@ -280,7 +285,7 @@ namespace VisualPascalABC
         private static TextArea _textArea;
         public static void GenerateOverridableMethods(TextArea textArea)
         {
-            if (CodeCompletion.CodeCompletionController.CurrentParser == null) return;
+            if (CodeCompletionController.CurrentParser == null) return;
             ccp = new CodeCompletionProvider();
             _textArea = textArea;
             int off = textArea.Caret.Offset;
@@ -301,8 +306,8 @@ namespace VisualPascalABC
                 codeCompletionWindow.Closed -= new EventHandler(CloseCodeCompletionWindow);
                 CodeCompletionProvider.disp.Reset();
                 codeCompletionWindow.Dispose();
-                CodeCompletion.AssemblyDocCache.Reset();
-                CodeCompletion.UnitDocCache.Reset();
+                AssemblyDocCache.Reset();
+                UnitDocCache.Reset();
                 codeCompletionWindow = null;
             }
             CodeCompletionAllNamesAction.comp_windows[_textArea] = null;
@@ -310,7 +315,7 @@ namespace VisualPascalABC
 
         public static void GenerateClassOrMethodRealization(TextArea textArea)
         {
-            if (CodeCompletion.CodeCompletionController.CurrentParser == null) return;
+            if (CodeCompletionController.CurrentParser == null) return;
             ccp = new CodeCompletionProvider();
             Position pos = new Position();
             //string text = "procedure Test(a : integer);\n begin \n x := 1; \n end;";//ccp.GetRealizationTextToAdd(out pos);
@@ -425,12 +430,12 @@ namespace VisualPascalABC
 
         public static bool GenerateCommentTemplate(TextArea textArea)
         {
-            if (CodeCompletion.CodeCompletionController.CurrentParser == null) return false;
+            if (CodeCompletionController.CurrentParser == null) return false;
             ccp = new CodeCompletionProvider();
             //if (!should_insert_comment(textArea))
             //	return false;
             string lineText = get_next_line(textArea);
-            string addit = CodeCompletion.CodeCompletionController.CurrentParser.LanguageInformation.GetDocumentTemplate(
+            string addit = CodeCompletionController.CurrentParser.LanguageInformation.GetDocumentTemplate(
                 lineText, textArea.Document.TextContent, textArea.Caret.Line, textArea.Caret.Column, textArea.Caret.Offset);
             if (addit == null)
                 return false;
@@ -472,7 +477,7 @@ namespace VisualPascalABC
 
         public static void GotoDefinition(TextArea _textArea)
         {
-            if (CodeCompletion.CodeCompletionController.CurrentParser == null) return;
+            if (CodeCompletionController.CurrentParser == null) return;
             position = GetDefinitionPosition(_textArea, false);
             if (position == null) return;
             if (position.Count == 1)
@@ -481,14 +486,14 @@ namespace VisualPascalABC
                 if (pos.file_name != null)
                 {
                     WorkbenchServiceFactory.Workbench.VisualEnvironmentCompiler.ExecuteSourceLocationAction(
-                        new PascalABCCompiler.SourceLocation(pos.file_name, pos.line, pos.column, pos.line, pos.column), VisualPascalABCPlugins.SourceLocationAction.GotoBeg);
+                        new SourceLocation(pos.file_name, pos.line, pos.column, pos.line, pos.column), VisualPascalABCPlugins.SourceLocationAction.GotoBeg);
                 }
                 else
                     if (pos.from_metadata)
                     {
                         WorkbenchServiceFactory.FileService.OpenTabWithText(pos.metadata_title, pos.metadata);
                         WorkbenchServiceFactory.Workbench.VisualEnvironmentCompiler.ExecuteSourceLocationAction(
-                        new PascalABCCompiler.SourceLocation(pos.file_name, pos.line, pos.column, pos.line, pos.column), VisualPascalABCPlugins.SourceLocationAction.GotoBeg);
+                        new SourceLocation(pos.file_name, pos.line, pos.column, pos.line, pos.column), VisualPascalABCPlugins.SourceLocationAction.GotoBeg);
                     }
             }
             else
@@ -497,7 +502,7 @@ namespace VisualPascalABC
                 foreach (Position pos in position)
                 {
                     if (pos.file_name != null)
-                        svs_lst.Add(new SymbolsViewerSymbol(new PascalABCCompiler.SourceLocation(pos.file_name, pos.line, pos.column, pos.end_line, pos.end_column), CodeCompletionProvider.ImagesProvider.IconNumberGotoText));
+                        svs_lst.Add(new SymbolsViewerSymbol(new SourceLocation(pos.file_name, pos.line, pos.column, pos.end_line, pos.end_column), CodeCompletionProvider.ImagesProvider.IconNumberGotoText));
                 }
                 VisualPABCSingleton.MainForm.FindSymbolResults.showInThread = false;
                 VisualPABCSingleton.MainForm.ShowFindResults(svs_lst);
@@ -505,14 +510,14 @@ namespace VisualPascalABC
             }
         }
 
-        private static string FindFullExpression(string Text, TextArea _textArea, out PascalABCCompiler.Parsers.KeywordKind keyw, out string full_expr)
+        private static string FindFullExpression(string Text, TextArea _textArea, out KeywordKind keyw, out string full_expr)
         {
-            keyw = PascalABCCompiler.Parsers.KeywordKind.None;
+            keyw = KeywordKind.None;
             string expr_without_brackets = null;
             full_expr = null;
-            if (CodeCompletion.CodeCompletionController.CurrentParser != null)
+            if (CodeCompletionController.CurrentParser != null)
             {
-                full_expr = CodeCompletion.CodeCompletionController.CurrentParser.LanguageInformation.FindExpressionFromAnyPosition(_textArea.Caret.Offset, Text, _textArea.Caret.Line, _textArea.Caret.Column, out keyw, out expr_without_brackets);
+                full_expr = CodeCompletionController.CurrentParser.LanguageInformation.FindExpressionFromAnyPosition(_textArea.Caret.Offset, Text, _textArea.Caret.Line, _textArea.Caret.Column, out keyw, out expr_without_brackets);
                 return expr_without_brackets;
             }
             return null;
@@ -520,7 +525,7 @@ namespace VisualPascalABC
 
         private static string FindOnlyIdent(string Text, TextArea _textArea, ref string name)
         {
-            return CodeCompletion.CodeCompletionController.CurrentParser.LanguageInformation.FindOnlyIdentifier(_textArea.Caret.Offset, Text, _textArea.Caret.Line, _textArea.Caret.Column, ref name);
+            return CodeCompletionController.CurrentParser.LanguageInformation.FindOnlyIdentifier(_textArea.Caret.Offset, Text, _textArea.Caret.Line, _textArea.Caret.Column, ref name);
         }
 
 
@@ -574,18 +579,18 @@ namespace VisualPascalABC
         {
             WorkbenchServiceFactory.Workbench.ErrorsListWindow.ClearErrorList();
             VisualPABCSingleton.MainForm.CurrentCodeFileDocument.DeselectAll();
-            CodeFormatters.CodeFormatter cf = new CodeFormatters.CodeFormatter(VisualPABCSingleton.MainForm.UserOptions.TabIndent);
-            List<PascalABCCompiler.Errors.Error> Errors = new List<PascalABCCompiler.Errors.Error>();
-            //PascalABCCompiler.SyntaxTree.syntax_tree_node sn =
+            CodeFormatter cf = new CodeFormatter(VisualPABCSingleton.MainForm.UserOptions.TabIndent);
+            List<Error> Errors = new List<Error>();
+            //syntax_tree_node sn =
             //    MainForm.VisualEnvironmentCompiler.Compiler.ParsersController.Compile(
-            //    FileName, TextEditor.Text, null, Errors, PascalABCCompiler.Parsers.ParseMode.Normal);
-            string text = WorkbenchServiceFactory.Workbench.VisualEnvironmentCompiler.SourceFilesProvider(VisualPABCSingleton.MainForm.CurrentCodeFileDocument.FileName, PascalABCCompiler.SourceFileOperation.GetText) as string;
-            PascalABCCompiler.SyntaxTree.compilation_unit cu =
-                CodeCompletion.CodeCompletionController.ParsersController.GetCompilationUnitForFormatter(
+            //    FileName, TextEditor.Text, null, Errors, ParseMode.Normal);
+            string text = WorkbenchServiceFactory.Workbench.VisualEnvironmentCompiler.SourceFilesProvider(VisualPABCSingleton.MainForm.CurrentCodeFileDocument.FileName, SourceFileOperation.GetText) as string;
+            compilation_unit cu =
+                CodeCompletionController.ParsersController.GetCompilationUnitForFormatter(
                 VisualPABCSingleton.MainForm.CurrentCodeFileDocument.FileName,
                text, //VisualPascalABC.Form1.Form1_object._currentCodeFileDocument.TextEditor.Text,
                 Errors,
-                new List<PascalABCCompiler.Errors.CompilerWarning>());
+                new List<CompilerWarning>());
             if (Errors.Count == 0)
             {
                 string formattedText = cf.FormatTree(text, cu, textArea.Caret.Line + 1, textArea.Caret.Column + 1);
@@ -595,12 +600,12 @@ namespace VisualPascalABC
                     //WorkbenchServiceFactory.Workbench.VisualEnvironmentCompiler.ExecuteAction(VisualPascalABCPlugins.VisualEnvironmentCompilerAction.SetCurrentSourceFileTextFormatting, "");
                     WorkbenchServiceFactory.Workbench.VisualEnvironmentCompiler.ExecuteAction(VisualPascalABCPlugins.VisualEnvironmentCompilerAction.SetCurrentSourceFileTextFormatting, formattedText);
                     WorkbenchServiceFactory.Workbench.VisualEnvironmentCompiler.ExecuteSourceLocationAction(
-                                new PascalABCCompiler.SourceLocation(VisualPABCSingleton.MainForm.CurrentCodeFileDocument.FileName, cf.Line, cf.Column, cf.Line, cf.Column), VisualPascalABCPlugins.SourceLocationAction.GotoBeg);
+                                new SourceLocation(VisualPABCSingleton.MainForm.CurrentCodeFileDocument.FileName, cf.Line, cf.Column, cf.Line, cf.Column), VisualPascalABCPlugins.SourceLocationAction.GotoBeg);
                 }
             }
             else
             {
-                WorkbenchServiceFactory.Workbench.VisualEnvironmentCompiler.ExecuteAction(VisualPascalABCPlugins.VisualEnvironmentCompilerAction.AddMessageToErrorListWindow, new List<PascalABCCompiler.Errors.Error>(new PascalABCCompiler.Errors.Error[] { Errors[0] }));
+                WorkbenchServiceFactory.Workbench.VisualEnvironmentCompiler.ExecuteAction(VisualPascalABCPlugins.VisualEnvironmentCompilerAction.AddMessageToErrorListWindow, new List<Error>(new Error[] { Errors[0] }));
             }
         }
     }
@@ -647,7 +652,7 @@ namespace VisualPascalABC
                     }
                 if (!WorkbenchServiceFactory.Workbench.UserOptions.CodeCompletionDot)
                     return;
-                if (CodeCompletion.CodeCompletionController.CurrentParser == null) return;
+                if (CodeCompletionController.CurrentParser == null) return;
                 CodeCompletionProvider completionDataProvider = new CodeCompletionProvider();
 
                 bool is_pattern = false;
@@ -655,7 +660,7 @@ namespace VisualPascalABC
 
                 is_begin = true;
 
-                completionDataProvider.preSelection = CodeCompletion.CodeCompletionController.CurrentParser.LanguageInformation.FindPattern(off, text, out is_pattern);
+                completionDataProvider.preSelection = CodeCompletionController.CurrentParser.LanguageInformation.FindPattern(off, text, out is_pattern);
 
                 if (!is_pattern && off > 0 && text[off - 1] == '.')
                     key = '$';
@@ -667,7 +672,7 @@ namespace VisualPascalABC
                     key,							// Key pressed - will be passed to the provider
                     false,
                     false,
-                    PascalABCCompiler.Parsers.KeywordKind.None
+                    KeywordKind.None
                 );
                 key = '_';
                 CodeCompletionNamesOnlyInModuleAction.comp_windows[textArea] = codeCompletionWindow;
@@ -690,8 +695,8 @@ namespace VisualPascalABC
             {
                 codeCompletionWindow.Closed -= new EventHandler(CloseCodeCompletionWindow);
                 CodeCompletionProvider.disp.Reset();
-                CodeCompletion.AssemblyDocCache.Reset();
-                CodeCompletion.UnitDocCache.Reset();
+                AssemblyDocCache.Reset();
+                UnitDocCache.Reset();
                 codeCompletionWindow.Dispose();
                 codeCompletionWindow = null;
             }

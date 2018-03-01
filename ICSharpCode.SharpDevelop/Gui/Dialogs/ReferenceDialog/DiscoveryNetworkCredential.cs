@@ -4,7 +4,7 @@
 using System;
 using System.Net;
 
-namespace ICSharpCode.SharpDevelop.Gui
+namespace ICSharpCode.SharpDevelop.Gui.Dialogs.ReferenceDialog
 {
 	/// <summary>
 	/// Adds an authentication type to the standard NetworkCredential class.

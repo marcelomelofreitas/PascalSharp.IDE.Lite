@@ -10,7 +10,7 @@ using System.Windows.Controls;
 using ICSharpCode.Core;
 using ICSharpCode.SharpDevelop.Project;
 
-namespace ICSharpCode.SharpDevelop.Gui.OptionPanels
+namespace ICSharpCode.SharpDevelop.Gui.Dialogs.OptionPanels.ProjectOptions
 {
 	/// <summary>
 	/// Base class for project option panels with configuration picker.

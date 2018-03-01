@@ -8,6 +8,10 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
+using PascalABCCompiler.SyntaxTree;
+using PascalSharp.Compiler;
+using PascalSharp.Internal.Errors;
+using PascalSharp.Internal.Localization;
 using VisualPascalABC.Projects;
 using VisualPascalABCPlugins;
 
@@ -15,11 +19,11 @@ namespace VisualPascalABC
 {
     public class WorkbenchBuildService : IWorkbenchBuildService
     {
-        public PascalABCCompiler.CompilerOptions CompilerOptions1 = new PascalABCCompiler.CompilerOptions();
+        public CompilerOptions CompilerOptions1 = new CompilerOptions();
         bool __ForRun;
         string __RuntimeServicesModule;
         bool __savePCU;
-        List<PascalABCCompiler.Errors.Error> ErrorsList = new List<PascalABCCompiler.Errors.Error>();
+        List<Error> ErrorsList = new List<Error>();
 
         IWorkbench Workbench;
         IWorkbenchProjectService ProjectService;
@@ -34,7 +38,7 @@ namespace VisualPascalABC
             DocumentService = WorkbenchServiceFactory.DocumentService;
         }
 
-        public PascalABCCompiler.CompilerOptions CompilerOptions
+        public CompilerOptions CompilerOptions
         {
             get
             {
@@ -42,7 +46,7 @@ namespace VisualPascalABC
             }
         }
 
-        List<PascalABCCompiler.Errors.Error> IWorkbenchBuildService.ErrorsList
+        List<Error> IWorkbenchBuildService.ErrorsList
         {
             get
             {
@@ -51,7 +55,7 @@ namespace VisualPascalABC
         }
 
         //kompilacija proekta
-        public string Compile(PascalABCCompiler.IProjectInfo project, bool rebuild, string RuntimeServicesModule, bool ForRun, bool RunWithEnvironment)
+        public string Compile(IProjectInfo project, bool rebuild, string RuntimeServicesModule, bool ForRun, bool RunWithEnvironment)
         {
             ProjectService.SaveProject();
             Workbench.WidgetController.CompilingButtonsEnabled = false;
@@ -59,18 +63,18 @@ namespace VisualPascalABC
             CompilerOptions1.SourceFileName = project.Path;
             CompilerOptions1.OutputDirectory = project.OutputDirectory;
             CompilerOptions1.ProjectCompiled = true;
-            if (project.ProjectType == PascalABCCompiler.ProjectType.WindowsApp)
-                CompilerOptions1.OutputFileType = PascalABCCompiler.CompilerOptions.OutputType.WindowsApplication;
+            if (project.ProjectType == ProjectType.WindowsApp)
+                CompilerOptions1.OutputFileType = CompilerOptions.OutputType.WindowsApplication;
             ErrorsList.Clear();
             CompilerOptions1.Rebuild = rebuild;
-            CompilerOptions1.Locale = PascalABCCompiler.StringResourcesLanguage.CurrentTwoLetterISO;
+            CompilerOptions1.Locale = StringResourcesLanguage.CurrentTwoLetterISO;
             CompilerOptions1.UseDllForSystemUnits = false;
             CompilerOptions1.RunWithEnvironment = RunWithEnvironment;
             bool savePCU = Workbench.VisualEnvironmentCompiler.Compiler.InternalDebug.PCUGenerate;
             if (Path.GetDirectoryName(CompilerOptions1.SourceFileName).ToLower() == ((string)WorkbenchStorage.StandartDirectories[Constants.LibSourceDirectoryIdent]).ToLower())
                 Workbench.VisualEnvironmentCompiler.Compiler.InternalDebug.PCUGenerate = false;
             if (RuntimeServicesModule != null)
-                CompilerOptions1.StandartModules.Add(new PascalABCCompiler.CompilerOptions.StandartModule(RuntimeServicesModule, PascalABCCompiler.CompilerOptions.StandartModuleAddMethod.RightToMain, PascalABCCompiler.SyntaxTree.LanguageId.C | PascalABCCompiler.SyntaxTree.LanguageId.PascalABCNET | PascalABCCompiler.SyntaxTree.LanguageId.CommonLanguage));
+                CompilerOptions1.StandartModules.Add(new CompilerOptions.StandartModule(RuntimeServicesModule, CompilerOptions.StandartModuleAddMethod.RightToMain, LanguageId.C | LanguageId.PascalABCNET | LanguageId.CommonLanguage));
 
             string ofn = Workbench.VisualEnvironmentCompiler.Compile(CompilerOptions1);
             Workbench.VisualEnvironmentCompiler.Compiler.InternalDebug.PCUGenerate = savePCU;
@@ -80,8 +84,8 @@ namespace VisualPascalABC
 
             if (Workbench.VisualEnvironmentCompiler.Compiler.ErrorsList.Count != 0 || Workbench.VisualEnvironmentCompiler.Compiler.Warnings.Count != 0)
             {
-                List<PascalABCCompiler.Errors.Error> ErrorsAndWarnings = new List<PascalABCCompiler.Errors.Error>();
-                List<PascalABCCompiler.Errors.Error> Errors = Workbench.ErrorsManager.CreateErrorsList(Workbench.VisualEnvironmentCompiler.Compiler.ErrorsList);
+                List<Error> ErrorsAndWarnings = new List<Error>();
+                List<Error> Errors = Workbench.ErrorsManager.CreateErrorsList(Workbench.VisualEnvironmentCompiler.Compiler.ErrorsList);
                 AddErrors(ErrorsAndWarnings, Errors);
                 //if (!ForRun)
                 AddWarnings(ErrorsAndWarnings, Workbench.VisualEnvironmentCompiler.Compiler.Warnings);
@@ -99,7 +103,7 @@ namespace VisualPascalABC
             Workbench.CompilerConsoleWindow.ClearConsole();
 
             CompilerOptions1.SourceFileName = FileName;
-            CompilerOptions1.Locale = PascalABCCompiler.StringResourcesLanguage.CurrentTwoLetterISO;
+            CompilerOptions1.Locale = StringResourcesLanguage.CurrentTwoLetterISO;
             if (Path.GetDirectoryName(FileName) == "" && WorkbenchStorage.WorkingDirectoryExsist)
                 CompilerOptions1.OutputDirectory = WorkbenchStorage.WorkingDirectory;
 
@@ -110,9 +114,9 @@ namespace VisualPascalABC
             CompilerOptions1.RunWithEnvironment = RunWithEnvironment;
             //string runtimeModuleFileName = CompilerOptions1.SearchDirectory + "\\" + RuntimeServicesModule;
             //if (RuntimeServicesModule!=null && File.Exists(runtimeModuleFileName))
-            //    CompilerOptions1.StandartModules.Add(new PascalABCCompiler.CompilerOptions.StandartModule(runtimeModuleFileName, PascalABCCompiler.CompilerOptions.StandartModuleAddMethod.RightToMain));
+            //    CompilerOptions1.StandartModules.Add(new CompilerOptions.StandartModule(runtimeModuleFileName, CompilerOptions.StandartModuleAddMethod.RightToMain));
             if (RuntimeServicesModule != null)
-                CompilerOptions1.StandartModules.Add(new PascalABCCompiler.CompilerOptions.StandartModule(RuntimeServicesModule, PascalABCCompiler.CompilerOptions.StandartModuleAddMethod.RightToMain, PascalABCCompiler.SyntaxTree.LanguageId.C | PascalABCCompiler.SyntaxTree.LanguageId.PascalABCNET | PascalABCCompiler.SyntaxTree.LanguageId.CommonLanguage));
+                CompilerOptions1.StandartModules.Add(new CompilerOptions.StandartModule(RuntimeServicesModule, CompilerOptions.StandartModuleAddMethod.RightToMain, LanguageId.C | LanguageId.PascalABCNET | LanguageId.CommonLanguage));
 
             ErrorsList.Clear();
 
@@ -130,8 +134,8 @@ namespace VisualPascalABC
 
             if (Workbench.VisualEnvironmentCompiler.Compiler.ErrorsList.Count != 0 || Workbench.VisualEnvironmentCompiler.Compiler.Warnings.Count != 0)
             {
-                List<PascalABCCompiler.Errors.Error> ErrorsAndWarnings = new List<PascalABCCompiler.Errors.Error>();
-                List<PascalABCCompiler.Errors.Error> Errors = Workbench.ErrorsManager.CreateErrorsList(Workbench.VisualEnvironmentCompiler.Compiler.ErrorsList);
+                List<Error> ErrorsAndWarnings = new List<Error>();
+                List<Error> Errors = Workbench.ErrorsManager.CreateErrorsList(Workbench.VisualEnvironmentCompiler.Compiler.ErrorsList);
                 AddErrors(ErrorsAndWarnings, Errors);
                 //if (!ForRun)
                 AddWarnings(ErrorsAndWarnings, Workbench.VisualEnvironmentCompiler.Compiler.Warnings);
@@ -140,7 +144,7 @@ namespace VisualPascalABC
             return ofn;
         }
 
-        public void StartCompile(PascalABCCompiler.IProjectInfo project, bool rebuild, string RuntimeServicesModule, bool ForRun, bool RunWithEnvironment)
+        public void StartCompile(IProjectInfo project, bool rebuild, string RuntimeServicesModule, bool ForRun, bool RunWithEnvironment)
         {
             ProjectService.SaveProject();
             __RuntimeServicesModule = RuntimeServicesModule;
@@ -150,7 +154,7 @@ namespace VisualPascalABC
 
             CompilerOptions1.SourceFileName = project.Path;
             CompilerOptions1.ProjectCompiled = true;
-            CompilerOptions1.Locale = PascalABCCompiler.StringResourcesLanguage.CurrentTwoLetterISO;
+            CompilerOptions1.Locale = StringResourcesLanguage.CurrentTwoLetterISO;
             if (UserOptions.UseOutputDirectory && Directory.Exists(UserOptions.OutputDirectory))
                 CompilerOptions1.OutputDirectory = UserOptions.OutputDirectory;
 
@@ -158,9 +162,9 @@ namespace VisualPascalABC
             CompilerOptions1.RunWithEnvironment = RunWithEnvironment;
             //string runtimeModuleFileName = CompilerOptions1.SearchDirectory + "\\" + RuntimeServicesModule;
             //if (RuntimeServicesModule!=null && File.Exists(runtimeModuleFileName))
-            //    CompilerOptions1.StandartModules.Add(new PascalABCCompiler.CompilerOptions.StandartModule(runtimeModuleFileName, PascalABCCompiler.CompilerOptions.StandartModuleAddMethod.RightToMain));
+            //    CompilerOptions1.StandartModules.Add(new CompilerOptions.StandartModule(runtimeModuleFileName, CompilerOptions.StandartModuleAddMethod.RightToMain));
             if (__RuntimeServicesModule != null)
-                CompilerOptions1.StandartModules.Add(new PascalABCCompiler.CompilerOptions.StandartModule(RuntimeServicesModule, PascalABCCompiler.CompilerOptions.StandartModuleAddMethod.RightToMain, PascalABCCompiler.SyntaxTree.LanguageId.C | PascalABCCompiler.SyntaxTree.LanguageId.PascalABCNET | PascalABCCompiler.SyntaxTree.LanguageId.CommonLanguage));
+                CompilerOptions1.StandartModules.Add(new CompilerOptions.StandartModule(RuntimeServicesModule, CompilerOptions.StandartModuleAddMethod.RightToMain, LanguageId.C | LanguageId.PascalABCNET | LanguageId.CommonLanguage));
 
 
             ErrorsList.Clear();
@@ -182,7 +186,7 @@ namespace VisualPascalABC
             Workbench.CompilerConsoleWindow.ClearConsole();
             var UserOptions = Workbench.UserOptions;
             CompilerOptions1.SourceFileName = FileName;
-            CompilerOptions1.Locale = PascalABCCompiler.StringResourcesLanguage.CurrentTwoLetterISO;
+            CompilerOptions1.Locale = StringResourcesLanguage.CurrentTwoLetterISO;
             if (Path.GetDirectoryName(FileName) == "" && WorkbenchStorage.WorkingDirectoryExsist)
                 CompilerOptions1.OutputDirectory = WorkbenchStorage.WorkingDirectory;
 
@@ -194,9 +198,9 @@ namespace VisualPascalABC
             CompilerOptions1.RunWithEnvironment = RunWithEnvironment;
             //string runtimeModuleFileName = CompilerOptions1.SearchDirectory + "\\" + RuntimeServicesModule;
             //if (RuntimeServicesModule!=null && File.Exists(runtimeModuleFileName))
-            //    CompilerOptions1.StandartModules.Add(new PascalABCCompiler.CompilerOptions.StandartModule(runtimeModuleFileName, PascalABCCompiler.CompilerOptions.StandartModuleAddMethod.RightToMain));
+            //    CompilerOptions1.StandartModules.Add(new CompilerOptions.StandartModule(runtimeModuleFileName, CompilerOptions.StandartModuleAddMethod.RightToMain));
             if (__RuntimeServicesModule != null)
-                CompilerOptions1.StandartModules.Add(new PascalABCCompiler.CompilerOptions.StandartModule(RuntimeServicesModule, PascalABCCompiler.CompilerOptions.StandartModuleAddMethod.RightToMain, PascalABCCompiler.SyntaxTree.LanguageId.C | PascalABCCompiler.SyntaxTree.LanguageId.PascalABCNET | PascalABCCompiler.SyntaxTree.LanguageId.CommonLanguage));
+                CompilerOptions1.StandartModules.Add(new CompilerOptions.StandartModule(RuntimeServicesModule, CompilerOptions.StandartModuleAddMethod.RightToMain, LanguageId.C | LanguageId.PascalABCNET | LanguageId.CommonLanguage));
 
 
             ErrorsList.Clear();
@@ -258,11 +262,11 @@ namespace VisualPascalABC
                 StartCompile(ProjectFactory.Instance.CurrentProject, rebuild, null, false, false);
         }
 
-        void CompilationOnChangeCompilerState(PascalABCCompiler.ICompiler sender, PascalABCCompiler.CompilerState State, string FileName)
+        void CompilationOnChangeCompilerState(ICompiler sender, CompilerState State, string FileName)
         {
             switch (State)
             {
-                case PascalABCCompiler.CompilerState.CompilationFinished:
+                case CompilerState.CompilationFinished:
                     Workbench.VisualEnvironmentCompiler.Compiler.InternalDebug.PCUGenerate = __savePCU;
 
                     if (__RuntimeServicesModule != null)
@@ -270,8 +274,8 @@ namespace VisualPascalABC
 
                     if (Workbench.VisualEnvironmentCompiler.Compiler.ErrorsList.Count != 0 || Workbench.VisualEnvironmentCompiler.Compiler.Warnings.Count != 0)
                     {
-                        List<PascalABCCompiler.Errors.Error> ErrorsAndWarnings = new List<PascalABCCompiler.Errors.Error>();
-                        List<PascalABCCompiler.Errors.Error> Errors = Workbench.ErrorsManager.CreateErrorsList(Workbench.VisualEnvironmentCompiler.Compiler.ErrorsList);
+                        List<Error> ErrorsAndWarnings = new List<Error>();
+                        List<Error> Errors = Workbench.ErrorsManager.CreateErrorsList(Workbench.VisualEnvironmentCompiler.Compiler.ErrorsList);
                         AddErrors(ErrorsAndWarnings, Errors);
                         //if (!ForRun)
                         AddWarnings(ErrorsAndWarnings, Workbench.VisualEnvironmentCompiler.Compiler.Warnings);
@@ -282,15 +286,15 @@ namespace VisualPascalABC
             }
         }
 
-        public void AddWarnings(List<PascalABCCompiler.Errors.Error> Errors, List<PascalABCCompiler.Errors.CompilerWarning> warns)
+        public void AddWarnings(List<Error> Errors, List<CompilerWarning> warns)
         {
-            foreach (PascalABCCompiler.Errors.CompilerWarning w in warns)
+            foreach (CompilerWarning w in warns)
                 Errors.Add(w);
         }
 
-        public void AddErrors(List<PascalABCCompiler.Errors.Error> Errors, List<PascalABCCompiler.Errors.Error> ers)
+        public void AddErrors(List<Error> Errors, List<Error> ers)
         {
-            foreach (PascalABCCompiler.Errors.Error e in ers)
+            foreach (Error e in ers)
                 Errors.Add(e);
         }
     }
