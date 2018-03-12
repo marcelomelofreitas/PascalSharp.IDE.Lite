@@ -62,7 +62,7 @@ namespace VisualPascalABC.Projects
 				OpenedFileInfo fi = new OpenedFileInfo();
                 if (ProjectFactory.Instance.CurrentProject.ContainsSourceFile(cfdc.FileName))
                 {
-                    fi.FileName = Tools.RelativePathTo(Path.GetDirectoryName(ProjectFactory.Instance.CurrentProject.Path),cfdc.FileName);
+                    fi.FileName = PascalSharp.Internal.CompilerTools.Tools.RelativePathTo(Path.GetDirectoryName(ProjectFactory.Instance.CurrentProject.Path),cfdc.FileName);
                     fi.InProject = true;
                 }
                 else
@@ -75,7 +75,7 @@ namespace VisualPascalABC.Projects
 			}
             if (ProjectFactory.Instance.CurrentProject.ContainsSourceFile(VisualPABCSingleton.MainForm.CurrentCodeFileDocument.FileName))
             {
-                options.CurrentDocument = Tools.RelativePathTo(Path.GetDirectoryName(ProjectFactory.Instance.CurrentProject.Path), VisualPABCSingleton.MainForm.CurrentCodeFileDocument.FileName);
+                options.CurrentDocument = PascalSharp.Internal.CompilerTools.Tools.RelativePathTo(Path.GetDirectoryName(ProjectFactory.Instance.CurrentProject.Path), VisualPABCSingleton.MainForm.CurrentCodeFileDocument.FileName);
                 options.CurrentDocumentIsInProject = true;
             }
             else

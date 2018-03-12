@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.IO;
+using PascalSharp.Internal.Localization;
 
 namespace VisualPascalABCPlugins
 {
@@ -151,7 +152,6 @@ namespace VisualPascalABCPlugins
                     case "netgenerator.dll":
                     case "treeconverter.dll":
                     case "pascalabcparser.dll":
-                    case "dll":
                     case "semantictree.dll":
                     case "weifenluo.winformsui.docking.dll":
                     case "pluginssupport.dll":

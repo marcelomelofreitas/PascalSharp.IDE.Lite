@@ -7,6 +7,7 @@ using System.Drawing;
 using System.Data;
 using System.Text;
 using System.Windows.Forms;
+using PascalSharp.Internal.Localization;
 using VisualPascalABCPlugins;
 
 namespace VisualPascalABC.OptionsContent

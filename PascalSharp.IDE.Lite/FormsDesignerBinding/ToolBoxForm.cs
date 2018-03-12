@@ -8,6 +8,7 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using PascalSharp.Internal.Localization;
 using WeifenLuo.WinFormsUI.Docking;
 
 namespace VisualPascalABC

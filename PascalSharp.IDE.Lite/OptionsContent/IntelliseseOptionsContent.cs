@@ -53,7 +53,7 @@ namespace VisualPascalABC.OptionsContent
                 case OptionsContentAction.Show:
                     if (!alreadyShown)
                     {
-                        cbAllowChecked = MainForm.UserOptions.AllowCodeCompletion;
+                        cbAllowCodeCompletion.Checked = MainForm.UserOptions.AllowCodeCompletion;
                         cbCodeCompletionDot.Checked = MainForm.UserOptions.CodeCompletionDot;
                         cbCodeCompletionHint.Checked = MainForm.UserOptions.CodeCompletionHint;
                         cbCodeCompletionParams.Checked = MainForm.UserOptions.CodeCompletionParams;
@@ -67,7 +67,7 @@ namespace VisualPascalABC.OptionsContent
                     MainForm.UserOptions.CodeCompletionDot = cbCodeCompletionDot.Checked;
                     MainForm.UserOptions.CodeCompletionHint = cbCodeCompletionHint.Checked;
                     MainForm.UserOptions.CodeCompletionParams = cbCodeCompletionParams.Checked;
-                    MainForm.UserOptions.AllowCodeCompletion = cbAllowChecked;
+                    MainForm.UserOptions.AllowCodeCompletion = cbAllowCodeCompletion.Checked;
                     MainForm.UserOptions.EnableSmartIntellisense = cbCodeCompletionKeyPressed.Checked;
                     MainForm.UserOptions.CodeCompletionNamespaceVisibleRange = Convert.ToInt32(nuNamespaceVisibleRange.Value);
                     MainForm.UserOptions.ShowQuickClassBrowserPanel = cbIntellisencePanel.Checked;
@@ -85,8 +85,8 @@ namespace VisualPascalABC.OptionsContent
 
         private void cbAllowCodeCompletion_CheckedChanged(object sender, EventArgs e)
         {
-            cbIntellisencePanel.Checked = cbCodeCompletionKeyPressed.Checked = cbCodeCompletionDot.Checked = cbCodeCompletionHint.Checked = cbCodeCompletionParams.Checked = cbAllowChecked;
-            cbIntellisencePanel.Enabled = cbCodeCompletionKeyPressed.Enabled = nuNamespaceVisibleRange.Enabled = cbCodeCompletionDot.Enabled = cbCodeCompletionHint.Enabled = cbCodeCompletionParams.Enabled = cbAllowChecked;
+            cbIntellisencePanel.Checked = cbCodeCompletionKeyPressed.Checked = cbCodeCompletionDot.Checked = cbCodeCompletionHint.Checked = cbCodeCompletionParams.Checked = cbAllowCodeCompletion.Checked;
+            cbIntellisencePanel.Enabled = cbCodeCompletionKeyPressed.Enabled = nuNamespaceVisibleRange.Enabled = cbCodeCompletionDot.Enabled = cbCodeCompletionHint.Enabled = cbCodeCompletionParams.Enabled = cbAllowCodeCompletion.Checked;
         }
  
     }
