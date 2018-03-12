@@ -9,10 +9,6 @@
     <UseVSHostingProcess>false</UseVSHostingProcess>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Remove="IB\Refactoring\Bookmarks.cs" />
-    <Compile Remove="Workbench\DebugService.cs" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="$(SolutionDir)PascalSharp.IDE.Lite.PluginInterface\PascalSharp.IDE.Lite.PluginInterface.csproj" />
     <ProjectReference Include="$(SolutionDir)ICSharpCode.SharpDevelop\ICSharpCode.SharpDevelop.csproj" />
     <ProjectReference Include="$(SolutionDir)ICSharpCode.Core\ICSharpCode.Core.csproj" />
