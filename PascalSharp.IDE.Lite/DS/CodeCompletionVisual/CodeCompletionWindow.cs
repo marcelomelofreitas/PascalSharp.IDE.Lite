@@ -10,7 +10,7 @@ using System.Drawing;
 using System.Diagnostics;
 using System.Windows.Forms;
 using ICSharpCode.TextEditor.Document;
-using PascalABCCompiler.Parsers;
+using PascalSharp.Internal.ParserTools;
 
 namespace ICSharpCode.TextEditor.Gui.CompletionWindow
 {
@@ -232,11 +232,7 @@ namespace ICSharpCode.TextEditor.Gui.CompletionWindow
 					return base.ProcessKeyEvent(ch);
 				case CompletionDataProviderKeyResult.NormalKey:
 					// just process normally
-                    /*if (ch == '_')
-                    {
-                        Close();
-                        return true;
-                    }*/
+                    
 					return base.ProcessKeyEvent(ch);
 				case CompletionDataProviderKeyResult.InsertionKey:
 					return InsertSelectedItem(ch);

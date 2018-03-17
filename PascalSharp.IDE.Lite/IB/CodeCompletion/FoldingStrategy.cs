@@ -8,7 +8,7 @@ using System.Windows.Forms;
 using ICSharpCode.TextEditor;
 using ICSharpCode.TextEditor.Document;
 using PascalSharp.Internal.CodeCompletion;
-using PascalABCCompiler.Parsers;
+using PascalSharp.Internal.ParserTools;
 
 namespace VisualPascalABC
 {

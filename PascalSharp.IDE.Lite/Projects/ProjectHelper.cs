@@ -3,8 +3,8 @@
 
 using System;
 using System.IO;
-using PascalABCCompiler;
 using PascalSharp.Compiler;
+using PascalSharp.Internal.ParserTools;
 
 namespace VisualPascalABC.Projects
 {

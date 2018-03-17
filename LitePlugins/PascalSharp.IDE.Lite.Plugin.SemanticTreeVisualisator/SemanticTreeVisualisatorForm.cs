@@ -8,9 +8,9 @@ using System.Windows.Forms;
 
 
 using System.Collections;
-using PascalABCCompiler.SemanticTree;
 using PascalSharp.Compiler;
 using PascalSharp.Internal.Localization;
+using PascalSharp.Internal.SemanticTree;
 
 namespace VisualPascalABCPlugins
 {

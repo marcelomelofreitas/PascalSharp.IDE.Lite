@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <LanguageTargets>$(MSBuildExtensionsPath)\$(VisualStudioVersion)\Bin\Microsoft.CSharp.targets</LanguageTargets>
-    <TargetFrameworks>net40;net45;net471</TargetFrameworks>
+    <TargetFrameworks>net40;net471</TargetFrameworks>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <OutputPath>$(SolutionDir)bin\</OutputPath>
     <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
@@ -12,7 +12,6 @@
     <GenerateAssemblyInformationalVersionAttribute>false</GenerateAssemblyInformationalVersionAttribute>
     <DefineConstants>$(DefineConstants);PUBLICINTERPROCESS</DefineConstants>
   </PropertyGroup>
-  <!-- <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" /> -->
   <ItemGroup>
     <ProjectReference Include="$(SolutionDir)AvalonDock\AvalonDock.csproj" />
     <ProjectReference Include="$(SolutionDir)ICSharpCode.AvalonEdit\ICSharpCode.AvalonEdit.csproj" />
@@ -39,7 +38,7 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Mono.Cecil" Version="0.10.0-beta7" />
-    <PackageReference Include="PascalSharp.Compiler" Version="0.1.2.1-ci.2018.2.28" />
+    <PackageReference Include="PascalSharp.Compiler" Version="0.1.6-ci.2018.3.17" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="**\*.xaml">
@@ -50,8 +49,8 @@
     <Compile Include="$(SolutionDir)ICSharpCode.Build.Tasks\KnownFrameworkAssemblies.cs">
       <Link>Gui\Dialogs\ReferenceDialog\KnownFrameworkAssemblies.cs</Link>
     </Compile>
-    <Compile Include="$(SolutionDir)GlobalAssemblyInfo.cs">
-      <Link>Configuration\GlobalAssemblyInfo.cs</Link>
+    <Compile Include="$(SolutionDir)SharpDevelopAssemblyInfo.cs">
+      <Link>SharpDevelopAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="$(SolutionDir)ICSharpCode.SharpDevelop.BuildWorker\BuildJob.cs">
       <Link>Project\MSBuildEngine\BuildJob.cs</Link>

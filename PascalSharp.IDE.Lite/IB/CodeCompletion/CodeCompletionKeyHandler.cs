@@ -14,7 +14,7 @@ using ICSharpCode.TextEditor.Document;
 using ICSharpCode.TextEditor.Gui.CompletionWindow;
 using ICSharpCode.TextEditor.Gui.InsightWindow;
 using PascalSharp.Internal.CodeCompletion;
-using KeywordKind = PascalABCCompiler.Parsers.KeywordKind;
+using KeywordKind = PascalSharp.Internal.ParserTools.KeywordKind;
 
 namespace VisualPascalABC
 {
@@ -85,7 +85,11 @@ namespace VisualPascalABC
                     if (key != ' ')
                         ccw.ProcessKeyEvent(key);
                     else
+                    {
                         ccw.ProcessKeyEvent('_');
+                        ccw.Close();
+                    }
+                        
                 }
                 else if (ccw != null && ccw.ProcessKeyEvent(key))
                     return true;

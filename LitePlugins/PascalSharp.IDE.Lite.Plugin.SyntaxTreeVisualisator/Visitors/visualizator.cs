@@ -1,7 +1,6 @@
-
-using PascalABCCompiler.SyntaxTree;
 using System.Windows.Forms;
 using System.Collections;
+using PascalSharp.Internal.SyntaxTree;
 
 namespace VisualPascalABCPlugins
 {

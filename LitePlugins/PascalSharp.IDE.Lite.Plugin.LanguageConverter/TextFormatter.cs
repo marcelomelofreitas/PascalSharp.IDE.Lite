@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Drawing;
-using PascalABCCompiler.SemanticTree;
 using System.Text.RegularExpressions;
+using PascalSharp.Internal.SemanticTree;
 
 namespace Converter
 {

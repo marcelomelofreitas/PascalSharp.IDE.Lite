@@ -5,9 +5,9 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
-using PascalABCCompiler.Parsers;
-using PascalABCCompiler.SyntaxTree;
+using PascalSharp.Internal.SyntaxTree;
 using PascalSharp.Internal.Localization;
+using PascalSharp.Internal.ParserTools;
 
 namespace VisualPascalABC
 {

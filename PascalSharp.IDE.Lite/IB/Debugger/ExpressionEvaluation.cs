@@ -7,14 +7,15 @@ using System.Text;
 using PascalSharp.Internal.Debugger;
 using VisualPascalABCPlugins;
 using System.Runtime.ExceptionServices;
-using PascalABCCompiler.SyntaxTree;
-using PascalABCCompiler.TreeConverter;
+using PascalSharp.Internal.SyntaxTree;
+using PascalSharp.Internal.TreeConverter;
 using PascalSharp.Internal.Debugger.Threads;
 using PascalSharp.Internal.Debugger.Variables.Evals;
 using PascalSharp.Internal.Debugger.Variables.Types;
 using PascalSharp.Internal.Debugger.Variables.Values;
 using PascalSharp.Internal.Debugger.Variables.Variables;
 using PascalSharp.Internal.Errors;
+using PascalSharp.Internal.TreeConverter.TreeConversion;
 using Process = PascalSharp.Internal.Debugger.Threads.Process;
 using StringResources = PascalSharp.Internal.Localization.StringResources;
 

@@ -1,10 +1,10 @@
-using PascalABCCompiler.SemanticTree;
 using System.Windows.Forms;
 using System.Collections;
 using System.Collections.Generic;
 using Converter;
 using System.Text;
 using System.IO;
+using PascalSharp.Internal.SemanticTree;
 
 namespace VisualPascalABCPlugins
 {

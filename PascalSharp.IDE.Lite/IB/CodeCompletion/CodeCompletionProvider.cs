@@ -8,12 +8,12 @@ using System.Windows.Forms;
 using ICSharpCode.TextEditor;
 using ICSharpCode.TextEditor.Gui.CompletionWindow;
 using ICSharpCode.TextEditor.Document;
-using PascalABCCompiler;
-using PascalABCCompiler.Parsers;
-using PascalABCCompiler.SyntaxTree;
+using PascalSharp.Internal.SyntaxTree;
 using PascalSharp.Internal.CodeCompletion;
 using PascalSharp.Internal.Errors;
-using KeywordKind = PascalABCCompiler.Parsers.KeywordKind;
+using PascalSharp.Internal.ParserTools;
+using AssemblyDocCache = PascalSharp.Internal.CodeCompletion.AssemblyDocCache;
+using KeywordKind = PascalSharp.Internal.ParserTools.KeywordKind;
 
 namespace VisualPascalABC
 {

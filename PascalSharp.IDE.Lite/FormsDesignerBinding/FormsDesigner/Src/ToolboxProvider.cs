@@ -15,7 +15,6 @@ using ICSharpCode.SharpDevelop.Dom;
 using ICSharpCode.SharpDevelop.Gui;
 using ICSharpCode.SharpDevelop.Project;
 using ICSharpCode.SharpDevelop.Widgets.SideBar;
-using PascalABCCompiler;
 using PascalSharp.Internal.Localization;
 
 namespace ICSharpCode.FormsDesigner

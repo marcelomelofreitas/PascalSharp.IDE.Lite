@@ -4,11 +4,10 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using ICSharpCode.NRefactory.Parser;
-using PascalABCCompiler;
-using PascalABCCompiler.Parsers;
 using PascalSharp.Compiler;
 using PascalSharp.Internal.CompilerTools.Errors;
 using PascalSharp.Internal.Errors;
+using PascalSharp.Internal.ParserTools;
 
 namespace VisualPascalABCPlugins
 {

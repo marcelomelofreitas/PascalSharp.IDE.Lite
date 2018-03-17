@@ -9,9 +9,10 @@ using System.Xml;
 using System.Text;
 using System.IO;
 using System.Text.RegularExpressions;
-using PascalABCCompiler.SemanticTree;
-using PascalSharp.Internal.CodeCompletion;
 using PascalSharp.Internal.Localization;
+using PascalSharp.Internal.ParserTools;
+using PascalSharp.Internal.SemanticTree;
+using AssemblyDocCache = PascalSharp.Internal.CodeCompletion.AssemblyDocCache;
 
 namespace VisualPascalABCPlugins
 {
@@ -149,7 +150,7 @@ namespace VisualPascalABCPlugins
             if (name == null)
             {
                 bool ru = false;
-                name = CodeCompletionTools.XmlDoc.LookupLocalizedXmlDoc(a.ManifestModule.FullyQualifiedName, out ru);
+                name = XmlDoc.LookupLocalizedXmlDoc(a.ManifestModule.FullyQualifiedName, out ru);
             }
             reader = XmlTextReader.Create(name,settings);
   			reader.ReadStartElement("doc");

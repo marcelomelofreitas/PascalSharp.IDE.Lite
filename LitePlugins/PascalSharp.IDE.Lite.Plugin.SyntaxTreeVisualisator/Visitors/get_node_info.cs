@@ -1,6 +1,6 @@
-using PascalABCCompiler.SyntaxTree;
 using System.Collections;
 using System;
+using PascalSharp.Internal.SyntaxTree;
 
 namespace VisualPascalABCPlugins
 {

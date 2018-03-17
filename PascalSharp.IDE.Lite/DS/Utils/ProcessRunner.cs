@@ -7,6 +7,8 @@ using System.Collections.Generic;
 using System.Text;
 using System.IO;
 
+using PascalSharp.Internal.Localization;
+
 namespace VisualPascalABC.Utils
 {
     public delegate void LineReceivedEventHandler(object sender, LineReceivedEventArgs e);
@@ -223,7 +225,7 @@ namespace VisualPascalABC.Utils
                 //process.StartInfo.UseShellExecute = false;
                 process.StartInfo.FileName = BatFile;
                 process.StartInfo.WorkingDirectory = workingDirectory;
-                process.StartInfo.Arguments = command.Replace(" ","\" \"") + " " + arguments;
+                process.StartInfo.Arguments = command.Replace(" ","\" \"") + " " + StringResourcesLanguage.CurrentLCID + " " + arguments;
             }
             else
             {

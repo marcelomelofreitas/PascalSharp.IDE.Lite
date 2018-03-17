@@ -1,57 +1,53 @@
-
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.26124.0
 MinimumVisualStudioVersion = 15.0.26124.0
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AvalonDock", "AvalonDock\AvalonDock.csproj", "{9DD38ED8-DE23-42D9-B442-AFEE1BFE6301}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AvalonDock", "AvalonDock\AvalonDock.csproj", "{9DD38ED8-DE23-42D9-B442-AFEE1BFE6301}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AvalonDock.Themes", "AvalonDock.Themes\AvalonDock.Themes.csproj", "{6A2E8402-6528-4225-B547-BB5C8DD388BC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AvalonDock.Themes", "AvalonDock.Themes\AvalonDock.Themes.csproj", "{6A2E8402-6528-4225-B547-BB5C8DD388BC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ICSharpCode.AvalonEdit", "ICSharpCode.AvalonEdit\ICSharpCode.AvalonEdit.csproj", "{D2012601-A750-4E0A-88EE-866D68A65FB0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ICSharpCode.AvalonEdit", "ICSharpCode.AvalonEdit\ICSharpCode.AvalonEdit.csproj", "{D2012601-A750-4E0A-88EE-866D68A65FB0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ICSharpCode.Core", "ICSharpCode.Core\ICSharpCode.Core.csproj", "{A7E52002-C019-4918-9C95-28093BD8997A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ICSharpCode.Core", "ICSharpCode.Core\ICSharpCode.Core.csproj", "{A7E52002-C019-4918-9C95-28093BD8997A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ICSharpCode.Core.Presentation", "ICSharpCode.Core.Presentation\ICSharpCode.Core.Presentation.csproj", "{34C16034-C74A-48A5-891B-5569886948A7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ICSharpCode.Core.Presentation", "ICSharpCode.Core.Presentation\ICSharpCode.Core.Presentation.csproj", "{34C16034-C74A-48A5-891B-5569886948A7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ICSharpCode.Core.WinForms", "ICSharpCode.Core.WinForms\ICSharpCode.Core.WinForms.csproj", "{5FC4946F-999D-46E4-AEF3-3FB977B47178}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ICSharpCode.Core.WinForms", "ICSharpCode.Core.WinForms\ICSharpCode.Core.WinForms.csproj", "{5FC4946F-999D-46E4-AEF3-3FB977B47178}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ICSharpCode.SharpDevelop", "ICSharpCode.SharpDevelop\ICSharpCode.SharpDevelop.csproj", "{FDA99B07-2CC5-4D96-9463-D41A97575E23}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ICSharpCode.SharpDevelop", "ICSharpCode.SharpDevelop\ICSharpCode.SharpDevelop.csproj", "{FDA99B07-2CC5-4D96-9463-D41A97575E23}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ICSharpCode.SharpDevelop.Dom", "ICSharpCode.SharpDevelop.Dom\ICSharpCode.SharpDevelop.Dom.csproj", "{712F4C9B-16D7-4A2E-B947-11CD683C3A39}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ICSharpCode.SharpDevelop.Dom", "ICSharpCode.SharpDevelop.Dom\ICSharpCode.SharpDevelop.Dom.csproj", "{712F4C9B-16D7-4A2E-B947-11CD683C3A39}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ICSharpCode.SharpDevelop.Widgets", "ICSharpCode.SharpDevelop.Widgets\ICSharpCode.SharpDevelop.Widgets.csproj", "{AE68E261-76F6-408B-BA21-8658FE86DA41}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ICSharpCode.SharpDevelop.Widgets", "ICSharpCode.SharpDevelop.Widgets\ICSharpCode.SharpDevelop.Widgets.csproj", "{AE68E261-76F6-408B-BA21-8658FE86DA41}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ICSharpCode.TextEditor", "ICSharpCode.TextEditor\ICSharpCode.TextEditor.csproj", "{16FB3195-6DCC-47AC-9785-C79063490CBD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ICSharpCode.TextEditor", "ICSharpCode.TextEditor\ICSharpCode.TextEditor.csproj", "{16FB3195-6DCC-47AC-9785-C79063490CBD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PascalSharp.IDE.Lite", "PascalSharp.IDE.Lite\PascalSharp.IDE.Lite.csproj", "{4DEF642E-C8FF-4BA5-8834-056CF3F8F74C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PascalSharp.IDE.Lite", "PascalSharp.IDE.Lite\PascalSharp.IDE.Lite.csproj", "{4DEF642E-C8FF-4BA5-8834-056CF3F8F74C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PascalSharp.IDE.Lite.PluginInterface", "PascalSharp.IDE.Lite.PluginInterface\PascalSharp.IDE.Lite.PluginInterface.csproj", "{186C0CCA-45B7-42E5-B067-36CA8F4D19A3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PascalSharp.IDE.Lite.PluginInterface", "PascalSharp.IDE.Lite.PluginInterface\PascalSharp.IDE.Lite.PluginInterface.csproj", "{186C0CCA-45B7-42E5-B067-36CA8F4D19A3}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "LitePlugins", "LitePlugins", "{E9C252CA-8923-40C4-A790-060726D9271C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PascalSharp.IDE.Lite.Plugin.CompilerController", "LitePlugins\PascalSharp.IDE.Lite.Plugin.CompilerController\PascalSharp.IDE.Lite.Plugin.CompilerController.csproj", "{B2D09D6A-BD89-4A71-A8A7-64A445808553}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PascalSharp.IDE.Lite.Plugin.CompilerController", "LitePlugins\PascalSharp.IDE.Lite.Plugin.CompilerController\PascalSharp.IDE.Lite.Plugin.CompilerController.csproj", "{B2D09D6A-BD89-4A71-A8A7-64A445808553}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PascalSharp.IDE.Lite.Plugin.CSharpLanguageConverter", "LitePlugins\PascalSharp.IDE.Lite.Plugin.CSharpLanguageConverter\PascalSharp.IDE.Lite.Plugin.CSharpLanguageConverter.csproj", "{6280484B-37A7-404A-9D29-4D01D6AA47CA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PascalSharp.IDE.Lite.Plugin.CSharpLanguageConverter", "LitePlugins\PascalSharp.IDE.Lite.Plugin.CSharpLanguageConverter\PascalSharp.IDE.Lite.Plugin.CSharpLanguageConverter.csproj", "{6280484B-37A7-404A-9D29-4D01D6AA47CA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PascalSharp.IDE.Lite.Plugin.HelpBuilder", "LitePlugins\PascalSharp.IDE.Lite.Plugin.HelpBuilder\PascalSharp.IDE.Lite.Plugin.HelpBuilder.csproj", "{106F016D-450F-4F17-AD27-418926554528}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PascalSharp.IDE.Lite.Plugin.HelpBuilder", "LitePlugins\PascalSharp.IDE.Lite.Plugin.HelpBuilder\PascalSharp.IDE.Lite.Plugin.HelpBuilder.csproj", "{106F016D-450F-4F17-AD27-418926554528}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PascalSharp.IDE.Lite.Plugin.InternalErrorReport", "LitePlugins\PascalSharp.IDE.Lite.Plugin.InternalErrorReport\PascalSharp.IDE.Lite.Plugin.InternalErrorReport.csproj", "{3CCBACD5-279D-470A-BDAC-7F6C3C30BF40}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PascalSharp.IDE.Lite.Plugin.InternalErrorReport", "LitePlugins\PascalSharp.IDE.Lite.Plugin.InternalErrorReport\PascalSharp.IDE.Lite.Plugin.InternalErrorReport.csproj", "{3CCBACD5-279D-470A-BDAC-7F6C3C30BF40}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PascalSharp.IDE.Lite.Plugin.LanguageConverter", "LitePlugins\PascalSharp.IDE.Lite.Plugin.LanguageConverter\PascalSharp.IDE.Lite.Plugin.LanguageConverter.csproj", "{E537C6A1-F2ED-427F-AEE6-F8973234AC8B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PascalSharp.IDE.Lite.Plugin.LanguageConverter", "LitePlugins\PascalSharp.IDE.Lite.Plugin.LanguageConverter\PascalSharp.IDE.Lite.Plugin.LanguageConverter.csproj", "{E537C6A1-F2ED-427F-AEE6-F8973234AC8B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PascalSharp.IDE.Lite.Plugin.SemanticTreeVisualisator", "LitePlugins\PascalSharp.IDE.Lite.Plugin.SemanticTreeVisualisator\PascalSharp.IDE.Lite.Plugin.SemanticTreeVisualisator.csproj", "{033A1E63-E2E6-48A9-8E79-7F8C9EA8DC0C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PascalSharp.IDE.Lite.Plugin.SemanticTreeVisualisator", "LitePlugins\PascalSharp.IDE.Lite.Plugin.SemanticTreeVisualisator\PascalSharp.IDE.Lite.Plugin.SemanticTreeVisualisator.csproj", "{033A1E63-E2E6-48A9-8E79-7F8C9EA8DC0C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PascalSharp.IDE.Lite.Plugin.SyntaxTreeVisualisator", "LitePlugins\PascalSharp.IDE.Lite.Plugin.SyntaxTreeVisualisator\PascalSharp.IDE.Lite.Plugin.SyntaxTreeVisualisator.csproj", "{0FB1B0A8-F7CA-4D53-9908-1927BF1521AF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PascalSharp.IDE.Lite.Plugin.SyntaxTreeVisualisator", "LitePlugins\PascalSharp.IDE.Lite.Plugin.SyntaxTreeVisualisator\PascalSharp.IDE.Lite.Plugin.SyntaxTreeVisualisator.csproj", "{0FB1B0A8-F7CA-4D53-9908-1927BF1521AF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PascalSharp.IDE.Lite.Plugin.TestPlugin", "LitePlugins\PascalSharp.IDE.Lite.Plugin.TestPlugin\PascalSharp.IDE.Lite.Plugin.TestPlugin.csproj", "{E26F5AB1-E4BA-445E-9B2F-663BB9049D2C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PascalSharp.IDE.Lite.Plugin.TestPlugin", "LitePlugins\PascalSharp.IDE.Lite.Plugin.TestPlugin\PascalSharp.IDE.Lite.Plugin.TestPlugin.csproj", "{E26F5AB1-E4BA-445E-9B2F-663BB9049D2C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{9DD38ED8-DE23-42D9-B442-AFEE1BFE6301}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -135,6 +131,9 @@ Global
 		{E26F5AB1-E4BA-445E-9B2F-663BB9049D2C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E26F5AB1-E4BA-445E-9B2F-663BB9049D2C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{B2D09D6A-BD89-4A71-A8A7-64A445808553} = {E9C252CA-8923-40C4-A790-060726D9271C}
 		{6280484B-37A7-404A-9D29-4D01D6AA47CA} = {E9C252CA-8923-40C4-A790-060726D9271C}
@@ -144,5 +143,8 @@ Global
 		{033A1E63-E2E6-48A9-8E79-7F8C9EA8DC0C} = {E9C252CA-8923-40C4-A790-060726D9271C}
 		{0FB1B0A8-F7CA-4D53-9908-1927BF1521AF} = {E9C252CA-8923-40C4-A790-060726D9271C}
 		{E26F5AB1-E4BA-445E-9B2F-663BB9049D2C} = {E9C252CA-8923-40C4-A790-060726D9271C}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {4527BA76-B759-4A09-B07E-D626F0895B6A}
 	EndGlobalSection
 EndGlobal

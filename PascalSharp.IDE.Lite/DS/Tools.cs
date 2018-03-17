@@ -7,8 +7,8 @@ using System.Windows.Forms;
 using System.IO;
 using System.Runtime.InteropServices;
 using Microsoft.Win32;
-using PascalABCCompiler;
 using PascalSharp.Internal.Localization;
+using PascalSharp.Internal.ParserTools;
 
 namespace VisualPascalABC
 {

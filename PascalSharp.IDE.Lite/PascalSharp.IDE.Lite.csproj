@@ -1,12 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>net40;net45;net471</TargetFrameworks>
+    <TargetFrameworks>net40;net471</TargetFrameworks>
     <OutputPath>$(SolutionDir)bin\</OutputPath>
     <RootNamespace>VisualPascalABC</RootNamespace>
     <OutputType>WinExe</OutputType>
     <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <UseVSHostingProcess>false</UseVSHostingProcess>
+    <ApplicationIcon>ABCNET32.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="$(SolutionDir)PascalSharp.IDE.Lite.PluginInterface\PascalSharp.IDE.Lite.PluginInterface.csproj" />
@@ -22,7 +23,7 @@
     <PackageReference Include="DockPanelSuite" Version="3.0.4" />
     <PackageReference Include="DockPanelSuite.ThemeVS2015" Version="3.0.4" />
     <PackageReference Include="SharpDisasm" Version="1.1.9" />
-    <PackageReference Include="PascalSharp.Compiler" Version="0.1.2.1-ci.2018.2.28" />
+    <PackageReference Include="PascalSharp.Compiler" Version="0.1.6-ci.2018.3.17" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="PresentationCore" />
@@ -40,11 +41,6 @@
     <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
-    <!--
-    <Compile Include="$(SolutionDir)GlobalAssemblyInfo.cs">
-      <Link>Config\GlobalAssemblyInfo.cs</Link>
-    </Compile>
-    -->
     <Compile Update="Properties\Resources.Designer.cs">
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>

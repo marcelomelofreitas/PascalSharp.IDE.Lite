@@ -9,11 +9,8 @@ using System.Reflection;
 [assembly: AssemblyProduct("SharpDevelop")]
 [assembly: AssemblyCopyright("2000-2012 AlphaSierraPapa for the SharpDevelop Team")]
 [assembly: AssemblyVersion(RevisionClass.Major + "." + RevisionClass.Minor + "." + RevisionClass.Build + "." + RevisionClass.Revision)]
-[assembly: AssemblyInformationalVersion(RevisionClass.FullVersion + "-00000000")]
+[assembly: AssemblyInformationalVersion(RevisionClass.FullVersion)]
 [assembly: NeutralResourcesLanguage("en-US")]
-
-[assembly: System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2243:AttributeStringLiteralsShouldParseCorrectly",
-	Justification = "AssemblyInformationalVersion does not need to be a parsable version")]
 
 internal static class RevisionClass
 {

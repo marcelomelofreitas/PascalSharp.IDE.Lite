@@ -6,7 +6,7 @@ using System.Windows.Forms;
 using System.Collections.Generic;
 using VisualPascalABCPlugins;
 using System.Threading;
-using PascalABCCompiler.Parsers;
+using PascalSharp.Internal.ParserTools;
 using System.Text;
 using PascalSharp.Internal.CodeCompletion;
 using PascalSharp.Internal.Localization;

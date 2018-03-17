@@ -10,12 +10,12 @@ using System.Windows.Forms;
 using System.IO;
 using VisualPascalABCPlugins;
 using System.Threading;
-using PascalABCCompiler;
 using PascalSharp.Compiler;
 using PascalSharp.Internal.CodeCompletion;
 using PascalSharp.Internal.CompilerTools.Errors;
 using PascalSharp.Internal.Errors;
 using PascalSharp.Internal.Localization;
+using PascalSharp.Internal.ParserTools;
 using VisualPascalABC.DockContent;
 
 namespace VisualPascalABC

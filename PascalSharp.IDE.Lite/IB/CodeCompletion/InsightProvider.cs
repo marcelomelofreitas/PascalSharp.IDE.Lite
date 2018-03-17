@@ -13,7 +13,7 @@ using ICSharpCode.TextEditor.Gui;
 using ICSharpCode.TextEditor.Document;
 using ICSharpCode.TextEditor.Gui.CompletionWindow;
 using ICSharpCode.TextEditor.Gui.InsightWindow;
-using PascalABCCompiler.SyntaxTree;
+using PascalSharp.Internal.SyntaxTree;
 using PascalSharp.Internal.CodeCompletion;
 using PascalSharp.Internal.Errors;
 

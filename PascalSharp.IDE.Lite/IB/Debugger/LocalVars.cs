@@ -15,12 +15,13 @@ using PascalSharp.Internal.Debugger;
 using ICSharpCode.TextEditor;
 using ICSharpCode.TextEditor.Document;
 using System.Runtime.ExceptionServices;
-using PascalABCCompiler.Parsers;
-using PascalABCCompiler.TreeConverter;
+using PascalSharp.Internal.ParserTools;
+using PascalSharp.Internal.TreeConverter;
 using PascalSharp.Internal.Debugger.Threads;
 using PascalSharp.Internal.Debugger.Variables.Types;
 using PascalSharp.Internal.Debugger.Variables.Values;
 using PascalSharp.Internal.Debugger.Variables.Variables;
+using PascalSharp.Internal.TreeConverter.TreeConversion;
 using StringResources = PascalSharp.Internal.Localization.StringResources;
 
 namespace VisualPascalABC

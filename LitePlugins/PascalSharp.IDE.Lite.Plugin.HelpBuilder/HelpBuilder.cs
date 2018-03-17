@@ -8,8 +8,8 @@ using System.Xml;
 using System.Text;
 using System.IO;
 using System.Text.RegularExpressions;
-using PascalABCCompiler.SemanticTree;
 using PascalSharp.Internal.Localization;
+using PascalSharp.Internal.SemanticTree;
 
 namespace VisualPascalABCPlugins
 {

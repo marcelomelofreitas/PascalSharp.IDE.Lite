@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFrameworks>net40;net45;net471</TargetFrameworks>
+    <TargetFrameworks>net40;net471</TargetFrameworks>
     <OutputPath>$(SolutionDir)bin\</OutputPath>
     <RootNamespace>Converter</RootNamespace>
     <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>
@@ -14,7 +14,7 @@
     <ProjectReference Include="$(SolutionDir)PascalSharp.IDE.Lite.PluginInterface\PascalSharp.IDE.Lite.PluginInterface.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="PascalSharp.Compiler" Version="0.1.2.1-ci.2018.2.28" />
+    <PackageReference Include="PascalSharp.Compiler" Version="0.1.6-ci.2018.3.17" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.Windows.Forms" />

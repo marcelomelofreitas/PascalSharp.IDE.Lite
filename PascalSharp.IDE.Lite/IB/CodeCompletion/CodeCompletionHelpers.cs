@@ -8,9 +8,9 @@ using System.Windows.Forms;
 using ICSharpCode.TextEditor;
 using ICSharpCode.TextEditor.Gui.CompletionWindow;
 using ICSharpCode.TextEditor.Document;
-using PascalABCCompiler.Parsers;
 using PascalSharp.Internal.CodeCompletion;
-using KeywordKind = PascalABCCompiler.Parsers.KeywordKind;
+using PascalSharp.Internal.ParserTools;
+using KeywordKind = PascalSharp.Internal.ParserTools.KeywordKind;
 
 namespace VisualPascalABC
 {

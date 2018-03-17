@@ -1,13 +1,12 @@
 ﻿// Copyright (c) Ivan Bondarev, Stanislav Mihalkovich (for details please see \doc\copyright.txt)
 // This code is distributed under the GNU LGPL (for details please see \doc\license.txt)
-using PascalABCCompiler;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using PascalABCCompiler.NetHelper;
+using PascalSharp.Internal.TreeConverter.NetWrappers;
 using PascalSharp.Compiler;
 using PascalSharp.Internal.CodeCompletion;
 using PascalSharp.Internal.Localization;

@@ -6,8 +6,7 @@ using System.IO;
 using System.Runtime.InteropServices;
 using System.Windows.Forms;
 using ICSharpCode.FormsDesigner;
-using PascalABCCompiler;
-using PascalABCCompiler.NetHelper;
+using PascalSharp.Internal.TreeConverter.NetWrappers;
 using PascalSharp.Compiler;
 
 namespace VisualPascalABC.Projects

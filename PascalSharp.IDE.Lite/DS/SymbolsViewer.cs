@@ -5,9 +5,9 @@ using System.Collections.Generic;
 using System.Text;
 using System.Windows.Forms;
 using VisualPascalABC;
-using PascalABCCompiler;
 using System.Text.RegularExpressions;
 using PascalSharp.Internal.Errors;
+using PascalSharp.Internal.ParserTools;
 
 namespace VisualPascalABC
 {

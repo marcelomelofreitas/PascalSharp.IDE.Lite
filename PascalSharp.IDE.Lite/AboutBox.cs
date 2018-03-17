@@ -7,7 +7,6 @@ using System.Drawing;
 using System.Windows.Forms;
 using System.Reflection;
 using System.IO;
-using PascalABCCompiler.Parsers;
 using PascalSharp.Compiler;
 using PascalSharp.Compiler.SemanticTreeConverters;
 using PascalSharp.Internal.Localization;
@@ -135,7 +134,7 @@ namespace VisualPascalABC
             {
                 Assembly a = Assembly.GetAssembly(comp.GetType());
                 dgvModules.Items.Add(MakeItem("Core", "Core", a.GetName().Version.ToString(), "Copyright © 2005-2018 by Ivan Bondarev, Stanislav Mihalkovich"));
-                foreach (IParser parser in comp.ParsersController.Parsers)
+                foreach (var parser in comp.ParsersController.Parsers)
                     dgvModules.Items.Add(MakeItem("Parser",parser.Name, parser.Version, parser.Copyright));
                 foreach (ISemanticTreeConverter conv in comp.SemanticTreeConvertersController.SemanticTreeConverters)
                     dgvModules.Items.Add(MakeItem("Converter", conv.Name, conv.Version, conv.Copyright));

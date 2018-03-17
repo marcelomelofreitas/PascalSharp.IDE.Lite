@@ -6,13 +6,12 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using System.IO;
-using PascalABCCompiler;
-using PascalABCCompiler.Parsers;
-using PascalABCCompiler.SyntaxTree;
 using PascalSharp.Compiler;
 using PascalSharp.Internal.CompilerTools;
 using PascalSharp.Internal.Errors;
 using PascalSharp.Internal.Localization;
+using PascalSharp.Internal.ParserTools;
+using PascalSharp.Internal.SyntaxTree;
 
 namespace VisualPascalABCPlugins
 {

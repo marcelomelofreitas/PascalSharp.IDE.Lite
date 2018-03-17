@@ -13,15 +13,15 @@ using ICSharpCode.TextEditor.Gui;
 using ICSharpCode.TextEditor.Document;
 using ICSharpCode.TextEditor.Gui.CompletionWindow;
 using ICSharpCode.TextEditor.Gui.InsightWindow;
-using PascalABCCompiler;
-using PascalABCCompiler.Parsers;
-using PascalABCCompiler.SyntaxTree;
+using PascalSharp.Internal.ParserTools;
+using PascalSharp.Internal.SyntaxTree;
 using PascalSharp.Compiler;
 using PascalSharp.Internal.CodeCompletion;
 using PascalSharp.Internal.Errors;
 using VisualPascalABC.DockContent;
 using VisualPascalABC.Projects;
-using KeywordKind = PascalABCCompiler.Parsers.KeywordKind;
+using AssemblyDocCache = PascalSharp.Internal.CodeCompletion.AssemblyDocCache;
+using KeywordKind = PascalSharp.Internal.ParserTools.KeywordKind;
 
 namespace VisualPascalABC
 {

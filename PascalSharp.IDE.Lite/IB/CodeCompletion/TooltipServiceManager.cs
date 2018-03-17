@@ -10,10 +10,10 @@ using System.Windows.Forms;
 using ICSharpCode.TextEditor;
 using ICSharpCode.TextEditor.Document;
 using ICSharpCode.TextEditor.Gui.CompletionWindow;
-using PascalABCCompiler.SyntaxTree;
+using PascalSharp.Internal.SyntaxTree;
 using PascalSharp.Internal.CodeCompletion;
 using PascalSharp.Internal.Errors;
-using KeywordKind = PascalABCCompiler.Parsers.KeywordKind;
+using KeywordKind = PascalSharp.Internal.ParserTools.KeywordKind;
 
 namespace VisualPascalABC
 {

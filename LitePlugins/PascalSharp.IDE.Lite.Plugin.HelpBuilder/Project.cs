@@ -2,13 +2,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using PascalABCCompiler.SyntaxTree;
 using System.Xml;
 using System.Text;
 using System.IO;
 using System.Reflection;
-using PascalABCCompiler.Errors;
-using PascalABCCompiler.SemanticTree;
 
 namespace VisualPascalABCPlugins
 {

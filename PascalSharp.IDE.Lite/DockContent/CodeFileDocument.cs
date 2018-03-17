@@ -10,10 +10,11 @@ using System.Runtime.Serialization.Formatters.Binary;
 using System.Windows.Forms;
 using ICSharpCode.FormsDesigner;
 using ICSharpCode.FormsDesigner.Services;
-using PascalABCCompiler.SyntaxTree;
-using PascalABCCompiler.TreeConverter;
+using PascalSharp.Internal.SyntaxTree;
+using PascalSharp.Internal.TreeConverter;
 using PascalSharp.Internal.CodeCompletion;
 using PascalSharp.Internal.Errors;
+using PascalSharp.Internal.TreeConverter.TreeConversion;
 using VisualPascalABC.Projects;
 using StringResources = PascalSharp.Internal.Localization.StringResources;
 

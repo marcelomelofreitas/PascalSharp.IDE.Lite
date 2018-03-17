@@ -5,8 +5,8 @@ using System.Windows.Forms;
 using System.Xml;
 using System.Text;
 using System.IO;
-using PascalABCCompiler.SemanticTree;
 using PascalSharp.Compiler;
+using PascalSharp.Internal.SemanticTree;
 
 namespace VisualPascalABCPlugins
 {

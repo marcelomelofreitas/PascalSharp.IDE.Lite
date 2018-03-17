@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Text;
 using Converter;
 using System.IO;
-using PascalABCCompiler.SemanticTree;
 using PascalSharp.Compiler;
+using PascalSharp.Internal.SemanticTree;
 
 namespace VisualPascalABCPlugins
 {

@@ -1,5 +1,23 @@
 .vs
 
+# User-specific files
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# ReSharper is a .NET coding add-in
+_ReSharper*/
+*.[Rr]e[Ss]harper
+*.DotSettings.user
+
+# User-specific files (MonoDevelop/Xamarin Studio)
+*.userprefs
+
+# JetBrains Rider
+.idea/
+*.sln.iml
+
 /bin
 
 **/obj

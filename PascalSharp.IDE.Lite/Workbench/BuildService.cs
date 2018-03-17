@@ -8,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Windows.Forms;
-using PascalABCCompiler.SyntaxTree;
+using PascalSharp.Internal.SyntaxTree;
 using PascalSharp.Compiler;
 using PascalSharp.Internal.Errors;
 using PascalSharp.Internal.Localization;

@@ -1,10 +1,10 @@
-using PascalABCCompiler.SemanticTree;
 using System.Windows.Forms;
 using System.Collections;
 using System.Collections.Generic;
+using PascalSharp.Internal.SemanticTree;
 
 namespace VisualPascalABCPlugins
-{            
+{
     public class SematicTreeVisitor : ISemanticVisitor
     {
 
@@ -54,42 +54,42 @@ namespace VisualPascalABCPlugins
                     {
                         //MessageBox.Show(treeView.SelectedNode.Tag.GetType().ToString());
 
-                        if ((treeView.SelectedNode.Tag is PascalABCCompiler.SemanticTree.ISemanticNode))
+                        if ((treeView.SelectedNode.Tag is ISemanticNode))
                         {
 
-                            if (treeView.SelectedNode.Tag.GetType().ToString() == "PascalABCCompiler.TreeRealization.common_namespace_function_node")                            
+                            if (treeView.SelectedNode.Tag.GetType().ToString() == "PascalSharp.Internal.TreeConverter.TreeRealization.common_namespace_function_node")                            
                                 visit(treeView.SelectedNode.Tag as ICommonNamespaceFunctionNode);
                                                           
 
-                            if (treeView.SelectedNode.Tag.GetType().ToString() == "PascalABCCompiler.TreeRealization.local_variable")
+                            if (treeView.SelectedNode.Tag.GetType().ToString() == "PascalSharp.Internal.TreeConverter.TreeRealization.local_variable")
                                 visit(treeView.SelectedNode.Tag as ILocalVariableNode);        
 
 
-                            if (treeView.SelectedNode.Tag.GetType().ToString() == "PascalABCCompiler.TreeRealization.statements_list")                           
+                            if (treeView.SelectedNode.Tag.GetType().ToString() == "PascalSharp.Internal.TreeConverter.TreeRealization.statements_list")                           
                                 visit(treeView.SelectedNode.Tag as IStatementsListNode);
                               
 
-                            if (treeView.SelectedNode.Tag.GetType().ToString() == "PascalABCCompiler.TreeRealization.common_namespace_node")                            
+                            if (treeView.SelectedNode.Tag.GetType().ToString() == "PascalSharp.Internal.TreeConverter.TreeRealization.common_namespace_node")                            
                                 visit(treeView.SelectedNode.Tag as ICommonNamespaceNode);
                                 
 
-                            if (treeView.SelectedNode.Tag.GetType().ToString() == "PascalABCCompiler.TreeRealization.namespace_constant_definition")                            
+                            if (treeView.SelectedNode.Tag.GetType().ToString() == "PascalSharp.Internal.TreeConverter.TreeRealization.namespace_constant_definition")                            
                                 visit(treeView.SelectedNode.Tag as INamespaceConstantDefinitionNode);                                
 
 
-                            if (treeView.SelectedNode.Tag.GetType().ToString() == "PascalABCCompiler.TreeRealization.basic_function_call")                            
+                            if (treeView.SelectedNode.Tag.GetType().ToString() == "PascalSharp.Internal.TreeConverter.TreeRealization.basic_function_call")                            
                                 visit(treeView.SelectedNode.Tag as IBasicFunctionCallNode);
                                 
 
-                            if (treeView.SelectedNode.Tag.GetType().ToString() == "PascalABCCompiler.TreeRealization.common_namespace_function_call")
+                            if (treeView.SelectedNode.Tag.GetType().ToString() == "PascalSharp.Internal.TreeConverter.TreeRealization.common_namespace_function_call")
                                 visit(treeView.SelectedNode.Tag as ICommonNamespaceFunctionCallNode);                               
 
 
-                            if (treeView.SelectedNode.Tag.GetType().ToString() == "PascalABCCompiler.TreeRealization.local_block_variable")
+                            if (treeView.SelectedNode.Tag.GetType().ToString() == "PascalSharp.Internal.TreeConverter.TreeRealization.local_block_variable")
                                 visit(treeView.SelectedNode.Tag as ILocalBlockVariableNode);
                                 
 
-                            if (treeView.SelectedNode.Tag.GetType().ToString() == "PascalABCCompiler.TreeRealization.parameter")
+                            if (treeView.SelectedNode.Tag.GetType().ToString() == "PascalSharp.Internal.TreeConverter.TreeRealization.parameter")
                                 visit(treeView.SelectedNode.Tag as IParameterNode);
 
                                
@@ -97,75 +97,75 @@ namespace VisualPascalABCPlugins
                                 visit(treeView.SelectedNode.Tag as ICommonTypeNode);
                                
 
-                            if (treeView.SelectedNode.Tag.GetType().ToString() == "PascalABCCompiler.TreeRealization.common_method_node")
+                            if (treeView.SelectedNode.Tag.GetType().ToString() == "PascalSharp.Internal.TreeConverter.TreeRealization.common_method_node")
                                 visit(treeView.SelectedNode.Tag as ICommonMethodNode);
 
                                
-                            if (treeView.SelectedNode.Tag.GetType().ToString() == "PascalABCCompiler.TreeRealization.class_field")
+                            if (treeView.SelectedNode.Tag.GetType().ToString() == "PascalSharp.Internal.TreeConverter.TreeRealization.class_field")
                                 visit(treeView.SelectedNode.Tag as ICommonClassFieldNode);
                                
 
-                            if (treeView.SelectedNode.Tag.GetType().ToString() == "PascalABCCompiler.TreeRealization.return_node")
+                            if (treeView.SelectedNode.Tag.GetType().ToString() == "PascalSharp.Internal.TreeConverter.TreeRealization.return_node")
                             {
                                 visit(treeView.SelectedNode.Tag as IReturnNode);
                                 //(treeView.SelectedNode as SematicTreeVisitor.myTreeNode).is_built = true;
                                 //(treeView.SelectedNode as SematicTreeVisitor.myTreeNode).is_leaf = true;
                             }
 
-                            if (treeView.SelectedNode.Tag.GetType().ToString() == "PascalABCCompiler.TreeRealization.for_node")
+                            if (treeView.SelectedNode.Tag.GetType().ToString() == "PascalSharp.Internal.TreeConverter.TreeRealization.for_node")
                                 visit(treeView.SelectedNode.Tag as IForNode);
                                
 
-                            if (treeView.SelectedNode.Tag.GetType().ToString() == "PascalABCCompiler.TreeRealization.switch_node")
+                            if (treeView.SelectedNode.Tag.GetType().ToString() == "PascalSharp.Internal.TreeConverter.TreeRealization.switch_node")
                                 visit(treeView.SelectedNode.Tag as ISwitchNode);
                                 
 
-                            if (treeView.SelectedNode.Tag.GetType().ToString() == "PascalABCCompiler.TreeRealization.while_node")
+                            if (treeView.SelectedNode.Tag.GetType().ToString() == "PascalSharp.Internal.TreeConverter.TreeRealization.while_node")
                                 visit(treeView.SelectedNode.Tag as IWhileNode);
                                 
 
-                            if (treeView.SelectedNode.Tag.GetType().ToString() == "PascalABCCompiler.TreeRealization.repeat_node")
+                            if (treeView.SelectedNode.Tag.GetType().ToString() == "PascalSharp.Internal.TreeConverter.TreeRealization.repeat_node")
                                 visit(treeView.SelectedNode.Tag as IRepeatNode);
                                 
 
-                            if (treeView.SelectedNode.Tag.GetType().ToString() == "PascalABCCompiler.TreeRealization.if_node")
+                            if (treeView.SelectedNode.Tag.GetType().ToString() == "PascalSharp.Internal.TreeConverter.TreeRealization.if_node")
                                 visit(treeView.SelectedNode.Tag as IIfNode);
                                 
 
-                            if (treeView.SelectedNode.Tag.GetType().ToString() == "PascalABCCompiler.TreeRealization.namespace_variable_reference")
+                            if (treeView.SelectedNode.Tag.GetType().ToString() == "PascalSharp.Internal.TreeConverter.TreeRealization.namespace_variable_reference")
                                 visit(treeView.SelectedNode.Tag as INamespaceVariableReferenceNode);
                                 
 
-                            if (treeView.SelectedNode.Tag.GetType().ToString() == "PascalABCCompiler.TreeRealization.common_parameter")
+                            if (treeView.SelectedNode.Tag.GetType().ToString() == "PascalSharp.Internal.TreeConverter.TreeRealization.common_parameter")
                                 visit(treeView.SelectedNode.Tag as ICommonParameterNode);
                                 
 
-                            if (treeView.SelectedNode.Tag.GetType().ToString() == "PascalABCCompiler.TreeRealization.common_parameter_reference")
+                            if (treeView.SelectedNode.Tag.GetType().ToString() == "PascalSharp.Internal.TreeConverter.TreeRealization.common_parameter_reference")
                                 visit(treeView.SelectedNode.Tag as ICommonParameterReferenceNode);
                                 
 
-                            if (treeView.SelectedNode.Tag.GetType().ToString() == "PascalABCCompiler.TreeRealization.basic_function_node")
+                            if (treeView.SelectedNode.Tag.GetType().ToString() == "PascalSharp.Internal.TreeConverter.TreeRealization.basic_function_node")
                                 visit(treeView.SelectedNode.Tag as IBasicFunctionNode);
                                
 
-                            if (treeView.SelectedNode.Tag.GetType().ToString() == "PascalABCCompiler.TreeRealization.bool_const_node")
+                            if (treeView.SelectedNode.Tag.GetType().ToString() == "PascalSharp.Internal.TreeConverter.TreeRealization.bool_const_node")
                                 visit(treeView.SelectedNode.Tag as IBoolConstantNode);
                                
 
-                            if (treeView.SelectedNode.Tag.GetType().ToString() == "PascalABCCompiler.TreeRealization.common_method_call")
+                            if (treeView.SelectedNode.Tag.GetType().ToString() == "PascalSharp.Internal.TreeConverter.TreeRealization.common_method_call")
                                 visit(treeView.SelectedNode.Tag as ICommonMethodCallNode);
                                
 
-                            if (treeView.SelectedNode.Tag.GetType().ToString() == "PascalABCCompiler.TreeRealization.throw_stetement")
+                            if (treeView.SelectedNode.Tag.GetType().ToString() == "PascalSharp.Internal.TreeConverter.TreeRealization.throw_stetement")
                                 visit(treeView.SelectedNode.Tag as IThrowNode);
 
-                            if (treeView.SelectedNode.Tag.GetType().ToString() == "PascalABCCompiler.TreeRealization.common_property_node")
+                            if (treeView.SelectedNode.Tag.GetType().ToString() == "PascalSharp.Internal.TreeConverter.TreeRealization.common_property_node")
                                 visit(treeView.SelectedNode.Tag as ICommonPropertyNode);
                                 
 
-                            if (treeView.SelectedNode.Tag.GetType().ToString() == "PascalABCCompiler.TreeRealization.namespace_variable")
+                            if (treeView.SelectedNode.Tag.GetType().ToString() == "PascalSharp.Internal.TreeConverter.TreeRealization.namespace_variable")
                             {
-                                if (treeView.SelectedNode.Parent.Tag.GetType().ToString() == "PascalABCCompiler.TreeRealization.namespace_variable[]")
+                                if (treeView.SelectedNode.Parent.Tag.GetType().ToString() == "PascalSharp.Internal.TreeConverter.TreeRealization.namespace_variable[]")
                                 {
                                     visit(treeView.SelectedNode.Tag as ICommonNamespaceVariableNode);                                    
                                 }
@@ -196,7 +196,7 @@ namespace VisualPascalABCPlugins
 
 
 
-                            if (treeView.SelectedNode.Tag.GetType().ToString() == "PascalABCCompiler.TreeRealization.compiled_type_node")
+                            if (treeView.SelectedNode.Tag.GetType().ToString() == "PascalSharp.Internal.TreeConverter.TreeRealization.compiled_type_node")
                             {
                                 if (!getCompiledTypes().Contains(treeView.SelectedNode.Tag as ICompiledTypeNode)
                                     && !(treeView.SelectedNode as SematicTreeVisitor.myTreeNode).is_built)
@@ -229,7 +229,7 @@ namespace VisualPascalABCPlugins
 
 
 
-                            if (treeView.SelectedNode.Tag.GetType().ToString() == "PascalABCCompiler.TreeRealization.common_type_node")
+                            if (treeView.SelectedNode.Tag.GetType().ToString() == "PascalSharp.Internal.TreeConverter.TreeRealization.common_type_node")
                             {
                                 // тип у вара в вариэвблс неймспейса                            
                                 if (treeView.SelectedNode.Parent.Tag is ICommonNamespaceVariableNode)
@@ -277,63 +277,63 @@ namespace VisualPascalABCPlugins
                         }
                         else
 
-                            if ((treeView.SelectedNode.Tag is PascalABCCompiler.SemanticTree.ISemanticNode[]))
+                            if ((treeView.SelectedNode.Tag is ISemanticNode[]))
                             {
-                                if (treeView.SelectedNode.Tag.GetType().ToString() == "PascalABCCompiler.TreeRealization.local_variable[]")
+                                if (treeView.SelectedNode.Tag.GetType().ToString() == "PascalSharp.Internal.TreeConverter.TreeRealization.local_variable[]")
                                     prepare_collection(treeView.SelectedNode.Tag as ILocalVariableNode[], "my_collection", "my_coll_element", (treeView.SelectedNode.Tag as ILocalVariableNode[]).Length);
 
-                                if (treeView.SelectedNode.Tag.GetType().ToString() == "PascalABCCompiler.TreeRealization.function_constant_definition[]")
+                                if (treeView.SelectedNode.Tag.GetType().ToString() == "PascalSharp.Internal.TreeConverter.TreeRealization.function_constant_definition[]")
                                     prepare_collection(treeView.SelectedNode.Tag as IConstantDefinitionNode[], "my_collection", "my_coll_element", (treeView.SelectedNode.Tag as IConstantDefinitionNode[]).Length);
 
-                                if (treeView.SelectedNode.Tag.GetType().ToString() == "PascalABCCompiler.TreeRealization.common_namespace_node[]")
+                                if (treeView.SelectedNode.Tag.GetType().ToString() == "PascalSharp.Internal.TreeConverter.TreeRealization.common_namespace_node[]")
                                     prepare_collection(treeView.SelectedNode.Tag as ICommonNamespaceNode[], "my_collection", "my_coll_element", (treeView.SelectedNode.Tag as ICommonNamespaceNode[]).Length);
 
-                                if (treeView.SelectedNode.Tag.GetType().ToString() == "PascalABCCompiler.TreeRealization.namespace_constant_definition[]")
+                                if (treeView.SelectedNode.Tag.GetType().ToString() == "PascalSharp.Internal.TreeConverter.TreeRealization.namespace_constant_definition[]")
                                     prepare_collection(treeView.SelectedNode.Tag as INamespaceConstantDefinitionNode[], "my_collection", "my_coll_element", (treeView.SelectedNode.Tag as INamespaceConstantDefinitionNode[]).Length);
 
-                                if (treeView.SelectedNode.Tag.GetType().ToString() == "PascalABCCompiler.TreeRealization.common_namespace_function_node[]")
+                                if (treeView.SelectedNode.Tag.GetType().ToString() == "PascalSharp.Internal.TreeConverter.TreeRealization.common_namespace_function_node[]")
                                     prepare_collection(treeView.SelectedNode.Tag as ICommonNamespaceFunctionNode[], "my_collection", "my_coll_element", (treeView.SelectedNode.Tag as ICommonNamespaceFunctionNode[]).Length);
 
-                                if (treeView.SelectedNode.Tag.GetType().ToString() == "PascalABCCompiler.TreeRealization.common_type_node[]")
+                                if (treeView.SelectedNode.Tag.GetType().ToString() == "PascalSharp.Internal.TreeConverter.TreeRealization.common_type_node[]")
                                     prepare_collection(treeView.SelectedNode.Tag as ICommonTypeNode[], "my_collection", "my_coll_element", (treeView.SelectedNode.Tag as ICommonTypeNode[]).Length);
 
-                                if (treeView.SelectedNode.Tag.GetType().ToString() == "PascalABCCompiler.TreeRealization.namespace_variable[]")
+                                if (treeView.SelectedNode.Tag.GetType().ToString() == "PascalSharp.Internal.TreeConverter.TreeRealization.namespace_variable[]")
                                     prepare_collection(treeView.SelectedNode.Tag as ICommonNamespaceVariableNode[], "my_collection", "my_coll_element", (treeView.SelectedNode.Tag as ICommonNamespaceVariableNode[]).Length);
 
-                                if (treeView.SelectedNode.Tag.GetType().ToString() == "PascalABCCompiler.TreeRealization.local_block_variable[]")
+                                if (treeView.SelectedNode.Tag.GetType().ToString() == "PascalSharp.Internal.TreeConverter.TreeRealization.local_block_variable[]")
                                     prepare_collection(treeView.SelectedNode.Tag as ILocalBlockVariableNode[], "my_collection", "my_coll_element", (treeView.SelectedNode.Tag as ILocalBlockVariableNode[]).Length);
 
-                                if (treeView.SelectedNode.Tag.GetType().ToString() == "PascalABCCompiler.TreeRealization.statement_node[]")
+                                if (treeView.SelectedNode.Tag.GetType().ToString() == "PascalSharp.Internal.TreeConverter.TreeRealization.statement_node[]")
                                     prepare_collection(treeView.SelectedNode.Tag as IStatementNode[], "my_collection", "my_coll_element", (treeView.SelectedNode.Tag as IStatementNode[]).Length);
 
-                                if (treeView.SelectedNode.Tag.GetType().ToString() == "PascalABCCompiler.TreeRealization.expression_node[]")
+                                if (treeView.SelectedNode.Tag.GetType().ToString() == "PascalSharp.Internal.TreeConverter.TreeRealization.expression_node[]")
                                     prepare_collection(treeView.SelectedNode.Tag as IExpressionNode[], "my_collection", "my_coll_element", (treeView.SelectedNode.Tag as IExpressionNode[]).Length);
 
-                                if (treeView.SelectedNode.Tag.GetType().ToString() == "PascalABCCompiler.TreeRealization.parameter[]")
+                                if (treeView.SelectedNode.Tag.GetType().ToString() == "PascalSharp.Internal.TreeConverter.TreeRealization.parameter[]")
                                     prepare_collection(treeView.SelectedNode.Tag as IParameterNode[], "my_collection", "my_coll_element", (treeView.SelectedNode.Tag as IParameterNode[]).Length);
 
 
-                                if (treeView.SelectedNode.Tag.GetType().ToString() == "PascalABCCompiler.TreeRealization.common_method_node[]")
+                                if (treeView.SelectedNode.Tag.GetType().ToString() == "PascalSharp.Internal.TreeConverter.TreeRealization.common_method_node[]")
                                     prepare_collection(treeView.SelectedNode.Tag as ICommonMethodNode[], "my_collection", "my_coll_element", (treeView.SelectedNode.Tag as ICommonMethodNode[]).Length);
 
-                                if (treeView.SelectedNode.Tag.GetType().ToString() == "PascalABCCompiler.TreeRealization.class_field[]")
+                                if (treeView.SelectedNode.Tag.GetType().ToString() == "PascalSharp.Internal.TreeConverter.TreeRealization.class_field[]")
                                     prepare_collection(treeView.SelectedNode.Tag as ICommonClassFieldNode[], "my_collection", "my_coll_element", (treeView.SelectedNode.Tag as ICommonClassFieldNode[]).Length);
 
-                                if (treeView.SelectedNode.Tag.GetType().ToString() == "PascalABCCompiler.TreeRealization.common_property_node[]")
+                                if (treeView.SelectedNode.Tag.GetType().ToString() == "PascalSharp.Internal.TreeConverter.TreeRealization.common_property_node[]")
                                     prepare_collection(treeView.SelectedNode.Tag as ICommonPropertyNode[], "my_collection", "my_coll_element", (treeView.SelectedNode.Tag as ICommonPropertyNode[]).Length);
 
                             }
                             else
                                 // для implementingionterfaces
-                                if (treeView.SelectedNode.Tag is System.Collections.Generic.List<PascalABCCompiler.SemanticTree.ITypeNode>)
-                                    prepare_collection_up_links_list(treeView.SelectedNode.Tag as List<ITypeNode>, "my_collection", "my_coll_element", (treeView.SelectedNode.Tag as System.Collections.Generic.List<PascalABCCompiler.SemanticTree.ITypeNode>).Count);
+                                if (treeView.SelectedNode.Tag is System.Collections.Generic.List<ITypeNode>)
+                                    prepare_collection_up_links_list(treeView.SelectedNode.Tag as List<ITypeNode>, "my_collection", "my_coll_element", (treeView.SelectedNode.Tag as System.Collections.Generic.List<ITypeNode>).Count);
 
                     }
                     else
                         // не build'нутый лист
                         if (!(treeView.SelectedNode as myTreeNode).is_built && (treeView.SelectedNode as myTreeNode).is_leaf)
                         {
-                            if (treeView.SelectedNode.Tag.GetType().ToString() == "PascalABCCompiler.TreeRealization.compiled_type_node")
+                            if (treeView.SelectedNode.Tag.GetType().ToString() == "PascalSharp.Internal.TreeConverter.TreeRealization.compiled_type_node")
                             {
                                 // если тип ещё не содержится в списке компайлед типов
                                     if (!compiled_types.Contains(treeView.SelectedNode.Tag as ICompiledTypeNode))

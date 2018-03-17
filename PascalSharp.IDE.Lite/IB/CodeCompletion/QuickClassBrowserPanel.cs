@@ -8,7 +8,7 @@ using System.Windows.Forms;
 using System.Collections.Generic;
 using PascalSharp.Internal.CodeCompletion;
 using System.Threading;
-using PascalABCCompiler.Parsers;
+using PascalSharp.Internal.ParserTools;
 using PascalSharp.Internal.Errors;
 using PascalSharp.Internal.Localization;
 using VisualPascalABC.DockContent;

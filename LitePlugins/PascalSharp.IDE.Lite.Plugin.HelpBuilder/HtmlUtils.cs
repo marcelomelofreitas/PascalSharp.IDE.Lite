@@ -2,18 +2,18 @@
 using System.Windows.Forms;
 using System.Collections;
 using System.Collections.Generic;
-using PascalABCCompiler.SyntaxTree;
 using System.Threading;
 using System.Diagnostics;
 using System.Xml;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.IO;
-using PascalABCCompiler.SemanticTree;
 using System.Text.RegularExpressions;
 using System.Reflection;
 using PascalSharp.Internal.CodeCompletion;
 using PascalSharp.Internal.Localization;
+using PascalSharp.Internal.SemanticTree;
+using PascalSharp.Internal.TreeConverter.NetWrappers;
 
 namespace VisualPascalABCPlugins
 {
@@ -1381,7 +1381,7 @@ namespace VisualPascalABCPlugins
                     ParameterInfo prm = prms[i];
                     if (prm.ParameterType.IsByRef)
                         sb.Append(get_span_for_keyword("var") + " ");
-                    else if (PascalABCCompiler.NetHelper.NetHelper.IsParamsParameter(prm))
+                    else if (NetHelper.IsParamsParameter(prm))
                         sb.Append(get_span_for_keyword("params") + " ");
                     sb.Append(get_span_for_param(prm.Name));
                     sb.Append(" : ");
@@ -1429,7 +1429,7 @@ namespace VisualPascalABCPlugins
                     ParameterInfo prm = prms[i];
                     if (prm.ParameterType.IsByRef)
                         sb.Append(get_span_for_keyword("var") + " ");
-                    else if (PascalABCCompiler.NetHelper.NetHelper.IsParamsParameter(prm))
+                    else if (NetHelper.IsParamsParameter(prm))
                         sb.Append(get_span_for_keyword("params") + " ");
                     sb.Append(get_span_for_param(prm.Name));
                     sb.Append(" : ");

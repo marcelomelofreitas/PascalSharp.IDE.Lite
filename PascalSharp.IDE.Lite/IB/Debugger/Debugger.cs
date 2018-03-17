@@ -16,8 +16,8 @@ using PascalSharp.Internal.Debugger;
 using ICSharpCode.TextEditor;
 using ICSharpCode.TextEditor.Document;
 using System.Runtime.ExceptionServices;
-using PascalABCCompiler.NetHelper;
-using PascalABCCompiler.Parsers;
+using PascalSharp.Internal.TreeConverter.NetWrappers;
+using PascalSharp.Internal.ParserTools;
 using PascalSharp.Compiler;
 using PascalSharp.Internal.CodeCompletion;
 using PascalSharp.Internal.Debugger.Breakpoints;
@@ -29,7 +29,7 @@ using PascalSharp.Internal.Debugger.Variables.Values;
 using PascalSharp.Internal.Localization;
 using VisualPascalABC.DockContent;
 using VisualPascalABC.Projects;
-using KeywordKind = PascalABCCompiler.Parsers.KeywordKind;
+using KeywordKind = PascalSharp.Internal.ParserTools.KeywordKind;
 using Process = PascalSharp.Internal.Debugger.Threads.Process;
 
 namespace VisualPascalABC
